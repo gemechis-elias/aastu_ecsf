@@ -3,4 +3,5 @@ class News {
   late String title;
   late String subtitle;
   late String date;
+  late String description;
 }

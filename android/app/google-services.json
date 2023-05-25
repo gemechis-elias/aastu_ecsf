@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "729382567655",
+    "project_id": "aastu-ecsf",
+    "storage_bucket": "aastu-ecsf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:729382567655:android:5b53780acd5f37fb962c42",
+        "android_client_info": {
+          "package_name": "com.aastu.ecsf.aastu_ecsf"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "729382567655-292r70fgjbhfv3v7br52jikabsejduh7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqZxF91gL2h_K8Mlzli1PPSmGOl4WQ0Ls"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "729382567655-292r70fgjbhfv3v7br52jikabsejduh7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

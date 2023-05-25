@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 
 class FitnessAppTheme {
   FitnessAppTheme._();
+  //blackTheme
+  static const Color nearlyBlack = Color(0xff1F1F1F);
+
+  //WHiteTheme
   static const Color nearlyWhite = Color(0xFFFAFAFA);
   static const Color white = Color(0xFFFFFFFF);
   static const Color background = Color(0xFFF2F3F8);
   static const Color nearlyDarkBlue = Color(0xFF2633C5);
 
   static const Color nearlyBlue = Color(0xFF00B6F0);
-  static const Color nearlyBlack = Color(0xFF213333);
   static const Color grey = Color(0xFF3A5160);
   static const Color dark_grey = Color(0xFF313A44);
 

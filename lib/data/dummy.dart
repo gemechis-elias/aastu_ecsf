@@ -603,7 +603,7 @@ class Dummy {
       ModelImage obj = new ModelImage();
       obj.image = images_header_auto[i];
       obj.name = title_header_auto[i];
-      obj.brief = subtitle_header_auto[i];
+      obj.date = subtitle_header_auto[i];
       items.add(obj);
     }
     return items;

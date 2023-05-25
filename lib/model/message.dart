@@ -1,23 +1,21 @@
-
-class Message{
-  int? id;
+class Message {
+  late String id;
   late String date;
   late String content;
   late bool fromMe;
   bool showTime = true;
 
-  Message(int id, String content, bool fromMe, String date) {
-    this.id = id;
-    this.date = date;
-    this.content = content;
-    this.fromMe = fromMe;
-  }
+  Message(this.id, this.content, this.fromMe, this.date);
 
-  Message.time(int id, String content, bool fromMe, bool showTime, String date) {
-    this.id = id;
-    this.date = date;
-    this.content = content;
-    this.fromMe = fromMe;
-    this.showTime = showTime;
+  Message.time(this.id, this.content, this.fromMe, this.showTime, this.date);
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'date': date,
+      'content': content,
+      'fromMe': fromMe,
+      'showTime': showTime,
+    };
   }
 }
