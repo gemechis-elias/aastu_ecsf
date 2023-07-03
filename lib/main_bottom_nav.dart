@@ -1,16 +1,15 @@
 import 'dart:developer';
 
 import 'package:aastu_ecsf/app_theme.dart';
-import 'package:aastu_ecsf/chat_screen/chat_list.dart';
-import 'package:aastu_ecsf/chat_screen/chat_page.dart';
-import 'package:aastu_ecsf/gallery/gallery_screen.dart';
+import 'package:aastu_ecsf/route/chat_screen/chat_list.dart';
+import 'package:aastu_ecsf/route/chat_screen/chat_page.dart';
+import 'package:aastu_ecsf/route/gallery/gallery_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:aastu_ecsf/home_screen/home_screen.dart';
-import 'package:aastu_ecsf/about_screen/about_us.dart';
+import 'package:aastu_ecsf/route/home_screen/home_screen.dart';
+import 'package:aastu_ecsf/route/about_screen/about_us.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'feed_screen/blog_list.dart';
+import 'route/feed_screen/blog_list.dart';
 
 class BottomNavigationBadgeRoute extends StatefulWidget {
   @override

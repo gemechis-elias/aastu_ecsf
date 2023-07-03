@@ -44,6 +44,13 @@ dependencies:
   permission_handler: ^10.2.0
   dio: ^5.1.2
   flutter_vector_icons: ^2.0.0
+  flutter_wallpaper_manager: ^0.0.3
+  flutter_cache_manager: ^3.3.0
+  flutter_local_notifications: ^15.0.0
+  image_crop: ^0.4.1
+  path_provider: ^2.0.15
+  flutter_native_image: ^0.0.6 
+  flutter_inappwebview: ^5.7.2+3
 dev_dependencies:
   flutter_test:
     sdk: flutter
