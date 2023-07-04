@@ -68,6 +68,7 @@ class ListNewsLightRouteState extends State<ListNewsLightRoute> {
         MaterialPageRoute<dynamic>(
           builder: (BuildContext context) => BlogDetail(
             idd: obj.id,
+            link: obj.description,
           ),
         ),
       );

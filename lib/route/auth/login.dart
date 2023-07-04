@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:aastu_ecsf/main_bottom_nav.dart';
+import 'package:aastu_ecsf/route/auth/forget_password.dart';
 import 'package:aastu_ecsf/route/auth/signup.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -108,7 +109,14 @@ class LoginSimpleDarkRouteState extends State<LoginSimpleDarkRoute> {
                     "Forgot Password?",
                     style: TextStyle(color: Color(0xff808080)),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ResetPasswordDarkRoute(),
+                      ),
+                    );
+                  },
                 )
               ],
             ),
@@ -138,12 +146,12 @@ class LoginSimpleDarkRouteState extends State<LoginSimpleDarkRoute> {
                     // save user id
                     log("User ID: ${credential.user!.uid}");
 
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('User Logging in Successfully'),
-                        backgroundColor: Colors.green,
-                      ),
-                    );
+                    // ScaffoldMessenger.of(this.context).showSnackBar(
+                    //   const SnackBar(
+                    //     content: Text('User Logging in Successfully'),
+                    //     backgroundColor: Colors.green,
+                    //   ),
+                    // );
 
                     // ignore: use_build_context_synchronously
                     Navigator.push(
@@ -163,12 +171,11 @@ class LoginSimpleDarkRouteState extends State<LoginSimpleDarkRoute> {
                         ),
                       );
                     } else if (e.code == 'wrong-password') {
-                      log('Wrong password provided for that user.');
+                      log('Email or Password is incorrect.');
 
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content:
-                              Text('Wrong password provided for that user.'),
+                          content: Text('Email or Password is incorrect.'),
                           backgroundColor: Colors.red,
                         ),
                       );

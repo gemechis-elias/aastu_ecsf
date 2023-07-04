@@ -8,10 +8,12 @@ import 'package:aastu_ecsf/data/my_colors.dart';
 import 'package:aastu_ecsf/widget/circle_image.dart';
 import 'package:aastu_ecsf/widget/my_text.dart';
 
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+
 class BlogDetail extends StatefulWidget {
   final String idd;
-
-  BlogDetail({required this.idd});
+  final String link;
+  const BlogDetail({super.key, required this.idd, required this.link});
 
   @override
   BlogDetailRouteState createState() => BlogDetailRouteState();
@@ -24,6 +26,8 @@ class BlogDetailRouteState extends State<BlogDetail> {
   String? image;
   String? title;
 
+  double _progress = 0;
+  late InAppWebViewController inAppWebViewController;
   @override
   void initState() {
     super.initState();
@@ -44,7 +48,7 @@ class BlogDetailRouteState extends State<BlogDetail> {
           content = value['content'];
           image = value['image'];
           title = value['title'];
-          log("Received: " + value.toString());
+          log("Received: $value");
         });
       } else {
         log("Error devotion");
@@ -55,159 +59,111 @@ class BlogDetailRouteState extends State<BlogDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff1f1f1f),
-      floatingActionButton: FloatingActionButton(
-        heroTag: "fab1",
-        backgroundColor: const Color(0xffd1a552),
-        elevation: 3,
-        child: const Icon(Icons.thumb_up, color: MyColors.grey_10),
-        onPressed: () {
-          log('Clicked');
-        },
-      ),
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverAppBar(
-              // brightness: Brightness.dark,
-              backgroundColor: const Color(0xff121212),
-              floating: true,
-              pinned: false,
-              snap: false,
-              title: Row(
+        backgroundColor: const Color(0xff1f1f1f),
+        appBar: AppBar(
+          backgroundColor: const Color(0xff121212),
+          title: Row(
+            children: <Widget>[
+              CircleImage(
+                imageProvider: AssetImage(Img.get('logo.jpg')),
+                size: 40,
+              ),
+              Container(width: 15),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  CircleImage(
-                    imageProvider: AssetImage(Img.get('logo.jpg')),
-                    size: 40,
+                  Text(
+                    "Read Blogs",
+                    style: MyText.medium(context).copyWith(color: Colors.white),
                   ),
-                  Container(width: 15),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text("Read Blogs",
-                          style: MyText.body2(context)!
-                              .copyWith(color: MyColors.grey_10)),
-                      Container(height: 2),
-                      Row(
-                        children: <Widget>[
-                          Text("$addedDate",
-                              style: MyText.caption(context)!
-                                  .copyWith(color: MyColors.grey_60)),
-                          Container(
-                              width: 6,
-                              height: 6,
-                              margin: const EdgeInsets.symmetric(horizontal: 5),
-                              decoration: BoxDecoration(
-                                  color: MyColors.grey_40,
-                                  borderRadius: BorderRadius.circular(15.0))),
-                          Text("2 min",
-                              style: MyText.caption(context)!
-                                  .copyWith(color: MyColors.grey_60)),
-                        ],
+                  Container(height: 2),
+                  Text(
+                    addedDate ?? "Connecting to VPN...",
+                    style: MyText.caption(context)!
+                        .copyWith(color: MyColors.grey_10),
+                  ),
+                ],
+              )
+            ],
+          ),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          actions: <Widget>[
+            PopupMenuButton<String>(
+              onSelected: (String value) {},
+              itemBuilder: (context) => [
+                const PopupMenuItem(
+                  value: "Save",
+                  child: Text("Save"),
+                ),
+              ],
+            )
+          ],
+        ),
+        body: WillPopScope(
+          onWillPop: () async {
+            var isLastPage = await inAppWebViewController.canGoBack();
+
+            if (isLastPage) {
+              inAppWebViewController.goBack();
+              return false;
+            }
+
+            return true;
+          },
+          child: SafeArea(
+            child: Scaffold(
+              body: Stack(
+                children: [
+                  InAppWebView(
+                    initialUrlRequest: URLRequest(
+                        url: Uri.parse(
+                            widget.link ?? "https://telegra.ph/Error-07-03-2")),
+                    initialOptions: InAppWebViewGroupOptions(
+                      android: AndroidInAppWebViewOptions(
+                        forceDark: AndroidForceDark.FORCE_DARK_ON,
                       ),
-                    ],
-                  )
+                      crossPlatform: InAppWebViewOptions(
+                        preferredContentMode:
+                            UserPreferredContentMode.RECOMMENDED,
+                        javaScriptEnabled: true,
+                      ),
+                    ),
+                    onWebViewCreated:
+                        (InAppWebViewController controller) async {
+                      inAppWebViewController = controller;
+                    },
+                    onProgressChanged:
+                        (InAppWebViewController controller, int progress) {
+                      setState(() {
+                        _progress = progress / 100;
+                      });
+                    },
+                  ),
+                  _progress < 1
+                      ? LinearProgressIndicator(
+                          value: _progress,
+                        )
+                      : const SizedBox()
                 ],
               ),
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back, color: MyColors.grey_40),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-              actions: <Widget>[
-                IconButton(
-                    icon: const Icon(Icons.bookmark_border,
-                        color: MyColors.grey_40),
-                    onPressed: () {}),
-              ]),
-          SliverList(
-            delegate:
-                SliverChildBuilderDelegate((BuildContext context, int index) {
-              return Container(
-                padding: const EdgeInsets.symmetric(vertical: 25),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 15),
-                      child: Text(title ?? "Loading...",
-                          style: MyText.display1(context)!.copyWith(
-                              color: MyColors.grey_20,
-                              fontSize: 26,
-                              fontFamily: 'MyBoldFont',
-                              fontWeight: FontWeight.bold)),
-                    ),
-                    Container(height: 5),
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 15),
-                      child: Text("By: $author",
-                          style: MyText.title(context)!.copyWith(
-                              fontSize: 12,
-                              fontFamily: 'MyFont',
-                              color: MyColors.grey_60)),
-                    ),
-                    Container(height: 20),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 250,
-                      child: CachedNetworkImage(
-                        imageUrl: image ??
-                            "https://i.pinimg.com/originals/80/b5/81/80b5813d8ad81a765ca47ebc59a65ac3.jpg",
-                        placeholder: (context, url) => const Center(
-                          child: SizedBox(
-                            width: 24, // Adjust the size as needed
-                            height: 24, // Adjust the size as needed
-                            child: CircularProgressIndicator(),
-                          ),
-                        ),
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Container(height: 5),
-                    Container(
-                      alignment: Alignment.center,
-                      child: Text("AASTU ECSF",
-                          textAlign: TextAlign.center,
-                          style: MyText.caption(context)!
-                              .copyWith(color: MyColors.grey_40)),
-                    ),
-                    Container(height: 10),
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 15),
-                      child: Text(
-                        content ?? 'Loading..',
-                        textAlign: TextAlign.justify,
-                        style: MyText.medium(context).copyWith(
-                          fontSize: 17,
-                          fontFamily: 'MyFont',
-                          color: MyColors.grey_40,
-                        ),
-                      ),
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Container(width: 15),
-                        Text("3,556 Likes",
-                            textAlign: TextAlign.center,
-                            style: MyText.body2(context)!
-                                .copyWith(color: MyColors.grey_80)),
-                        const Spacer(),
-                        IconButton(
-                            icon: const Icon(Icons.more_vert,
-                                color: MyColors.grey_60),
-                            onPressed: () {}),
-                      ],
-                    ),
-                    Container(height: 50),
-                  ],
-                ),
-              );
-            }, childCount: 1),
-          )
-        ],
-      ),
-    );
+            ),
+          ),
+        ));
+  }
+
+  Future<void> enableDarkMode() async {
+    const darkModeCss = '''
+      var style = document.createElement('style');
+      style.type = 'text/css';
+      style.innerHTML = 'body { background-color: #000000; color: #ffffff; }';
+      document.getElementsByTagName('head')[0].appendChild(style);
+    ''';
+
+    await inAppWebViewController.evaluateJavascript(source: darkModeCss);
   }
 }

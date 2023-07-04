@@ -75,7 +75,7 @@ class DevoationDetailRouteState extends State<DevoationDetail> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    "Daily Devotion",
+                    "Connecting to VPN...",
                     style: MyText.medium(context).copyWith(color: Colors.white),
                   ),
                   Container(height: 2),

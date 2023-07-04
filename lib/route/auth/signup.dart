@@ -185,11 +185,11 @@ class SingUpSimpleDarkRouteState extends State<SignUpSimpleDarkRoute> {
                   }
 
                   // toast success
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Sign Up Success'),
-                    ),
-                  );
+                  // ScaffoldMessenger.of(context).showSnackBar(
+                  //   const SnackBar(
+                  //     content: Text('Sign Up Success'),
+                  //   ),
+                  // );
                 },
               ),
             ),
