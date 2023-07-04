@@ -147,7 +147,7 @@ class GalleryCardsInclude {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => GalleryByTeam(team: "I4U"),
+                          builder: (context) => GalleryByTeam(team: "OutReach"),
                         ),
                       );
                     },

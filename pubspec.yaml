@@ -51,6 +51,8 @@ dependencies:
   path_provider: ^2.0.15
   flutter_native_image: ^0.0.6 
   flutter_inappwebview: ^5.7.2+3
+  transparent_image: ^2.0.1
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -64,6 +66,7 @@ flutter:
     - assets/images/
     - assets/team/
     - assets/icons/
+    - assets/people/
   fonts:
     - family: MyFont
       fonts:

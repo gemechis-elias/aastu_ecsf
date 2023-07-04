@@ -5,18 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "xaastu_ecsf",
+            "name": "aastu_ecsf",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "xaastu_ecsf (profile mode)",
+            "name": "aastu_ecsf (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
-            "name": "xaastu_ecsf (release mode)",
+            "name": "aastu_ecsf (release mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"

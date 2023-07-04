@@ -1,21 +1,19 @@
 import 'dart:developer';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:aastu_ecsf/data/img.dart';
 import 'package:aastu_ecsf/data/my_colors.dart';
 import 'package:aastu_ecsf/widget/my_text.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class AboutCompanyCardRoute extends StatefulWidget {
-  AboutCompanyCardRoute();
+  const AboutCompanyCardRoute({super.key});
 
   @override
-  AboutCompanyCardRouteState createState() => AboutCompanyCardRouteState();
+  AboutUsRouteState createState() => AboutUsRouteState();
 }
 
-class AboutCompanyCardRouteState extends State<AboutCompanyCardRoute> {
+class AboutUsRouteState extends State<AboutCompanyCardRoute> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,7 +89,15 @@ class AboutCompanyCardRouteState extends State<AboutCompanyCardRoute> {
                                     showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
-                                          return Developer_1();
+                                          return developersDialog(
+                                            "Gemechis Elias",
+                                            "developer1.jpg",
+                                            "Software Engineer",
+                                            "Exprienced Software developer in Web and Mobile App Technologies",
+                                            "https://www.linkedin.com/in/gemechis-elias/",
+                                            "https://twitter.com/gemechis_",
+                                            "https://realgemechis.t.me",
+                                          );
                                         });
                                   },
                                   child: Column(
@@ -127,7 +133,15 @@ class AboutCompanyCardRouteState extends State<AboutCompanyCardRoute> {
                                     showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
-                                          return Developer_2();
+                                          return developersDialog(
+                                            "Getabalew Asfaw",
+                                            "developer2.jpg",
+                                            "Graphics Designer",
+                                            "Professional Graphics Designer | Mechatronics Engineer",
+                                            "https://www.linkedin.com/in/getabalew-asfaw-0b1b3a1b2/",
+                                            "https://twitter.com/GetabalewAsfaw",
+                                            "https://www.facebook.com/getish15",
+                                          );
                                         });
                                   },
                                   child: Column(
@@ -222,214 +236,6 @@ class AboutCompanyCardRouteState extends State<AboutCompanyCardRoute> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          Text("Social Accounts",
-                              style: MyText.medium(context).copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500)),
-                          Container(height: 5),
-                          Center(
-                            child: Container(
-                                width: 30,
-                                height: 5,
-                                decoration: const BoxDecoration(
-                                  color: Color.fromARGB(255, 4, 93, 137),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5)),
-                                )),
-                          ),
-                          Container(height: 15),
-                          Container(
-                            width: 190,
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Column(
-                              children: <Widget>[
-                                Container(
-                                  width: double.infinity,
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      gradient: const LinearGradient(
-                                        colors: [
-                                          Color(0xff3b5998), // Purple
-                                          Color(0xff3b5998), // Blue
-                                        ],
-                                        begin: Alignment.topLeft,
-                                        end: Alignment.bottomRight,
-                                      ),
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        foregroundColor: Colors.white,
-                                        backgroundColor: Colors
-                                            .transparent, // Set the text color to white
-                                        elevation:
-                                            0, // Remove the button's elevation
-                                        padding: EdgeInsets
-                                            .zero, // Remove the button's padding
-                                        tapTargetSize: MaterialTapTargetSize
-                                            .shrinkWrap, // Reduce the button's tap target size
-                                        side: BorderSide
-                                            .none, // Remove the button's border
-                                      ),
-                                      onPressed: () {
-                                        // Handle facebook button pressed
-                                        _launchUrl(
-                                            "https://www.facebook.com/ecsf.aastu");
-                                      },
-                                      child: const Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            FontAwesomeIcons.facebook,
-                                            color: Colors.white,
-                                            size: 20.0,
-                                          ),
-                                          SizedBox(width: 8),
-                                          Text(
-                                            "@aastu.ecsf",
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  width: double.infinity,
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      gradient: const LinearGradient(
-                                        colors: [
-                                          Color(0xff0088cc), // Purple
-                                          Color(0xff0088cc), // Blue
-                                        ],
-                                        begin: Alignment.topLeft,
-                                        end: Alignment.bottomRight,
-                                      ),
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        foregroundColor: Colors.white,
-                                        backgroundColor: Colors
-                                            .transparent, // Set the text color to white
-                                        elevation:
-                                            0, // Remove the button's elevation
-                                        padding: EdgeInsets
-                                            .zero, // Remove the button's padding
-                                        tapTargetSize: MaterialTapTargetSize
-                                            .shrinkWrap, // Reduce the button's tap target size
-                                        side: BorderSide
-                                            .none, // Remove the button's border
-                                      ),
-                                      onPressed: () {
-                                        // Handle telegram button pressed
-                                        _launchUrl("https://t.me/aastuecsf");
-                                      },
-                                      child: const Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            FontAwesomeIcons.telegram,
-                                            color: Colors.white,
-                                            size: 20.0,
-                                          ),
-                                          SizedBox(width: 8),
-                                          Text(
-                                            "@aastuecsf",
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  width: double.infinity,
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      gradient: const LinearGradient(
-                                        colors: [
-                                          // Orange
-                                          Color(0xffd62976), // Pink
-                                          Color(0xff962fbf), // Purple
-                                          Color(0xff4f5bd5), // Blue
-                                        ],
-                                        begin: Alignment.topLeft,
-                                        end: Alignment.bottomRight,
-                                      ),
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        foregroundColor: Colors.white,
-                                        backgroundColor: Colors
-                                            .transparent, // Set the text color to white
-                                        elevation:
-                                            0, // Remove the button's elevation
-                                        padding: EdgeInsets
-                                            .zero, // Remove the button's padding
-                                        tapTargetSize: MaterialTapTargetSize
-                                            .shrinkWrap, // Reduce the button's tap target size
-                                        side: BorderSide
-                                            .none, // Remove the button's border
-                                      ),
-                                      onPressed: () {
-                                        // Handle Instagram button pressed
-                                        _launchUrl(
-                                            "https://instagram.com/aastuecsf?igshid=MmU2YjMzNjRlOQ==");
-                                      },
-                                      child: const Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            FontAwesomeIcons.instagram,
-                                            color: Colors.white,
-                                            size: 20.0,
-                                          ),
-                                          SizedBox(width: 8),
-                                          Text(
-                                            "@aastuecsf",
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Container(height: 15),
-                  Card(
-                    elevation: 2,
-                    color: const Color(0xff212121),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(2),
-                    ),
-                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
                           Text("Address",
                               style: MyText.medium(context).copyWith(
                                   color: Colors.white,
@@ -445,15 +251,13 @@ class AboutCompanyCardRouteState extends State<AboutCompanyCardRoute> {
                                       BorderRadius.all(Radius.circular(5)),
                                 )),
                           ),
-                          Container(height: 15),
+                          Container(height: 5),
                           Container(
                             width: double.infinity,
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                // https://goo.gl/maps/gzLi4YFoqvfPKkcX7
-
                                 GestureDetector(
                                   onTap: () {
                                     _launchUrl(
@@ -475,6 +279,121 @@ class AboutCompanyCardRouteState extends State<AboutCompanyCardRoute> {
                                 Text("Zip: 1000",
                                     style: MyText.subhead(context)!
                                         .copyWith(color: Colors.white70)),
+                                Container(height: 5),
+                                // list of horixontal icon
+                                SizedBox(
+                                  width: double
+                                      .infinity, // Optional: Adjust the height as needed
+                                  // Optional: Set the background color of the parent widget
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 35, vertical: 5),
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Row(
+                                        children: <Widget>[
+                                          ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              foregroundColor: Colors.white,
+                                              backgroundColor: Colors
+                                                  .transparent, // Set the text color to white
+                                              elevation:
+                                                  0, // Remove the button's elevation
+                                              padding: EdgeInsets
+                                                  .zero, // Remove the button's padding
+                                              tapTargetSize: MaterialTapTargetSize
+                                                  .shrinkWrap, // Reduce the button's tap target size
+                                              side: BorderSide
+                                                  .none, // Remove the button's border
+                                            ),
+                                            onPressed: () {
+                                              // Handle facebook button pressed
+                                              _launchUrl(
+                                                  "https://www.facebook.com/ecsf.aastu");
+                                            },
+                                            child: const Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Icon(
+                                                  FontAwesomeIcons.facebook,
+                                                  color: Colors.white,
+                                                  size: 30.0,
+                                                ),
+                                                SizedBox(width: 1),
+                                              ],
+                                            ),
+                                          ),
+                                          Container(height: 5),
+                                          ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              foregroundColor: Colors.white,
+                                              backgroundColor: Colors
+                                                  .transparent, // Set the text color to white
+                                              elevation:
+                                                  0, // Remove the button's elevation
+                                              padding: EdgeInsets
+                                                  .zero, // Remove the button's padding
+                                              tapTargetSize: MaterialTapTargetSize
+                                                  .shrinkWrap, // Reduce the button's tap target size
+                                              side: BorderSide
+                                                  .none, // Remove the button's border
+                                            ),
+                                            onPressed: () {
+                                              // Handle telegram button pressed
+                                              _launchUrl(
+                                                  "https://t.me/aastuecsf");
+                                            },
+                                            child: const Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Icon(
+                                                  FontAwesomeIcons.telegram,
+                                                  color: Colors.white,
+                                                  size: 30.0,
+                                                ),
+                                                SizedBox(width: 1),
+                                              ],
+                                            ),
+                                          ),
+                                          ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              foregroundColor: Colors.white,
+                                              backgroundColor: Colors
+                                                  .transparent, // Set the text color to white
+                                              elevation:
+                                                  0, // Remove the button's elevation
+                                              padding: EdgeInsets
+                                                  .zero, // Remove the button's padding
+                                              tapTargetSize: MaterialTapTargetSize
+                                                  .shrinkWrap, // Reduce the button's tap target size
+                                              side: BorderSide
+                                                  .none, // Remove the button's border
+                                            ),
+                                            onPressed: () {
+                                              // Handle Instagram button pressed
+                                              _launchUrl(
+                                                  "https://instagram.com/aastuecsf?igshid=MmU2YjMzNjRlOQ==");
+                                            },
+                                            child: const Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Icon(
+                                                  FontAwesomeIcons.instagram,
+                                                  color: Colors.white,
+                                                  size: 30.0,
+                                                ),
+                                                SizedBox(width: 3),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           )
@@ -505,8 +424,8 @@ class AboutCompanyCardRouteState extends State<AboutCompanyCardRoute> {
     );
   }
 
-  // ignore: non_constant_identifier_names
-  Widget Developer_1() {
+  Widget developersDialog(String name, String image, String title, String exp,
+      String linkedin, String twitter, String facebook) {
     return Dialog(
       backgroundColor: Colors.transparent,
       child: SizedBox(
@@ -538,125 +457,20 @@ class AboutCompanyCardRouteState extends State<AboutCompanyCardRoute> {
                   children: <Widget>[
                     CircleAvatar(
                       radius: 40,
-                      backgroundImage: AssetImage(Img.get("developer1.jpg")),
+                      backgroundImage: AssetImage(Img.get(image)),
                     ),
                     Container(height: 10),
-                    Text("Gemechis Elias",
+                    Text(name,
                         textAlign: TextAlign.left,
                         style: MyText.headline(context)!.copyWith(
                             color: Colors.white, fontWeight: FontWeight.bold)),
                     Container(height: 2),
-                    Text("Software Developer",
+                    Text(title,
                         textAlign: TextAlign.start,
                         style: MyText.body1(context)!
                             .copyWith(color: MyColors.grey_40)),
                     Container(height: 35),
-                    Text("Experienced Developer in Mobile App Technologies",
-                        textAlign: TextAlign.center,
-                        style: MyText.subhead(context)!
-                            .copyWith(color: MyColors.grey_40)),
-                  ],
-                ),
-              ),
-              Container(height: 35),
-              Divider(height: 0, color: Colors.lightGreen[800]),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                child: Column(
-                  children: [
-                    Text("Check my social media",
-                        textAlign: TextAlign.start,
-                        style: MyText.body1(context)!
-                            .copyWith(color: MyColors.grey_20)),
-                    Container(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            _launchUrl("https://twitter.com/gemechis_");
-                          },
-                          child: Image.asset(Img.get("ic_social_twitter.png"),
-                              height: 25, width: 25),
-                        ),
-                        Container(width: 25),
-                        GestureDetector(
-                          onTap: () {
-                            _launchUrl("https://realgemechis.t.me");
-                          },
-                          child: Image.asset(Img.get("ic_social_facebook.png"),
-                              height: 25, width: 25),
-                        ),
-                        Container(width: 25),
-                        GestureDetector(
-                          onTap: () {
-                            _launchUrl("https://instagram.com/realgemechis");
-                          },
-                          child: Image.asset(Img.get("ic_social_instagram.png"),
-                              height: 25, width: 25),
-                        ),
-                      ],
-                    ),
-                    Container(height: 5),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-// ignore: non_constant_identifier_names
-  Widget Developer_2() {
-    return Dialog(
-      backgroundColor: Colors.transparent,
-      child: SizedBox(
-        width: 310,
-        child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          color: MyColors.grey_90,
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          child: Wrap(
-            alignment: WrapAlignment.center,
-            children: <Widget>[
-              Container(
-                alignment: Alignment.centerRight,
-                padding: const EdgeInsets.all(5),
-                child: IconButton(
-                  icon: Icon(Icons.close, color: Colors.lightGreen[800]),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ),
-              Container(height: 10),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                width: double.infinity,
-                child: Column(
-                  children: <Widget>[
-                    CircleAvatar(
-                      radius: 40,
-                      backgroundImage: AssetImage(Img.get("developer2.jpg")),
-                    ),
-                    Container(height: 10),
-                    Text("Getabalew Asfaw",
-                        textAlign: TextAlign.left,
-                        style: MyText.headline(context)!.copyWith(
-                            color: Colors.white, fontWeight: FontWeight.bold)),
-                    Container(height: 2),
-                    Text("Developer",
-                        textAlign: TextAlign.start,
-                        style: MyText.body1(context)!
-                            .copyWith(color: MyColors.grey_40)),
-                    Container(height: 35),
-                    Text("Experienced UI/UX Designer | Mechatronics Engineer",
+                    Text(exp,
                         textAlign: TextAlign.center,
                         style: MyText.subhead(context)!
                             .copyWith(color: MyColors.grey_40)),

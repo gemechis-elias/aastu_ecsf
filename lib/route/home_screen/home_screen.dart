@@ -1,15 +1,14 @@
+// ignore_for_file: library_private_types_in_public_api
 import 'dart:developer' as developer;
 import 'dart:math';
 import 'package:aastu_ecsf/app_theme.dart';
-import 'package:aastu_ecsf/data/my_colors.dart';
-import 'package:aastu_ecsf/route/feed_screen/devotion_detail.dart';
+import 'package:aastu_ecsf/route/blog_screen/single_devotion_view.dart';
 import 'package:aastu_ecsf/route/other_pages/events.dart';
 import 'package:aastu_ecsf/route/other_pages/profile.dart';
-import 'package:aastu_ecsf/route/home_screen/youtube_slider.dart';
-import 'package:aastu_ecsf/route/other_pages/gift.dart';
+import 'package:aastu_ecsf/route/youtube_screen/youtube_slider.dart';
+import 'package:aastu_ecsf/route/other_pages/support_fellowship.dart';
 import 'package:aastu_ecsf/route/other_pages/team.dart';
 import 'package:aastu_ecsf/route/other_pages/wallpapers.dart';
-import 'package:aastu_ecsf/widget/my_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -18,22 +17,12 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class MyBehavior extends ScrollBehavior {
-  @override
-  Widget buildOverscrollIndicator(
-      BuildContext context, Widget child, ScrollableDetails details) {
-    return child;
-  }
-}
-
 class _HomeScreenState extends State<HomeScreen> {
-  bool isDarkMode = false;
   final DatabaseReference databaseReference =
-      FirebaseDatabase.instance.ref().child('blogs');
+      FirebaseDatabase.instance.ref().child('blogs'); // devotions blogs
   List<Map<dynamic, dynamic>> devotions = [];
 
   @override
@@ -67,11 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
           });
           setState(() {
             this.devotions = devotions;
-
-            developer.log("Devotions loaded!");
-
-            // print id
-            developer.log("ID: " + devotions[0]['id']);
+            developer.log("Devotions loaded successfully! ");
           });
         } else {
           // Handle the case when `snapshot.value` is not a Map<dynamic, dynamic>
@@ -109,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: SingleChildScrollView(
                       child: Column(
                         children: <Widget>[
-                          getVideoSLider(),
+                          const SliderImageHeaderAutoRoute(),
                           Container(height: 50),
                           const Divider(
                             height: 2,
@@ -175,7 +160,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => GiftRoute()),
+                                            builder: (context) =>
+                                                const SupportFellowshipRoute()),
                                       );
                                     },
                                   ),
@@ -236,7 +222,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                EventsRoute()),
+                                                const EventsRoute()),
                                       );
                                     },
                                   ),
@@ -285,7 +271,27 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: 10,
                           ),
 
-                          DevotionsList(),
+                          Container(
+                            color: AppTheme.bodyBackground(context),
+                            height: 205,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: devotions.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                Map<dynamic, dynamic> devotion =
+                                    devotions[index];
+
+                                return devotionsUI(
+                                  id: devotions[index]['id'],
+                                  title: devotion['title'],
+                                  imagePath: devotion['image'],
+                                  date: devotion['addedDate'],
+                                  videoLink: devotion['content'],
+                                  views: "1k+ Views",
+                                );
+                              },
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -299,48 +305,23 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget getVideoSLider() {
-    return SliderImageHeaderAutoRoute();
-  }
-
-  // ignore: non_constant_identifier_names
-  Widget DevotionsList() {
-    return Container(
-      color: AppTheme.bodyBackground(context),
-      height: 205,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: devotions.length,
-        itemBuilder: (BuildContext context, int index) {
-          Map<dynamic, dynamic> devotion = devotions[index];
-
-          return DevotionsUI(
-            id: devotions[index]['id'],
-            title: devotion['title'],
-            imagePath: devotion['image'],
-            date: devotion['addedDate'],
-            link: devotion['content'],
-            views: "1k+ Views",
-          );
-        },
-      ),
-    );
-  }
-
-  // ignore: non_constant_identifier_names
-  Widget DevotionsUI({
+  Widget devotionsUI({
     required String id,
     required String title,
     required String imagePath,
     required String date,
-    required String link,
+    required String videoLink,
     required String views,
   }) {
     List<String> images = [
-      "assets/images/user1.jpg",
-      "assets/images/user2.jpg",
-      "assets/images/user3.jpg",
-      "assets/images/user4.jpg",
+      "assets/people/user1.jpg",
+      "assets/people/user2.jpg",
+      "assets/people/user3.jpg",
+      "assets/people/user4.jpg",
+      "assets/people/user5.jpg",
+      "assets/people/user6.jpg",
+      "assets/people/user7.jpg",
+      "assets/people/user8.jpg",
     ];
 
     // Generate a random index for the images list
@@ -357,12 +338,12 @@ class _HomeScreenState extends State<HomeScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 5),
       child: GestureDetector(
         onTap: () {
-          // passing id to DevoationDetail
+          // passing id and video link to Devotion Detail Page
           Navigator.push<dynamic>(
             context,
             MaterialPageRoute<dynamic>(
-              builder: (BuildContext context) => DevoationDetail(
-                  idd: id, link: link ?? "https://telegra.ph/Error-07-03-2"),
+              builder: (BuildContext context) =>
+                  DevoationDetail(idd: id, link: videoLink),
             ),
           );
         },
@@ -386,7 +367,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: SizedBox(
                       width: 24, // Adjust the size as needed
                       height: 24, // Adjust the size as needed
-                      child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
@@ -516,81 +499,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void moveTo() {
-    // Navigator.push<dynamic>(
-    //   context,
-    //   MaterialPageRoute<dynamic>(
-    //     builder: (BuildContext context) => CourseInfoScreen(),
-    //   ),
-    // );
-  }
-  Widget ShowProgram() {
-    return Dialog(
-      backgroundColor: Colors.transparent,
-      child: SizedBox(
-        width: 160,
-        child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4),
-          ),
-          color: Colors.white,
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          child: Wrap(
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.all(20),
-                width: double.infinity,
-                color: AppTheme.liveBackground(context),
-                child: Column(
-                  children: <Widget>[
-                    Container(height: 10),
-                    Icon(Icons.cloud_off, color: Colors.white, size: 80),
-                    Container(height: 10),
-                    Text("No Live Program!",
-                        style: MyText.title(context)!
-                            .copyWith(color: Colors.white)),
-                    Container(height: 10),
-                  ],
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.all(20),
-                width: double.infinity,
-                child: Column(
-                  children: <Widget>[
-                    Text(
-                        "You will receive notification when life program available.",
-                        textAlign: TextAlign.center,
-                        style: MyText.subhead(context)!
-                            .copyWith(color: MyColors.grey_60)),
-                    Container(height: 10),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppTheme.liveBackground(context),
-                        padding:
-                            EdgeInsets.symmetric(vertical: 0, horizontal: 40),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(18.0)),
-                      ),
-                      child:
-                          Text("Close", style: TextStyle(color: Colors.white)),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        // MyToast.show("Loading...", context);
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget getAppBarUI() {
-    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Padding(
       padding: const EdgeInsets.only(top: 0, left: 18, right: 18),
       child: Row(
@@ -608,30 +517,12 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          // IconButton(
-          //   icon: Icon(
-          //     isDarkMode ? Icons.wb_sunny : Icons.brightness_2,
-          //     color: AppTheme.normalText(context),
-          //   ),
-          //   onPressed: () {
-          //     setState(() {
-          //       isDarkMode = !isDarkMode;
-          //       // if (isDarkMode) {
-          //       //   // Set the app theme to dark
-          //       //   ThemeManager.of(context).setBrightness(Brightness.dark);
-          //       // } else {
-          //       //   // Set the app theme to light
-          //       //   ThemeManager.of(context).setBrightness(Brightness.light);
-          //       // }
-          //     });
-          //   },
-          // ),
           GestureDetector(
             onTap: () {
               Navigator.push<dynamic>(
                 context,
                 MaterialPageRoute<dynamic>(
-                  builder: (BuildContext context) => ProfilePolygonRoute(),
+                  builder: (BuildContext context) => const UserProfileRoute(),
                 ),
               );
             },

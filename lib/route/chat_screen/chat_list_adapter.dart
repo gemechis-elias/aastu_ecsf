@@ -8,27 +8,22 @@ class ListSectionedAdapter {
   List itemsTile = <ItemTile>[];
   late Function onItemClick;
 
-  ListSectionedAdapter(this.items, onItemClick) {
-    this.onItemClick = onItemClick;
+  ListSectionedAdapter(this.items, this.onItemClick) {
     for (var i = 0; i < items.length; i++) {
-      itemsTile
-          .add(ItemTile(index: i, object: items[i], onClick: this.onItemClick));
+      itemsTile.add(ItemTile(index: i, object: items[i], onClick: onItemClick));
     }
   }
 
   void addItem(People item) {
-    this.items.insert(1, item);
-    itemsTile.insert(
-        1, ItemTile(index: 1, object: item, onClick: this.onItemClick));
+    items.insert(1, item);
+    itemsTile.insert(1, ItemTile(index: 1, object: item, onClick: onItemClick));
   }
 
   Widget getView() {
-    return Container(
-      child: ListView.builder(
-        itemBuilder: (BuildContext context, int index) => itemsTile[index],
-        itemCount: itemsTile.length,
-        padding: EdgeInsets.symmetric(vertical: 5),
-      ),
+    return ListView.builder(
+      itemBuilder: (BuildContext context, int index) => itemsTile[index],
+      itemCount: itemsTile.length,
+      padding: const EdgeInsets.symmetric(vertical: 5),
     );
   }
 }
@@ -55,7 +50,7 @@ class ItemTile extends StatelessWidget {
     if (object.section) {
       // for section view
       return Padding(
-        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 18),
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 18),
         child: Text(object.name!,
             style: MyText.subhead(context)!
                 .copyWith(color: Colors.grey, fontWeight: FontWeight.w500)),
@@ -67,18 +62,18 @@ class ItemTile extends StatelessWidget {
           onItemClick(object);
         },
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 5),
+          padding: const EdgeInsets.symmetric(vertical: 5),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               Container(width: 18),
-              Container(
+              SizedBox(
+                  width: 50,
+                  height: 50,
                   child: CircleAvatar(
                     backgroundImage: AssetImage(object.image),
-                  ),
-                  width: 50,
-                  height: 50),
+                  )),
               Container(width: 18),
               Expanded(
                 child: Column(

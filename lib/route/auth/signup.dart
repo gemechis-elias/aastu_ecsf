@@ -2,19 +2,19 @@
 // This source code is licensed under the MIT license found in the LICENSE file in the root directory of this source tree.
 import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:aastu_ecsf/main_bottom_nav.dart';
+import 'package:aastu_ecsf/route/home_screen/bottom_nav.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:aastu_ecsf/data/img.dart';
 
-class SignUpSimpleDarkRoute extends StatefulWidget {
-  const SignUpSimpleDarkRoute({super.key});
+class SignUpRoute extends StatefulWidget {
+  const SignUpRoute({super.key});
 
   @override
-  SingUpSimpleDarkRouteState createState() => SingUpSimpleDarkRouteState();
+  SignUpRouteState createState() => SignUpRouteState();
 }
 
-class SingUpSimpleDarkRouteState extends State<SignUpSimpleDarkRoute> {
+class SignUpRouteState extends State<SignUpRoute> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
@@ -23,18 +23,6 @@ class SingUpSimpleDarkRouteState extends State<SignUpSimpleDarkRoute> {
 
   @override
   Widget build(BuildContext context) {
-// ...
-    buttonOnPressed() async {
-      // Access the `context` variable here
-      // ...
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => BottomNavigationBadgeRoute(),
-        ),
-      );
-    }
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xff1F1F1F),
@@ -154,21 +142,18 @@ class SingUpSimpleDarkRouteState extends State<SignUpSimpleDarkRoute> {
                       "bio": "Add your bio here",
                       "photoUrl": "",
                       "department": "",
-                      "section": "",
+                      "batch": "",
                       "team": "",
-                      // Joined date in jun, 12 2021 format
                       "joinedDate": DateTime.now().toString().substring(0, 11),
                     });
-
-                    // Check if the BuildContext is still valid
+                    // ignore: use_build_context_synchronously
                     final state = context.findAncestorStateOfType<State>();
                     if (state != null && state.mounted) {
-                      // Navigate to the next screen or perform any other desired actions
-                      // ...
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => BottomNavigationBadgeRoute(),
+                          builder: (context) =>
+                              const BottomNavigationBadgeRoute(),
                         ),
                       );
                     }
@@ -183,20 +168,14 @@ class SingUpSimpleDarkRouteState extends State<SignUpSimpleDarkRoute> {
                   } catch (e) {
                     log('Error: $e');
                   }
-
-                  // toast success
-                  // ScaffoldMessenger.of(context).showSnackBar(
-                  //   const SnackBar(
-                  //     content: Text('Sign Up Success'),
-                  //   ),
-                  // );
                 },
               ),
             ),
             SizedBox(
               width: double.infinity,
               child: TextButton(
-                style: TextButton.styleFrom(primary: Colors.transparent),
+                style:
+                    TextButton.styleFrom(foregroundColor: Colors.transparent),
                 child: const Text(
                   "Already Registered? Login",
                   style: TextStyle(color: Color(0xff808080)),

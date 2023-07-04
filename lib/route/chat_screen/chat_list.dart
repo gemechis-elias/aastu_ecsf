@@ -11,10 +11,10 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChatListRoute extends StatefulWidget {
-  ChatListRoute();
+  const ChatListRoute({super.key});
 
   @override
-  ChatListRouteState createState() => new ChatListRouteState();
+  ChatListRouteState createState() => ChatListRouteState();
 }
 
 class ChatListRouteState extends State<ChatListRoute> {
@@ -22,6 +22,7 @@ class ChatListRouteState extends State<ChatListRoute> {
   final DatabaseReference databaseReference =
       FirebaseDatabase.instance.ref().child('counsel');
 
+  @override
   late BuildContext context;
   bool _hasStartedChat = false;
   void onItemClick(int index, People obj) {
@@ -41,14 +42,6 @@ class ChatListRouteState extends State<ChatListRoute> {
       _hasStartedChat = hasStartedChat;
     });
     log('hasStartedChat: $_hasStartedChat');
-  }
-
-  void _handleDelete() async {
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-    // await prefs.setBool('hasStartedChat', false);
-    // setState(() {
-    //   _hasStartedChat = false;
-    // });
   }
 
   void _handleStart() async {
@@ -182,7 +175,7 @@ class ChatListRouteState extends State<ChatListRoute> {
                   ? ChatListPage(
                       userId: FirebaseAuth.instance.currentUser!.uid,
                     )
-                  : ChatListView()
+                  : chatListView()
               : DefualtView(),
         ));
   }
@@ -300,7 +293,7 @@ class ChatListRouteState extends State<ChatListRoute> {
     );
   }
 
-  Widget ChatListView() {
+  Widget chatListView() {
     return InkWell(
       onTap: () {
         final userId = FirebaseAuth.instance.currentUser!.uid;

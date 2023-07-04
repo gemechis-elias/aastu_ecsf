@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:aastu_ecsf/route/chat_screen/chat_list.dart';
 import 'package:aastu_ecsf/data/my_colors.dart';
 import 'package:aastu_ecsf/widget/my_toast.dart';
@@ -7,10 +9,10 @@ import 'package:aastu_ecsf/widget/my_text.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChatRoutes extends StatefulWidget {
-  ChatRoutes();
+  const ChatRoutes({super.key});
 
   @override
-  ChatRoutesState createState() => new ChatRoutesState();
+  ChatRoutesState createState() => ChatRoutesState();
 }
 
 class ChatRoutesState extends State<ChatRoutes> {
@@ -30,7 +32,7 @@ class ChatRoutesState extends State<ChatRoutes> {
         _hasStartedChat = hasStartedChat;
       });
     }
-    print(_hasStartedChat);
+    log(_hasStartedChat.toString());
   }
 
   void _saveHasStartedChat() async {
@@ -41,12 +43,12 @@ class ChatRoutesState extends State<ChatRoutes> {
   void _onStartChatPressed() {
     if (_hasStartedChat) {
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => ChatListRoute()));
+          MaterialPageRoute(builder: (context) => const ChatListRoute()));
     } else {
       _saveHasStartedChat();
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) =>
-              ChatListRoute())); // navigate to the chat screen
+              const ChatListRoute())); // navigate to the chat screen
     }
   }
 
@@ -200,7 +202,7 @@ class ChatRoutesState extends State<ChatRoutes> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(4),
           ),
-          color: Color(0xff212121),
+          color: const Color(0xff212121),
           clipBehavior: Clip.antiAliasWithSaveLayer,
           child: Wrap(
             alignment: WrapAlignment.center,
@@ -231,7 +233,7 @@ class ChatRoutesState extends State<ChatRoutes> {
                             "This System is developed for you to share your burden with us & for us to be one step closer to you in what you need. If you have anything to share to us, so that we could #listen and #counsel you, we would be more than happy to be there for you and remind you the love that GOD has for you. ",
                         style: MyText.subhead(context)!.copyWith(
                           fontFamily: 'MyLightFont',
-                          color: Color.fromARGB(174, 255, 255, 255),
+                          color: const Color.fromARGB(174, 255, 255, 255),
                           fontSize: 14,
                         ),
                         children: [
@@ -249,7 +251,7 @@ class ChatRoutesState extends State<ChatRoutes> {
                                 " his love never depends on the situation you are in, no matter what the situation is, he is always there for you.",
                             style: MyText.subhead(context)!.copyWith(
                               fontFamily: 'MyLightFont',
-                              color: Color.fromARGB(174, 255, 255, 255),
+                              color: const Color.fromARGB(174, 255, 255, 255),
                               fontSize: 14,
                             ),
                           ),

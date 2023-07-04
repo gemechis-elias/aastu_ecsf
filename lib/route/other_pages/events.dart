@@ -1,24 +1,24 @@
-import 'package:flutter/material.dart';
 import 'package:aastu_ecsf/route/other_pages/events_list.dart';
+import 'package:flutter/material.dart';
 import 'package:aastu_ecsf/data/my_colors.dart';
-import 'package:aastu_ecsf/model/news.dart';
-import 'package:aastu_ecsf/widget/my_toast.dart';
+import 'package:aastu_ecsf/model/event.dart';
 
 class EventsRoute extends StatefulWidget {
-  EventsRoute();
+  const EventsRoute({super.key});
 
   @override
-  EventsRouteState createState() => new EventsRouteState();
+  EventsRouteState createState() => EventsRouteState();
 }
 
 class EventsRouteState extends State<EventsRoute> {
+  @override
   late BuildContext context;
-  void onItemClick(int index, News obj) {
+  void onItemClick(int index, Event obj) {
     // MyToast.show("Event " + index.toString() + "clicked", context,
     //     duration: MyToast.LENGTH_SHORT);
   }
 
-  List<String> all_images = [
+  List<String> images = [
     "weekly.jpg",
     "retreat.jpg",
     "fresh.jpg",
@@ -42,7 +42,7 @@ class EventsRouteState extends State<EventsRoute> {
     "Team",
     "Batcn"
   ];
-  List<String> full_date = [
+  List<String> date = [
     "Wed, 12:00 LT",
     "Monday, 12:00 LT",
     "Tuesday 12:00 LT",
@@ -53,13 +53,13 @@ class EventsRouteState extends State<EventsRoute> {
   @override
   Widget build(BuildContext context) {
     this.context = context;
-    List<News> items = [];
+    List<Event> items = [];
     for (int i = 0; i < 6; i++) {
-      News obj = new News();
-      obj.image = all_images[i];
+      Event obj = Event();
+      obj.image = images[i];
       obj.title = title[i];
-      obj.subtitle = category[i];
-      obj.date = full_date[i];
+      obj.category = category[i];
+      obj.date = date[i];
       items.add(obj);
     }
     return Scaffold(
@@ -82,7 +82,7 @@ class EventsRouteState extends State<EventsRoute> {
               actions: const <Widget>[
                 // overflow menu
               ]),
-          ListNewsImageAdapter(items, onItemClick).getView()
+          ListEventAdapter(items, onItemClick).getView()
         ],
       ),
     );

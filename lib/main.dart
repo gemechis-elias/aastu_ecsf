@@ -1,6 +1,4 @@
-// Copyright (c) 2023 Gemechis Elias
-// This source code is licensed under the MIT license found in the LICENSE file
-// in the root directory of this source tree.
+// Copyright (c) 2023 Written by Gemechis Elias
 import 'dart:async';
 import 'dart:developer';
 import 'package:aastu_ecsf/route/auth/login.dart';
@@ -10,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'app_theme.dart';
 import 'data/img.dart';
 import 'data/sqlite_db.dart';
-import 'main_bottom_nav.dart';
+import 'route/home_screen/bottom_nav.dart';
 import 'package:flutter/services.dart';
 import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
@@ -21,14 +19,10 @@ Future<void> main() async {
   await Firebase.initializeApp();
   enableDatabasePersistence();
 
-  await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown
-  ]);
-
+  await SystemChrome.setPreferredOrientations(
+      <DeviceOrientation>[DeviceOrientation.portraitUp]);
   // Application has Started
   log("Application has Started");
-
   runApp(
     const MyApp(),
   );
@@ -42,8 +36,8 @@ void enableDatabasePersistence() {
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
-
   @override
+  // ignore: library_private_types_in_public_api
   _MyAppState createState() => _MyAppState();
 }
 
@@ -88,10 +82,10 @@ class _MyAppState extends State<MyApp> {
                 if (!snapshot.hasData) {
                   log('No User Logged in!');
 
-                  return LoginSimpleDarkRoute();
+                  return const LoginRoute();
                 }
                 log('User is signed in!');
-                return BottomNavigationBadgeRoute();
+                return const BottomNavigationBadgeRoute();
               },
             );
           },

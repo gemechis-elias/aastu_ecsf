@@ -1,15 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:aastu_ecsf/data/my_colors.dart';
 import 'package:aastu_ecsf/model/message.dart';
-import 'package:aastu_ecsf/widget/my_text.dart';
 
 class ChatTelegramAdapter {
   List items = <Message>[];
   BuildContext context;
   Function onItemClick;
-  ScrollController scrollController = new ScrollController();
+  ScrollController scrollController = ScrollController();
 
   ChatTelegramAdapter(this.context, this.items, this.onItemClick);
 

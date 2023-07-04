@@ -8,9 +8,10 @@ import 'package:firebase_database/firebase_database.dart';
 class ChatListPage extends StatefulWidget {
   final String userId;
 
-  ChatListPage({required this.userId});
+  const ChatListPage({super.key, required this.userId});
 
   @override
+  // ignore: library_private_types_in_public_api
   _ChatListPageState createState() => _ChatListPageState();
 }
 
@@ -94,7 +95,7 @@ class _ChatListPageState extends State<ChatListPage> {
         itemBuilder: (context, index) {
           ChatItem chatItem = chatItems[index];
           return ListTile(
-            leading: CircleAvatar(
+            leading: const CircleAvatar(
               backgroundImage: AssetImage('assets/images/user.png'),
             ),
             title: Text(chatItem.userName),

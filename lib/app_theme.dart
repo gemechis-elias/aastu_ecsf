@@ -18,7 +18,7 @@ class AppTheme {
   static Color gridentBackground(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark
         ? const Color(0xff1f1f1f)
-        : Color.fromARGB(24, 255, 255, 255);
+        : const Color.fromARGB(24, 255, 255, 255);
   }
 
   static Color body2Background(BuildContext context) {
@@ -60,7 +60,7 @@ class AppTheme {
   static ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
     // Define other light theme properties here
-    colorScheme: ColorScheme.light(
+    colorScheme: const ColorScheme.light(
       brightness: Brightness.light,
       // Define other dark color scheme properties here
     ),
@@ -68,7 +68,7 @@ class AppTheme {
 
   static ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
-    colorScheme: ColorScheme.dark(
+    colorScheme: const ColorScheme.dark(
       // Set the brightness property of the color scheme to match the theme brightness
       brightness: Brightness.dark,
       // Define other dark color scheme properties here

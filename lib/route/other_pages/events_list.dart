@@ -1,15 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:aastu_ecsf/data/img.dart';
 import 'package:aastu_ecsf/data/my_colors.dart';
-import 'package:aastu_ecsf/model/news.dart';
+import 'package:aastu_ecsf/model/event.dart';
 import 'package:aastu_ecsf/widget/my_text.dart';
 
-class ListNewsImageAdapter {
-  List items = <News>[];
+class ListEventAdapter {
+  List items = <Event>[];
   List itemsTile = <ItemTile>[];
 
-  ListNewsImageAdapter(this.items, onItemClick) {
+  ListEventAdapter(this.items, onItemClick) {
     for (var i = 0; i < items.length; i++) {
       itemsTile.add(ItemTile(index: i, object: items[i], onClick: onItemClick));
     }
@@ -23,7 +22,7 @@ class ListNewsImageAdapter {
 
 // ignore: must_be_immutable
 class ItemTile extends StatelessWidget {
-  final News object;
+  final Event object;
   final int index;
   final Function onClick;
 
@@ -34,7 +33,7 @@ class ItemTile extends StatelessWidget {
     required this.onClick,
   }) : super(key: key);
 
-  void onItemClick(News obj) {
+  void onItemClick(Event obj) {
     onClick(index, obj);
   }
 
@@ -54,24 +53,25 @@ class ItemTile extends StatelessWidget {
                 fit: BoxFit.cover),
             Container(
                 color: Colors.black.withOpacity(0.5),
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Spacer(),
+                    const Spacer(),
                     Row(
                       children: <Widget>[
                         Text(object.date,
                             style: MyText.body1(context)!
                                 .copyWith(color: MyColors.grey_10)),
-                        Spacer(),
+                        const Spacer(),
                         Container(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 3, vertical: 2),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 3, vertical: 2),
                           decoration: BoxDecoration(
                               color: Colors.white.withOpacity(0.1),
                               borderRadius: BorderRadius.circular(2)),
-                          child: Text(object.subtitle,
+                          child: Text(object.category,
                               textAlign: TextAlign.start,
                               style: MyText.body1(context)!
                                   .copyWith(color: MyColors.grey_10)),

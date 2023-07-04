@@ -7,16 +7,16 @@ import 'package:aastu_ecsf/model/team_model.dart';
 import 'package:aastu_ecsf/widget/my_text.dart';
 
 class TeamCardRoute extends StatefulWidget {
-  TeamCardRoute();
+  const TeamCardRoute({super.key});
 
   @override
-  MotionCardRouteState createState() => new MotionCardRouteState();
+  TeamCardRouteState createState() => TeamCardRouteState();
 }
 
-class MotionCardRouteState extends State<TeamCardRoute> {
+class TeamCardRouteState extends State<TeamCardRoute> {
   late BuildContext _scaffoldCtx;
   bool slow = true;
-  static Random random = new Random();
+  static Random random = Random();
   void onItemClick(int index, TeamModel obj) {
     Navigator.push(
         _scaffoldCtx,
@@ -28,7 +28,7 @@ class MotionCardRouteState extends State<TeamCardRoute> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> cover_image = [
+    List<String> coverImage = [
       "i4u.jpg",
       "worship.jpg",
       "ch4.jpg",
@@ -36,8 +36,9 @@ class MotionCardRouteState extends State<TeamCardRoute> {
       "outreach.jpg",
       "couseling.jpg",
       "natanims.jpg",
+      "media.jpg"
     ];
-    List<String> cover_name = [
+    List<String> coverName = [
       "I4U Team",
       "Worship Team",
       "LAD Team",
@@ -45,6 +46,7 @@ class MotionCardRouteState extends State<TeamCardRoute> {
       "Outreach Team",
       "Counseling Team",
       "Natanim Team",
+      "Media Team",
     ];
     List<String> description = [
       "The I4U Team is a charity team that focuses on helping those in need. They organize events and fundraisers to support various causes and charities in the community. In the Addis Ababa Science and Technology University Christian University Fellowship, the I4U Team works passionately to spread love and kindness to those around them. They actively engage with the community and strive to make a positive impact through their dedicated efforts.",
@@ -53,19 +55,16 @@ class MotionCardRouteState extends State<TeamCardRoute> {
       "The Prayers Team leads the Christian University Fellowship in prayers and intercessions during their meetings. They create a sacred space where individuals come together to pray for one another, the community, and the world. The Prayers Team plays a vital role in fostering a sense of unity and support among fellowship members. Their dedication to prayer cultivates a spirit of compassion, strength, and togetherness within the community.",
       "The Outreach Team is dedicated to spreading the gospel and sharing the love of Christ with the world. They organize impactful events and activities that help individuals draw closer to God. In the Addis Ababa Science and Technology University Christian University Fellowship, the Outreach Team actively engages with the campus and beyond, striving to bring the transformative message of Christ to the wider community. Through their welcoming and inclusive initiatives, they create an environment where everyone feels valued and accepted.",
       "The Counseling Team provides valuable counseling and support to students in the Addis Ababa Science and Technology University Christian University Fellowship. They create a safe and nurturing space where students can openly share their struggles and receive guidance and assistance. The Counseling Team's compassionate and caring approach fosters a strong sense of community and support within the fellowship, ensuring that students feel heard, understood, and uplifted.",
-      "The Natanim Team plays a pivotal role in fostering a sense of unity and community within the Addis Ababa Science and Technology University Christian University Fellowship. They organize and lead various events and activities that bring people together, creating a vibrant and inclusive environment. The Natanim Team's enthusiasm and energy infuse the fellowship with joy, celebration, and a strong sense of belonging. Their efforts contribute significantly to the fellowship's overall spirit and sense of togetherness."
+      "The Natanim Team plays a pivotal role in fostering a sense of unity and community within the Addis Ababa Science and Technology University Christian University Fellowship. They organize and lead various events and activities that bring people together, creating a vibrant and inclusive environment. The Natanim Team's enthusiasm and energy infuse the fellowship with joy, celebration, and a strong sense of belonging. Their efforts contribute significantly to the fellowship's overall spirit and sense of togetherness.",
+      "The Media Team is responsible for capturing and sharing the essence of the Addis Ababa Science and Technology University Christian University Fellowship. They use their skills in photography, videography, and graphic design to create captivating content that reflects the fellowship's core values and beliefs. Through their work, the Media Team helps to spread the message of Christ and inspire others to join the community. Their creativity and dedication to their craft are deeply valued and appreciated.",
     ];
-
-    int getRandomIndex(int max) {
-      return random.nextInt(max - 1);
-    }
 
     List<TeamModel> getMusicAlbum1() {
       List<TeamModel> items = [];
-      for (int i = 0; i < cover_image.length; i++) {
-        TeamModel obj = new TeamModel();
-        obj.image = cover_image[i];
-        obj.name = cover_name[i];
+      for (int i = 0; i < coverImage.length; i++) {
+        TeamModel obj = TeamModel();
+        obj.image = coverImage[i];
+        obj.name = coverName[i];
         obj.brief = "AASTU ECSF";
         obj.color = const Color(0xFFD1a552);
         obj.des = description[i];
@@ -96,7 +95,7 @@ class MotionCardRouteState extends State<TeamCardRoute> {
       ),
       body: Builder(builder: (BuildContext context) {
         _scaffoldCtx = context;
-        return GridMusicCardAlbum(items, onItemClick).getView();
+        return TeamCardView(items, onItemClick).getView();
       }),
     );
   }
@@ -106,7 +105,7 @@ class MotionCardDetails extends StatelessWidget {
   final int index;
   final TeamModel obj;
 
-  MotionCardDetails(this.index, this.obj);
+  const MotionCardDetails(this.index, this.obj, {super.key});
 
   @override
   Widget build(BuildContext context) {

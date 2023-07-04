@@ -7,11 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:aastu_ecsf/widget/my_toast.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:flutter_wallpaper_manager/flutter_wallpaper_manager.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
 
 enum WallpaperLocation {
   HomeScreen,
@@ -45,6 +42,7 @@ class WallpaperBasicRouteState extends State<WallpaperBasicRoute> {
   void initState() {
     super.initState();
     _databaseReference = FirebaseDatabase.instance.ref().child('wallpaper');
+
     _databaseReference.onValue.listen((event) {
       DataSnapshot snapshot = event.snapshot;
       if (snapshot.value != null) {
@@ -73,6 +71,7 @@ class WallpaperBasicRouteState extends State<WallpaperBasicRoute> {
     for (String s in images) {
       natureImages.add(s);
     }
+    natureImages = natureImages.reversed.toList();
     return natureImages;
   }
 
@@ -96,7 +95,7 @@ class WallpaperBasicRouteState extends State<WallpaperBasicRoute> {
           ),
         ),
       ),
-      body: WallpaperAdapter(items, onItemClick).getView(),
+      body: WallpaperAdapter(items, onItemClick).getView(onItemClick),
     );
   }
 }
@@ -162,7 +161,9 @@ class _WallpaperFullScreenRouteState extends State<WallpaperFullScreenRoute> {
                       child: SizedBox(
                         width: 24, // Adjust the size as needed
                         height: 24, // Adjust the size as needed
-                        child: CircularProgressIndicator(),
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                     errorWidget: (context, url, error) =>

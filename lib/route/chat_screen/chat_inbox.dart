@@ -11,7 +11,8 @@ import 'package:aastu_ecsf/utils/tools.dart';
 
 class ChatTelegramRoute extends StatefulWidget {
   final String user_id, receiver_id;
-  const ChatTelegramRoute({required this.user_id, required this.receiver_id});
+  const ChatTelegramRoute(
+      {super.key, required this.user_id, required this.receiver_id});
 
   @override
   ChatTelegramRouteState createState() => ChatTelegramRouteState();
@@ -66,14 +67,6 @@ class ChatTelegramRouteState extends State<ChatTelegramRoute> {
       var messageData = event.snapshot.value as Map<dynamic, dynamic>?;
 
       if (messageData != null) {
-        Message message = Message(
-          messageData['id'],
-          messageData['content'],
-          messageData['date'],
-          messageData['sender'],
-          messageData['receiver'],
-        );
-
         setState(() {
           // items.add(message);
         });

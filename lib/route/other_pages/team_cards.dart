@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:aastu_ecsf/model/team_model.dart';
 import 'package:aastu_ecsf/widget/my_text.dart';
 
-class GridMusicCardAlbum {
+class TeamCardView {
   List items = <TeamModel>[];
   List<ItemTile> itemsTile = <ItemTile>[];
 
-  GridMusicCardAlbum(this.items, onItemClick) {
+  TeamCardView(this.items, onItemClick) {
     for (var i = 0; i < items.length; i++) {
       itemsTile.add(ItemTile(index: i, object: items[i], onClick: onItemClick));
     }

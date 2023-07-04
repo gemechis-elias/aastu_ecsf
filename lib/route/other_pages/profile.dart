@@ -1,28 +1,25 @@
 import 'dart:developer';
-
-import 'package:aastu_ecsf/app_theme.dart';
 import 'package:aastu_ecsf/route/auth/login.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:aastu_ecsf/data/img.dart';
 import 'package:aastu_ecsf/widget/my_text.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-class ProfilePolygonRoute extends StatefulWidget {
-  ProfilePolygonRoute();
+class UserProfileRoute extends StatefulWidget {
+  const UserProfileRoute({super.key});
 
   @override
-  ProfilePolygonRouteState createState() => ProfilePolygonRouteState();
+  UserProfileRouteState createState() => UserProfileRouteState();
 }
 
-class ProfilePolygonRouteState extends State<ProfilePolygonRoute> {
+class UserProfileRouteState extends State<UserProfileRoute> {
   String photoUrl = "assets/images/user.png"; // Initialize with null
   String name = '';
   String bio = '';
   String role = '';
   String department = '';
-  String section = '';
+  String batch = '';
   String team = '';
   String email = '';
   String joinedDate = '';
@@ -48,7 +45,7 @@ class ProfilePolygonRouteState extends State<ProfilePolygonRoute> {
         bio = data['bio'] ?? '';
         role = data['role'] ?? '';
         department = data['department'] ?? '';
-        section = data['section'] ?? '';
+        batch = data['batch'] ?? '';
         team = data['team'] ?? '';
         email = data['email'] ?? '';
         joinedDate =
@@ -109,38 +106,7 @@ class ProfilePolygonRouteState extends State<ProfilePolygonRoute> {
               actions: <Widget>[
                 IconButton(
                   icon: const Icon(Icons.edit),
-                  onPressed: () {
-                    //   showDialog(
-                    //     context: context,
-                    //     builder: (BuildContext context) {
-                    //       return AlertDialog(
-                    //         title: Text('Upload Profile Picture'),
-                    //         content: Column(
-                    //           mainAxisSize: MainAxisSize.min,
-                    //           children: [
-                    //             Text('Choose an image to upload'),
-                    //             // Add a widget to choose an image here, e.g., ImagePicker
-                    //             // You can use packages like image_picker or file_picker for this.
-                    //           ],
-                    //         ),
-                    //         actions: [
-                    //           ElevatedButton(
-                    //             child: Text('Upload'),
-                    //             onPressed: () {
-                    //               // Handle the upload functionality here
-                    //               // Update the user's profile information with the new image
-                    //               // Close the dialog
-                    //               String imageUrl =
-                    //                   ""; // Replace with the uploaded image URL
-                    //               updateProfileImage(imageUrl);
-                    //               Navigator.pop(context);
-                    //             },
-                    //           ),
-                    //         ],
-                    //       );
-                    //     },
-                    //   );
-                  },
+                  onPressed: () {},
                 ),
                 PopupMenuButton<String>(
                   onSelected: (String value) {
@@ -149,7 +115,7 @@ class ProfilePolygonRouteState extends State<ProfilePolygonRoute> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => LoginSimpleDarkRoute(),
+                          builder: (context) => const LoginRoute(),
                         ),
                       );
                     } catch (e) {
@@ -245,7 +211,7 @@ class ProfilePolygonRouteState extends State<ProfilePolygonRoute> {
                       flex: 1,
                       child: Column(
                         children: <Widget>[
-                          Text(section,
+                          Text(batch,
                               style: MyText.title(context)!.copyWith(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold)),

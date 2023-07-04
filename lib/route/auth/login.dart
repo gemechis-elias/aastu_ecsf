@@ -1,47 +1,21 @@
 import 'dart:developer';
-
-import 'package:aastu_ecsf/main_bottom_nav.dart';
+import 'package:aastu_ecsf/route/home_screen/bottom_nav.dart';
 import 'package:aastu_ecsf/route/auth/forget_password.dart';
 import 'package:aastu_ecsf/route/auth/signup.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:aastu_ecsf/data/img.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:provider/provider.dart';
 
-class LoginSimpleDarkRoute extends StatefulWidget {
-  LoginSimpleDarkRoute();
+class LoginRoute extends StatefulWidget {
+  const LoginRoute({super.key});
 
   @override
-  LoginSimpleDarkRouteState createState() => new LoginSimpleDarkRouteState();
+  LoginRouteState createState() => LoginRouteState();
 }
 
-class LoginSimpleDarkRouteState extends State<LoginSimpleDarkRoute> {
+class LoginRouteState extends State<LoginRoute> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
-  Future<void> _signIn() async {
-    try {
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text,
-        password: _passwordController.text,
-      );
-      // ignore: use_build_context_synchronously
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => BottomNavigationBadgeRoute(),
-        ),
-      );
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,11 +33,11 @@ class LoginSimpleDarkRouteState extends State<LoginSimpleDarkRoute> {
           children: <Widget>[
             const Spacer(),
             SizedBox(
+              width: 140,
+              height: 140,
               child: Image.asset(
                 Img.get('logo.png'),
               ),
-              width: 140,
-              height: 140,
             ),
             Container(height: 15),
             TextField(
@@ -103,7 +77,7 @@ class LoginSimpleDarkRouteState extends State<LoginSimpleDarkRoute> {
                 const Spacer(),
                 TextButton(
                   style: TextButton.styleFrom(
-                    primary: Colors.transparent,
+                    foregroundColor: Colors.transparent,
                   ),
                   child: const Text(
                     "Forgot Password?",
@@ -113,7 +87,7 @@ class LoginSimpleDarkRouteState extends State<LoginSimpleDarkRoute> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ResetPasswordDarkRoute(),
+                        builder: (context) => const ResetPasswordDarkRoute(),
                       ),
                     );
                   },
@@ -145,19 +119,12 @@ class LoginSimpleDarkRouteState extends State<LoginSimpleDarkRoute> {
 
                     // save user id
                     log("User ID: ${credential.user!.uid}");
-
-                    // ScaffoldMessenger.of(this.context).showSnackBar(
-                    //   const SnackBar(
-                    //     content: Text('User Logging in Successfully'),
-                    //     backgroundColor: Colors.green,
-                    //   ),
-                    // );
-
                     // ignore: use_build_context_synchronously
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => BottomNavigationBadgeRoute(),
+                        builder: (context) =>
+                            const BottomNavigationBadgeRoute(),
                       ),
                     );
                   } on FirebaseAuthException catch (e) {
@@ -187,7 +154,8 @@ class LoginSimpleDarkRouteState extends State<LoginSimpleDarkRoute> {
             SizedBox(
               width: double.infinity,
               child: TextButton(
-                style: TextButton.styleFrom(primary: Colors.transparent),
+                style:
+                    TextButton.styleFrom(foregroundColor: Colors.transparent),
                 child: const Text(
                   "New user? Sign Up",
                   style: TextStyle(color: Color(0xff808080)),
@@ -196,7 +164,7 @@ class LoginSimpleDarkRouteState extends State<LoginSimpleDarkRoute> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const SignUpSimpleDarkRoute(),
+                      builder: (context) => const SignUpRoute(),
                     ),
                   );
                 },

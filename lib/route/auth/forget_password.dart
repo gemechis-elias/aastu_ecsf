@@ -1,10 +1,9 @@
-import 'package:aastu_ecsf/main_bottom_nav.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:aastu_ecsf/data/img.dart';
 
 class ResetPasswordDarkRoute extends StatefulWidget {
-  ResetPasswordDarkRoute();
+  const ResetPasswordDarkRoute({super.key});
 
   @override
   ResetPasswordDarkRouteState createState() => ResetPasswordDarkRouteState();

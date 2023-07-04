@@ -86,7 +86,9 @@ class ItemTile extends StatelessWidget {
                     child: SizedBox(
                       width: 24, // Adjust the size as needed
                       height: 24, // Adjust the size as needed
-                      child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
@@ -176,7 +178,9 @@ class _FullScreenImageState extends State<FullScreenImage> {
                   imageUrl: widget.images[index].image,
                   fit: BoxFit.contain,
                   placeholder: (context, url) =>
-                      const CircularProgressIndicator(),
+                      const CircularProgressIndicator(
+                    color: Colors.white,
+                  ),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
               );
