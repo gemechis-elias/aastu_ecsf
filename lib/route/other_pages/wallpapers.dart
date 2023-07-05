@@ -1,4 +1,6 @@
 import 'dart:developer';
+import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:aastu_ecsf/data/my_colors.dart';
 import 'package:aastu_ecsf/route/other_pages/wallpaper_adapter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -7,8 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:aastu_ecsf/widget/my_toast.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_wallpaper_manager/flutter_wallpaper_manager.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 enum WallpaperLocation {
   HomeScreen,
@@ -192,6 +197,31 @@ class _WallpaperFullScreenRouteState extends State<WallpaperFullScreenRoute> {
         ),
       ),
     );
+  }
+
+  _save(String imgPath) async {
+    await _askPermission();
+    var response = await Dio()
+        .get(imgPath, options: Options(responseType: ResponseType.bytes));
+    final result =
+        await ImageGallerySaver.saveImage(Uint8List.fromList(response.data));
+    log(result);
+    Navigator.pop(context);
+  }
+
+  _askPermission() async {
+    if (Platform.isIOS) {
+      /*Map<PermissionGroup, PermissionStatus> permissions =
+          */
+      var status = await Permission.photos.status;
+      if (status.isDenied) {
+        // We didn't ask for permission yet or the permission has been denied before but not permanently.
+      }
+      // await PermissionHandler().requestPermissions([PermissionGroup.photos]);
+    } else {
+      // /* PermissionStatus permission = */ await PermissionHandler()
+      //     .checkPermissionStatus(PermissionGroup.storage);
+    }
   }
 
   Future<void> setWallpaper(String imageUrl, BuildContext context) async {

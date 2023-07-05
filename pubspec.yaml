@@ -18,7 +18,7 @@ dependencies:
   fluttertoast: ^8.0.7
   intl: ^0.17.0
   package_info: ^2.0.2
-  http: ^0.13.3
+  http: ^1.1.0
   flutter_speed_dial: ^3.0.5
   shared_preferences: ^2.0.6 
   device_info: ^2.0.2
@@ -41,7 +41,7 @@ dependencies:
   provider: ^6.0.0
   cached_network_image: ^3.2.3
   firebase_messaging: ^14.6.1 
-  permission_handler: ^10.2.0
+  permission_handler: ^10.4.1
   dio: ^5.1.2
   flutter_vector_icons: ^2.0.0
   flutter_wallpaper_manager: ^0.0.3
@@ -52,7 +52,7 @@ dependencies:
   flutter_native_image: ^0.0.6 
   flutter_inappwebview: ^5.7.2+3
   transparent_image: ^2.0.1
-  
+  image_gallery_saver: ^2.0.3
 dev_dependencies:
   flutter_test:
     sdk: flutter
