@@ -1,10 +1,11 @@
 // Copyright (c) 2023 Written by Gemechis Elias
 import 'dart:async';
 import 'dart:developer';
-import 'package:aastu_ecsf/route/auth/login.dart';
+import 'package:aastu_ecsf/route/auth_screen/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'app_theme.dart';
 import 'data/img.dart';
 import 'data/sqlite_db.dart';
@@ -16,6 +17,27 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  if (Platform.isAndroid) {
+    await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
+
+    var swAvailable = await AndroidWebViewFeature.isFeatureSupported(
+        AndroidWebViewFeature.SERVICE_WORKER_BASIC_USAGE);
+    var swInterceptAvailable = await AndroidWebViewFeature.isFeatureSupported(
+        AndroidWebViewFeature.SERVICE_WORKER_SHOULD_INTERCEPT_REQUEST);
+
+    if (swAvailable && swInterceptAvailable) {
+      AndroidServiceWorkerController serviceWorkerController =
+          AndroidServiceWorkerController.instance();
+
+      await serviceWorkerController
+          .setServiceWorkerClient(AndroidServiceWorkerClient(
+        shouldInterceptRequest: (request) async {
+          log(request.toString());
+          return null;
+        },
+      ));
+    }
+  }
   await Firebase.initializeApp();
   enableDatabasePersistence();
 
@@ -55,7 +77,7 @@ class _MyAppState extends State<MyApp> {
           Brightness.light == Brightness.dark ? Colors.white : Colors.black,
       statusBarIconBrightness: Brightness.light,
       statusBarBrightness:
-          !kIsWeb && Platform.isAndroid ? Brightness.dark : Brightness.light,
+          !kIsWeb && Platform.isAndroid ? Brightness.dark : Brightness.dark,
       systemNavigationBarColor:
           Brightness.light == Brightness.dark ? Colors.white : Colors.black,
       systemNavigationBarDividerColor: Colors.transparent,

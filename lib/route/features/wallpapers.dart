@@ -1,25 +1,15 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:aastu_ecsf/widget/my_toast.dart';
 import 'package:dio/dio.dart';
-import 'package:aastu_ecsf/data/my_colors.dart';
-import 'package:aastu_ecsf/route/other_pages/wallpaper_adapter.dart';
+import 'package:aastu_ecsf/route/features/wallpaper_adapter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:aastu_ecsf/widget/my_toast.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:flutter_wallpaper_manager/flutter_wallpaper_manager.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
-
-enum WallpaperLocation {
-  HomeScreen,
-  LockScreen,
-  BothScreens,
-}
 
 class WallpaperBasicRoute extends StatefulWidget {
   const WallpaperBasicRoute({Key? key}) : super(key: key);
@@ -63,7 +53,11 @@ class WallpaperBasicRouteState extends State<WallpaperBasicRoute> {
           });
           setState(() {
             items = newItems;
-            images = items.map<String>((item) => item['image']).toList();
+            images = items
+                .map<String>((item) => item['image'])
+                .toList()
+                .reversed
+                .toList();
             log("Wallpapers: $images");
           });
         }
@@ -71,19 +65,8 @@ class WallpaperBasicRouteState extends State<WallpaperBasicRoute> {
     });
   }
 
-  List<String> getNatureImages() {
-    List<String> natureImages = [];
-    for (String s in images) {
-      natureImages.add(s);
-    }
-    natureImages = natureImages.reversed.toList();
-    return natureImages;
-  }
-
   @override
   Widget build(BuildContext context) {
-    List<String> items = getNatureImages();
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xff121212),
@@ -100,7 +83,7 @@ class WallpaperBasicRouteState extends State<WallpaperBasicRoute> {
           ),
         ),
       ),
-      body: WallpaperAdapter(items, onItemClick).getView(onItemClick),
+      body: WallpaperAdapter(images, onItemClick).getView(onItemClick),
     );
   }
 }
@@ -184,12 +167,13 @@ class _WallpaperFullScreenRouteState extends State<WallpaperFullScreenRoute> {
               child: FloatingActionButton(
                 backgroundColor: Colors.white,
                 child: const Icon(
-                  Icons.wallpaper,
+                  Icons.save,
                   color: Colors.black,
                 ),
                 onPressed: () {
                   final String currentImage = widget.images[currentIndex];
-                  setWallpaper(currentImage, context);
+                  _save(currentImage);
+                  MyToast.show("Downloading...", context);
                 },
               ),
             ),
@@ -199,111 +183,33 @@ class _WallpaperFullScreenRouteState extends State<WallpaperFullScreenRoute> {
     );
   }
 
-  _save(String imgPath) async {
+  Future<void> _save(String imgPath) async {
     await _askPermission();
     var response = await Dio()
         .get(imgPath, options: Options(responseType: ResponseType.bytes));
     final result =
         await ImageGallerySaver.saveImage(Uint8List.fromList(response.data));
-    log(result);
+    print(result);
+    // Show a toast or any other notification to indicate that the image is saved
+    showNotification("Wallpaper is saved to Gallery");
     Navigator.pop(context);
   }
 
-  _askPermission() async {
+  Future<void> _askPermission() async {
     if (Platform.isIOS) {
-      /*Map<PermissionGroup, PermissionStatus> permissions =
-          */
-      var status = await Permission.photos.status;
+      var status = await Permission.photos.request();
       if (status.isDenied) {
-        // We didn't ask for permission yet or the permission has been denied before but not permanently.
+        // Permission denied.
+        // Show a toast or any other notification to indicate that the permission is required to save the image.
+        MyToast.show("Please, Give a Permission", context);
       }
-      // await PermissionHandler().requestPermissions([PermissionGroup.photos]);
     } else {
-      // /* PermissionStatus permission = */ await PermissionHandler()
-      //     .checkPermissionStatus(PermissionGroup.storage);
-    }
-  }
-
-  Future<void> setWallpaper(String imageUrl, BuildContext context) async {
-    try {
-      final url = imageUrl;
-      final file = await DefaultCacheManager().getSingleFile(url);
-      // ignore: use_build_context_synchronously
-      WallpaperLocation? selectedLocation = await showDialog<WallpaperLocation>(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: MyColors.grey_90,
-            title: const Text('Set Wallpaper'),
-            content: const Text('Select wallpaper location:'),
-            actions: <Widget>[
-              TextButton(
-                child: const Text(
-                  'Home Screen',
-                  style: TextStyle(color: Color(0xffd1a552)),
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop(WallpaperLocation.HomeScreen);
-                },
-              ),
-              TextButton(
-                child: const Text(
-                  'Lock Screen',
-                  style: TextStyle(color: Color(0xffd1a552)),
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop(WallpaperLocation.LockScreen);
-                },
-              ),
-              TextButton(
-                child: const Text(
-                  'Both Screens',
-                  style: TextStyle(color: Color(0xffd1a552)),
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop(WallpaperLocation.BothScreens);
-                },
-              ),
-            ],
-          );
-        },
-      );
-
-      if (selectedLocation != null) {
-        int location;
-        switch (selectedLocation) {
-          case WallpaperLocation.HomeScreen:
-            location = WallpaperManager.HOME_SCREEN;
-            break;
-          case WallpaperLocation.LockScreen:
-            location = WallpaperManager.LOCK_SCREEN;
-            break;
-          case WallpaperLocation.BothScreens:
-            location = WallpaperManager.BOTH_SCREEN;
-            break;
-        }
-
-        // Set wallpaper using the cropped image
-        final bool result = await WallpaperManager.setWallpaperFromFile(
-          file.path,
-          location,
-        );
-
-        if (result) {
-          // ignore: use_build_context_synchronously
-          MyToast.show("Wallpaper set successfully", context);
-          showNotification("Your wallpaper has been changed");
-          log("Wallpaper set successfully");
-        } else {
-          // ignore: use_build_context_synchronously
-          // ignore: use_build_context_synchronously
-          MyToast.show("Failed to set wallpaper", context);
-          log("Failed to set wallpaper");
-        }
+      var status = await Permission.storage.request();
+      if (status.isDenied) {
+        // Permission denied.
+        // Show a toast or any other notification to indicate that the permission is required to save the image.
+        MyToast.show("Please, Give a Permission", context);
       }
-    } on PlatformException {
-      MyToast.show("Failed to Download wallpaper", context);
-      log("Failed to get wallpaper");
     }
   }
 
@@ -327,7 +233,7 @@ class _WallpaperFullScreenRouteState extends State<WallpaperFullScreenRoute> {
 
     await flutterLocalNotificationsPlugin.show(
       0,
-      'Wallpaper Changed',
+      'Downloaded!',
       message,
       platformChannelSpecifics,
     );

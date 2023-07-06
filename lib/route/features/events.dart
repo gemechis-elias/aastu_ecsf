@@ -1,4 +1,4 @@
-import 'package:aastu_ecsf/route/other_pages/events_list.dart';
+import 'package:aastu_ecsf/route/features/events_list.dart';
 import 'package:flutter/material.dart';
 import 'package:aastu_ecsf/data/my_colors.dart';
 import 'package:aastu_ecsf/model/event.dart';

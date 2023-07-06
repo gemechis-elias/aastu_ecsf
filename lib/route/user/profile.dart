@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'package:aastu_ecsf/route/auth/login.dart';
+import 'package:aastu_ecsf/route/auth_screen/login.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

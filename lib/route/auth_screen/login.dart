@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:aastu_ecsf/route/home_screen/bottom_nav.dart';
-import 'package:aastu_ecsf/route/auth/forget_password.dart';
-import 'package:aastu_ecsf/route/auth/signup.dart';
+import 'package:aastu_ecsf/route/auth_screen/forget_password.dart';
+import 'package:aastu_ecsf/route/auth_screen/signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:aastu_ecsf/data/img.dart';

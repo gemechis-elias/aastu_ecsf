@@ -111,7 +111,7 @@ class SupportFellowshipRouteState extends State<SupportFellowshipRoute> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(6),
                     ),
-                    color: const Color(0xff808080),
+                    color: const Color.fromARGB(255, 48, 48, 48),
                     elevation: 2,
                     clipBehavior: Clip.antiAliasWithSaveLayer,
                     child: Container(
@@ -136,7 +136,7 @@ class SupportFellowshipRouteState extends State<SupportFellowshipRoute> {
                                 Text("1000510257492",
                                     style: MyText.subhead(context)!.copyWith(
                                         color: const Color.fromARGB(
-                                            255, 0, 0, 0))),
+                                            255, 167, 167, 167))),
                                 Container(height: 20),
                                 Text("Account Name",
                                     style: MyText.body1(context)!
@@ -145,7 +145,7 @@ class SupportFellowshipRouteState extends State<SupportFellowshipRoute> {
                                 Text("Amanuel Ketema and/or Selihom Demeke",
                                     style: MyText.subhead(context)!.copyWith(
                                         color: const Color.fromARGB(
-                                            255, 0, 0, 0))),
+                                            255, 167, 167, 167))),
                               ],
                             ),
                           ),
@@ -172,7 +172,7 @@ class SupportFellowshipRouteState extends State<SupportFellowshipRoute> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(6),
                     ),
-                    color: const Color(0xff808080),
+                    color: const Color.fromARGB(255, 48, 48, 48),
                     elevation: 2,
                     clipBehavior: Clip.antiAliasWithSaveLayer,
                     child: Container(
@@ -197,7 +197,7 @@ class SupportFellowshipRouteState extends State<SupportFellowshipRoute> {
                                 Text("1011553107702",
                                     style: MyText.subhead(context)!.copyWith(
                                         color: const Color.fromARGB(
-                                            255, 0, 0, 0))),
+                                            255, 167, 167, 167))),
                                 Container(height: 20),
                                 Text("Account Name",
                                     style: MyText.body1(context)!
@@ -206,7 +206,7 @@ class SupportFellowshipRouteState extends State<SupportFellowshipRoute> {
                                 Text("Amanuel Ketema and/or Selihom Demeke",
                                     style: MyText.subhead(context)!.copyWith(
                                         color: const Color.fromARGB(
-                                            255, 0, 0, 0))),
+                                            255, 167, 167, 167))),
                               ],
                             ),
                           ),
@@ -235,7 +235,7 @@ class SupportFellowshipRouteState extends State<SupportFellowshipRoute> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(6),
                     ),
-                    color: const Color(0xff808080),
+                    color: const Color.fromARGB(255, 48, 48, 48),
                     elevation: 2,
                     clipBehavior: Clip.antiAliasWithSaveLayer,
                     child: Container(
@@ -260,7 +260,7 @@ class SupportFellowshipRouteState extends State<SupportFellowshipRoute> {
                                 Text("85737511",
                                     style: MyText.subhead(context)!.copyWith(
                                         color: const Color.fromARGB(
-                                            255, 0, 0, 0))),
+                                            255, 167, 167, 167))),
                                 Container(height: 20),
                                 Text("Account Name",
                                     style: MyText.body1(context)!
@@ -269,7 +269,7 @@ class SupportFellowshipRouteState extends State<SupportFellowshipRoute> {
                                 Text("Amanuel Ketema and/or Selihom Demeke",
                                     style: MyText.subhead(context)!.copyWith(
                                         color: const Color.fromARGB(
-                                            255, 0, 0, 0))),
+                                            255, 167, 167, 167))),
                               ],
                             ),
                           ),
@@ -298,7 +298,7 @@ class SupportFellowshipRouteState extends State<SupportFellowshipRoute> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(6),
                     ),
-                    color: const Color(0xff808080),
+                    color: const Color.fromARGB(255, 48, 48, 48),
                     elevation: 2,
                     clipBehavior: Clip.antiAliasWithSaveLayer,
                     child: Container(
@@ -323,7 +323,7 @@ class SupportFellowshipRouteState extends State<SupportFellowshipRoute> {
                                 Text("01320659484500",
                                     style: MyText.subhead(context)!.copyWith(
                                         color: const Color.fromARGB(
-                                            255, 0, 0, 0))),
+                                            255, 167, 167, 167))),
                                 Container(height: 20),
                                 Text("Account Name",
                                     style: MyText.body1(context)!
@@ -332,7 +332,7 @@ class SupportFellowshipRouteState extends State<SupportFellowshipRoute> {
                                 Text("Amanuel Ketema and/or Selihom Demeke",
                                     style: MyText.subhead(context)!.copyWith(
                                         color: const Color.fromARGB(
-                                            255, 0, 0, 0))),
+                                            255, 167, 167, 167))),
                               ],
                             ),
                           ),
@@ -361,7 +361,7 @@ class SupportFellowshipRouteState extends State<SupportFellowshipRoute> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(6),
                     ),
-                    color: const Color(0xff808080),
+                    color: const Color.fromARGB(255, 48, 48, 48),
                     elevation: 2,
                     clipBehavior: Clip.antiAliasWithSaveLayer,
                     child: Container(
@@ -386,7 +386,7 @@ class SupportFellowshipRouteState extends State<SupportFellowshipRoute> {
                                 Text("5400293784011",
                                     style: MyText.subhead(context)!.copyWith(
                                         color: const Color.fromARGB(
-                                            255, 0, 0, 0))),
+                                            255, 167, 167, 167))),
                                 Container(height: 20),
                                 Text("Account Name",
                                     style: MyText.body1(context)!
@@ -395,7 +395,7 @@ class SupportFellowshipRouteState extends State<SupportFellowshipRoute> {
                                 Text("Amanuel Ketema and/or Selihom Demeke",
                                     style: MyText.subhead(context)!.copyWith(
                                         color: const Color.fromARGB(
-                                            255, 0, 0, 0))),
+                                            255, 167, 167, 167))),
                               ],
                             ),
                           ),

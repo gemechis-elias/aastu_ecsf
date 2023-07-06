@@ -3,19 +3,20 @@ import 'dart:developer' as developer;
 import 'dart:math';
 import 'package:aastu_ecsf/app_theme.dart';
 import 'package:aastu_ecsf/route/blog_screen/single_devotion_view.dart';
-import 'package:aastu_ecsf/route/other_pages/events.dart';
-import 'package:aastu_ecsf/route/other_pages/profile.dart';
+import 'package:aastu_ecsf/route/features/events.dart';
+import 'package:aastu_ecsf/route/user/profile.dart';
 import 'package:aastu_ecsf/route/youtube_screen/youtube_slider.dart';
-import 'package:aastu_ecsf/route/other_pages/support_fellowship.dart';
-import 'package:aastu_ecsf/route/other_pages/team.dart';
-import 'package:aastu_ecsf/route/other_pages/wallpapers.dart';
+import 'package:aastu_ecsf/route/features/support_fellowship.dart';
+import 'package:aastu_ecsf/route/features/team.dart';
+import 'package:aastu_ecsf/route/features/wallpapers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
-
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -24,7 +25,6 @@ class _HomeScreenState extends State<HomeScreen> {
   final DatabaseReference databaseReference =
       FirebaseDatabase.instance.ref().child('blogs'); // devotions blogs
   List<Map<dynamic, dynamic>> devotions = [];
-
   @override
   void initState() {
     super.initState();
@@ -310,10 +310,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             Navigator.push<dynamic>(
                               context,
                               MaterialPageRoute<dynamic>(
-                                builder: (BuildContext context) =>
-                                    DevoationDetail(idd: id, link: devoLink),
-                              ),
+                                  builder: (BuildContext context) =>
+                                      DevotionDetail(idd: id, link: devoLink)),
                             );
+                            //openDevotions(devoLink);
+                            // WebViewPage(url: devoLink);
                           },
                           child: Card(
                             elevation: 2,
@@ -528,6 +529,27 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Future<void> openDevotions(String s) async {
+    developer.log("Link Clicked ");
+    final Uri url = Uri.parse(s);
+    final ChromeSafariBrowser browser = ChromeSafariBrowser();
+    await browser.open(
+      url: url,
+      options: ChromeSafariBrowserClassOptions(
+        android: AndroidChromeCustomTabsOptions(
+          enableUrlBarHiding: true,
+          toolbarBackgroundColor: Colors.black,
+        ),
+        ios: IOSSafariOptions(
+          barCollapsingEnabled: true,
+          preferredBarTintColor: Colors.black,
+          preferredControlTintColor: Colors.white,
+          dismissButtonStyle: IOSSafariDismissButtonStyle.CLOSE,
+        ),
       ),
     );
   }

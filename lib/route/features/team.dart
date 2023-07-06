@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:aastu_ecsf/data/TeamImage.dart';
-import 'package:aastu_ecsf/route/other_pages/team_cards.dart';
+import 'package:aastu_ecsf/route/features/team_cards.dart';
 import 'package:flutter/material.dart';
 import 'package:aastu_ecsf/model/team_model.dart';
 import 'package:aastu_ecsf/widget/my_text.dart';
