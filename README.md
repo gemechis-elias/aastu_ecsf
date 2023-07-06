@@ -31,21 +31,21 @@ To run the AASTU CSF Mobile App locally, follow these steps:
 
 Here is an overview of the project's folder structure:
 
-AASTU-CSF-Mobile-App/\n
-├── assets/ # Images, fonts, and other static assets\n
-├── route/\n
-│ ├── about_screen/ # About Us pages\n
-│ ├── auth_screen/ # Login and SignUp\n
-│ ├── blog_screen/ # Devotion and Blogs\n
-│ ├── chat_screen/ # Chat Bot Screen\n
-│ ├── gallery_screen/ # Gallery Page\n
-│ ├── home_screen/ # Home page and bottom navigation\n
-│ └── Features/ # Event, Team, and Wallpapers\n
-│\n
-├── README.md # Project documentation (you are here)\n
-├── CONTRIBUTING.md # Guidelines for contributing to the project\n
-└── LICENSE # License information\n
-
+AASTU-CSF-Mobile-App/ <br>
+├── assets/ # Images, fonts, and other static assets <br>
+├── route/ <br>
+│ ├── about_screen/ # About Us pages <br>
+│ ├── auth_screen/ # Login and SignUp <br>
+│ ├── blog_screen/ # Devotion and Blogs <br>
+│ ├── chat_screen/ # Chat Bot Screen <br>
+│ ├── gallery_screen/ # Gallery Page <br>
+│ ├── home_screen/ # Home page and bottom navigation <br>
+│ └── Features/ # Event, Team, and Wallpapers <br>
+│ <br>
+├── README.md # Project documentation (you are here) <br>
+├── CONTRIBUTING.md # Guidelines for contributing to the project <br>
+└── LICENSE # License information <br>
+ <br>
 ## Firebase Database Structure
 The AASTU CSF Mobile App uses Firebase as its backend. Below is a simplified representation of the Firebase database structure:
 
