@@ -12,7 +12,6 @@ import 'package:aastu_ecsf/route/features/wallpapers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -69,9 +68,8 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    // Small circle avatars for devotion card
+// function get random images for the small circle avatars
+  String getRandomImage() {
     List<String> images = [
       "assets/people/user1.jpg",
       "assets/people/user2.jpg",
@@ -81,17 +79,20 @@ class _HomeScreenState extends State<HomeScreen> {
       "assets/people/user6.jpg",
       "assets/people/user7.jpg",
       "assets/people/user8.jpg",
+      "assets/people/user7.jpg",
+      "assets/people/user6.jpg",
+      "assets/people/user5.jpg",
+      "assets/people/user4.jpg",
+      "assets/people/user3.jpg",
+      "assets/people/user2.jpg",
     ];
+    final random = Random();
+    final index = random.nextInt(images.length);
+    return images[index];
+  }
 
-    // Generate a random index for the images list
-    final Random random = Random();
-    int rnd1, rnd2, rnd3;
-    // The images must be different
-    do {
-      rnd1 = random.nextInt(images.length);
-      rnd2 = random.nextInt(images.length);
-      rnd3 = random.nextInt(images.length);
-    } while (rnd1 == rnd2 || rnd1 == rnd3 || rnd2 == rnd3);
+  @override
+  Widget build(BuildContext context) {
     String id, title, imagePath, date, devoLink, views;
     return Scaffold(
       backgroundColor: AppTheme.bodyBackground(context),
@@ -277,11 +278,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-
                 Container(
                   height: 10,
                 ),
-
                 SizedBox(
                   height: 205,
                   child: ListView.separated(
@@ -436,44 +435,25 @@ class _HomeScreenState extends State<HomeScreen> {
                                           Container(
                                             width: 20,
                                           ),
-                                          Row(
-                                            textDirection: TextDirection.rtl,
-                                            children: [
-                                              Transform.translate(
-                                                offset: const Offset(-8, 0),
-                                                child: Positioned(
-                                                  left: 0,
+                                          for (int i = 0; i < 3; i++)
+                                            Container(
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 0),
+                                              child: Align(
+                                                  widthFactor: 0.65,
                                                   child: CircleAvatar(
-                                                    radius: 10,
-                                                    backgroundImage: AssetImage(
-                                                        images[rnd1]),
-                                                  ),
-                                                ),
-                                              ),
-                                              Transform.translate(
-                                                offset: const Offset(0, 0),
-                                                child: Positioned(
-                                                  left: 0,
-                                                  child: CircleAvatar(
-                                                    radius: 10,
-                                                    backgroundImage: AssetImage(
-                                                        images[rnd2]),
-                                                  ),
-                                                ),
-                                              ),
-                                              Transform.translate(
-                                                offset: const Offset(8, 0),
-                                                child: Positioned(
-                                                  left: 0,
-                                                  child: CircleAvatar(
-                                                    radius: 10,
-                                                    backgroundImage: AssetImage(
-                                                        images[rnd3]),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
+                                                    radius: 12,
+                                                    backgroundColor:
+                                                        const Color(0xff212121),
+                                                    child: CircleAvatar(
+                                                      radius: 10,
+                                                      backgroundImage:
+                                                          AssetImage(
+                                                              getRandomImage()),
+                                                    ),
+                                                  )),
+                                            )
                                         ],
                                       )
                                     ],
