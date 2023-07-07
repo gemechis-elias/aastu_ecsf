@@ -73,17 +73,19 @@ class ItemTile extends StatelessWidget {
             Row(
               children: <Widget>[
                 Text(object.author,
-                    style: MyText.body2(context)!
-                        .copyWith(color: MyColors.grey_40)),
+                    style: MyText.body2(context)!.copyWith(
+                        fontFamily: 'MyFont', color: MyColors.grey_40)),
                 const Spacer(),
                 Text(object.date,
-                    style: MyText.body1(context)!
-                        .copyWith(color: MyColors.grey_40)),
+                    style: MyText.body1(context)!.copyWith(
+                        fontFamily: 'MyFont', color: MyColors.grey_40)),
               ],
             ),
             Container(height: 10),
             Text(object.title,
                 style: MyText.medium(context).copyWith(
+                    fontFamily: 'MyFont',
+                    fontSize: 16,
                     color: const Color.fromARGB(255, 255, 255, 255),
                     fontWeight: FontWeight.w500)),
             Container(height: 10),

@@ -64,6 +64,7 @@ class AboutUsRouteState extends State<AboutCompanyCardRoute> {
                           Text(
                             "Our Team",
                             style: MyText.medium(context).copyWith(
+                                fontFamily: 'MyBlodFont',
                                 color: Colors.white,
                                 fontWeight: FontWeight.w500),
                           ),
@@ -111,6 +112,7 @@ class AboutUsRouteState extends State<AboutCompanyCardRoute> {
                                         "Gemechis Elias",
                                         style: MyText.caption(context)!
                                             .copyWith(
+                                                fontFamily: 'MyFont',
                                                 color: Colors.white70,
                                                 fontWeight: FontWeight.w600),
                                       ),
@@ -119,6 +121,7 @@ class AboutUsRouteState extends State<AboutCompanyCardRoute> {
                                         "Mobile App Engineer",
                                         style: MyText.caption(context)!
                                             .copyWith(
+                                                fontFamily: 'MyFont',
                                                 color: MyColors.grey_60,
                                                 fontWeight: FontWeight.w400),
                                       ),
@@ -154,12 +157,14 @@ class AboutUsRouteState extends State<AboutCompanyCardRoute> {
                                       Text("Getabalew Asfaw",
                                           style: MyText.caption(context)!
                                               .copyWith(
+                                                  fontFamily: 'MyFont',
                                                   color: Colors.white70,
                                                   fontWeight: FontWeight.w600)),
                                       Container(height: 4),
                                       Text("Graphics Designer",
                                           style: MyText.caption(context)!
                                               .copyWith(
+                                                  fontFamily: 'MyFont',
                                                   color: MyColors.grey_60,
                                                   fontWeight: FontWeight.w400)),
                                     ],
@@ -177,6 +182,7 @@ class AboutUsRouteState extends State<AboutCompanyCardRoute> {
                             child: const Text(
                               'Contributors',
                               style: TextStyle(
+                                fontFamily: 'MyFont',
                                 decoration: TextDecoration.underline,
                                 color: Colors.blue,
                               ),
@@ -204,6 +210,7 @@ class AboutUsRouteState extends State<AboutCompanyCardRoute> {
                           Text("About",
                               style: MyText.medium(context).copyWith(
                                   color: Colors.white,
+                                  fontFamily: 'MyBoldFont',
                                   fontWeight: FontWeight.w500)),
                           Container(height: 5),
                           Center(
@@ -224,6 +231,7 @@ class AboutUsRouteState extends State<AboutCompanyCardRoute> {
                                 "Welcome to AASTU Christian Students Fellowship! We are a community of evangelical students at our college who come together to share our faith, support one another, and make a difference on campus.  \n\nOur goal is to provide a safe and welcoming environment for all students to explore and deepen their relationship with God. We invite you to join us for weekly Bible studies, worship, and fellowship events.",
                                 textAlign: TextAlign.justify,
                                 style: MyText.body2(context)!.copyWith(
+                                  fontFamily: 'MyFont',
                                   color: Colors.white70,
                                   fontWeight: FontWeight.w300,
                                 ),
@@ -251,6 +259,7 @@ class AboutUsRouteState extends State<AboutCompanyCardRoute> {
                           Text("Address",
                               style: MyText.medium(context).copyWith(
                                   color: Colors.white,
+                                  fontFamily: 'MyBoldFont',
                                   fontWeight: FontWeight.w500)),
                           Container(height: 5),
                           Center(
@@ -263,7 +272,7 @@ class AboutUsRouteState extends State<AboutCompanyCardRoute> {
                                       BorderRadius.all(Radius.circular(5)),
                                 )),
                           ),
-                          Container(height: 5),
+                          Container(height: 10),
                           Container(
                             width: double.infinity,
                             padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -283,14 +292,17 @@ class AboutUsRouteState extends State<AboutCompanyCardRoute> {
 
                                 Container(height: 15),
                                 Text("AASTU, Kilnto Mekaneyesus.",
-                                    style: MyText.subhead(context)!
-                                        .copyWith(color: Colors.white70)),
+                                    style: MyText.subhead(context)!.copyWith(
+                                        fontFamily: 'MyFont',
+                                        color: Colors.white70)),
                                 Text("Addis Ababa, Ethiopia",
-                                    style: MyText.subhead(context)!
-                                        .copyWith(color: Colors.white70)),
+                                    style: MyText.subhead(context)!.copyWith(
+                                        fontFamily: 'MyFont',
+                                        color: Colors.white70)),
                                 Text("Zip: 1000",
-                                    style: MyText.subhead(context)!
-                                        .copyWith(color: Colors.white70)),
+                                    style: MyText.subhead(context)!.copyWith(
+                                        fontFamily: 'MyFont',
+                                        color: Colors.white70)),
                                 Container(height: 5),
                                 // list of horixontal icon
                                 SizedBox(
@@ -475,17 +487,19 @@ class AboutUsRouteState extends State<AboutCompanyCardRoute> {
                     Text(name,
                         textAlign: TextAlign.left,
                         style: MyText.headline(context)!.copyWith(
-                            color: Colors.white, fontWeight: FontWeight.bold)),
+                            fontFamily: 'MyFont',
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold)),
                     Container(height: 2),
                     Text(title,
                         textAlign: TextAlign.start,
-                        style: MyText.body1(context)!
-                            .copyWith(color: MyColors.grey_40)),
+                        style: MyText.body1(context)!.copyWith(
+                            fontFamily: 'MyFont', color: MyColors.grey_40)),
                     Container(height: 35),
                     Text(exp,
                         textAlign: TextAlign.center,
-                        style: MyText.subhead(context)!
-                            .copyWith(color: MyColors.grey_40)),
+                        style: MyText.subhead(context)!.copyWith(
+                            fontFamily: 'MyFont', color: MyColors.grey_40)),
                   ],
                 ),
               ),
@@ -498,8 +512,8 @@ class AboutUsRouteState extends State<AboutCompanyCardRoute> {
                   children: [
                     Text("Check my social media",
                         textAlign: TextAlign.start,
-                        style: MyText.body1(context)!
-                            .copyWith(color: MyColors.grey_20)),
+                        style: MyText.body1(context)!.copyWith(
+                            fontFamily: 'MyFont', color: MyColors.grey_20)),
                     Container(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,

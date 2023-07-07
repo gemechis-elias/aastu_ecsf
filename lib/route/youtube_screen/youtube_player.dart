@@ -196,6 +196,7 @@ class YoutubePlayerDemoAppState extends State<YoutubePlayerDemoApp> {
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 15.0,
+                fontFamily: 'MyFont',
               ),
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
@@ -235,7 +236,7 @@ class YoutubePlayerDemoAppState extends State<YoutubePlayerDemoApp> {
           ),
           title: const Text(
             'Videos',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(fontFamily: 'MyBoldFont', color: Colors.white),
           ),
           actions: [
             IconButton(

@@ -170,8 +170,8 @@ class _GalleryRouteState extends State<GalleryRoute>
                           (r) => RadioListTile(
                             title: Text(
                               r,
-                              style: MyText.body1(context)!
-                                  .copyWith(color: Colors.white),
+                              style: MyText.body1(context)!.copyWith(
+                                  fontFamily: 'MyFont', color: Colors.white),
                             ),
                             dense: true,
                             activeColor: Colors.white,
@@ -210,7 +210,10 @@ class _GalleryRouteState extends State<GalleryRoute>
                       },
                       child: const Text(
                         '  Filter  ',
-                        style: TextStyle(fontSize: 16, color: Colors.white),
+                        style: TextStyle(
+                            fontFamily: 'MyBoldFont',
+                            fontSize: 16,
+                            color: Colors.white),
                       ),
                     ),
                   ),
@@ -265,14 +268,18 @@ class _GalleryRouteState extends State<GalleryRoute>
                       children: <Widget>[
                         const Text(
                           "General Fellowship Gallery",
-                          style: TextStyle(fontSize: 24, color: Colors.white),
+                          style: TextStyle(
+                              fontFamily: 'MyBoldFont',
+                              fontSize: 19,
+                              color: Colors.white),
                         ),
                         Container(height: 10),
                         Container(
                           child: const Text(
                             "Explore images of our fellowship events of all batches",
                             style: TextStyle(
-                              fontSize: 15,
+                              fontFamily: 'MyFont',
+                              fontSize: 13,
                               color: Color(0xff808080),
                             ),
                           ),
@@ -297,7 +304,10 @@ class _GalleryRouteState extends State<GalleryRoute>
                           },
                           child: const Text(
                             "EXPLORE",
-                            style: TextStyle(color: Color(0xffd1a522)),
+                            style: TextStyle(
+                                fontFamily: 'MyBoldFont',
+                                fontSize: 13,
+                                color: Color(0xffd1a522)),
                           ),
                         ),
                         onPressed: () {},

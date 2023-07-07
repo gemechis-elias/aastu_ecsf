@@ -87,6 +87,7 @@ class GridSectionedRouteState extends State<GalleryByYear> {
           'Fellowship Gallery',
           style: TextStyle(
             color: Colors.white,
+            fontFamily: 'MyBoldFont',
           ),
         ),
       ),

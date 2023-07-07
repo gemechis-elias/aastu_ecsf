@@ -118,7 +118,7 @@ class SignUpRouteState extends State<SignUpRoute> {
                 ),
                 child: const Text(
                   "Sign Up",
-                  style: TextStyle(color: Colors.black),
+                  style: TextStyle(fontFamily: 'MyFont', color: Colors.black),
                 ),
                 onPressed: () async {
                   try {
@@ -178,7 +178,8 @@ class SignUpRouteState extends State<SignUpRoute> {
                     TextButton.styleFrom(foregroundColor: Colors.transparent),
                 child: const Text(
                   "Already Registered? Login",
-                  style: TextStyle(color: Color(0xff808080)),
+                  style:
+                      TextStyle(fontFamily: 'MyFont', color: Color(0xff808080)),
                 ),
                 onPressed: () {
                   // Handle the login button pressed

@@ -166,12 +166,14 @@ class UserProfileRouteState extends State<UserProfileRoute> {
                 Container(height: 70),
                 Text(name,
                     style: MyText.headline(context)!.copyWith(
-                        color: Colors.white, fontWeight: FontWeight.bold)),
+                        fontFamily: 'MyFont',
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold)),
                 Container(height: 15),
                 Text(bio,
                     textAlign: TextAlign.center,
-                    style:
-                        MyText.subhead(context)!.copyWith(color: Colors.white)),
+                    style: MyText.subhead(context)!
+                        .copyWith(fontFamily: 'MyFont', color: Colors.white)),
                 Container(height: 25),
                 Container(height: 35),
                 Row(
@@ -183,12 +185,14 @@ class UserProfileRouteState extends State<UserProfileRoute> {
                         children: <Widget>[
                           Text(team,
                               style: MyText.title(context)!.copyWith(
+                                  fontFamily: 'MyBoldFont',
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold)),
                           Container(height: 5),
                           Text("Team",
-                              style: MyText.subhead(context)!
-                                  .copyWith(color: Colors.grey[600]))
+                              style: MyText.subhead(context)!.copyWith(
+                                  fontFamily: 'MyFont',
+                                  color: Colors.grey[600]))
                         ],
                       ),
                     ),
@@ -198,12 +202,14 @@ class UserProfileRouteState extends State<UserProfileRoute> {
                         children: <Widget>[
                           Text(department,
                               style: MyText.title(context)!.copyWith(
+                                  fontFamily: 'MyBoldFont',
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold)),
                           Container(height: 5),
                           Text("Department",
-                              style: MyText.subhead(context)!
-                                  .copyWith(color: Colors.grey[600]))
+                              style: MyText.subhead(context)!.copyWith(
+                                  fontFamily: 'MyFont',
+                                  color: Colors.grey[600]))
                         ],
                       ),
                     ),
@@ -214,11 +220,13 @@ class UserProfileRouteState extends State<UserProfileRoute> {
                           Text(batch,
                               style: MyText.title(context)!.copyWith(
                                   color: Colors.white,
+                                  fontFamily: 'MyBoldFont',
                                   fontWeight: FontWeight.bold)),
                           Container(height: 5),
-                          Text("Section",
-                              style: MyText.subhead(context)!
-                                  .copyWith(color: Colors.grey[600]))
+                          Text("Batch",
+                              style: MyText.subhead(context)!.copyWith(
+                                  fontFamily: 'MyFont',
+                                  color: Colors.grey[600]))
                         ],
                       ),
                     ),

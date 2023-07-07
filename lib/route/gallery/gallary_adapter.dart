@@ -55,7 +55,9 @@ class ItemTile extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 13),
             child: Text(object.title,
                 style: MyText.subhead(context)!.copyWith(
-                    color: MyColors.grey_40, fontWeight: FontWeight.bold)),
+                    fontFamily: 'MyFont',
+                    color: MyColors.grey_40,
+                    fontWeight: FontWeight.bold)),
           )
         : Stack(
             children: <Widget>[
@@ -165,6 +167,7 @@ class _FullScreenImageState extends State<FullScreenImage> {
           widget.title,
           style: const TextStyle(
             color: Colors.white,
+            fontFamily: 'MyFont',
           ),
         ),
       ),

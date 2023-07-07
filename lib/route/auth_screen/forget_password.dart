@@ -67,7 +67,7 @@ class ResetPasswordDarkRouteState extends State<ResetPasswordDarkRoute> {
                 ),
                 child: const Text(
                   "Reset Password",
-                  style: TextStyle(color: Colors.black),
+                  style: TextStyle(fontFamily: 'MyFont', color: Colors.black),
                 ),
                 onPressed: () async {
                   try {
@@ -78,7 +78,10 @@ class ResetPasswordDarkRouteState extends State<ResetPasswordDarkRoute> {
                         .then((_) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('Password reset email sent.'),
+                          content: Text('Password reset email sent.',
+                              style: TextStyle(
+                                fontFamily: 'MyFont',
+                              )),
                           backgroundColor: Colors.green,
                         ),
                       );
@@ -86,7 +89,10 @@ class ResetPasswordDarkRouteState extends State<ResetPasswordDarkRoute> {
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text('Password reset failed.'),
+                        content: Text('Password reset failed.',
+                            style: TextStyle(
+                              fontFamily: 'MyFont',
+                            )),
                         backgroundColor: Colors.red,
                       ),
                     );

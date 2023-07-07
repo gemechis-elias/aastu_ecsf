@@ -79,6 +79,7 @@ class WallpaperBasicRouteState extends State<WallpaperBasicRoute> {
         title: const Text(
           'Wallpapers',
           style: TextStyle(
+            fontFamily: 'MyFont',
             color: Colors.white,
           ),
         ),

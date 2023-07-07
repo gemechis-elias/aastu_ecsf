@@ -31,11 +31,16 @@ class _VideoListState extends State<VideoList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
-        // brightness: Brightness.dark,
-        backgroundColor: const Color(0xff121212),
-        title: const Text('Playlist'),
-      ),
+          elevation: 0,
+          // brightness: Brightness.dark,
+          backgroundColor: const Color(0xff121212),
+          title: const Text(
+            'Playlist',
+            style: TextStyle(
+              fontFamily: 'MyFont',
+              color: Colors.white,
+            ),
+          )),
       body: Container(
         color: const Color(0xff1f1f1f),
         child: ListView.separated(

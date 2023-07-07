@@ -64,6 +64,7 @@ class _DevotionDetailState extends State<DevotionDetail> {
                 const Text(
                   "Daily Devotion",
                   style: TextStyle(
+                    fontFamily: 'MyBoldFont',
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -73,6 +74,7 @@ class _DevotionDetailState extends State<DevotionDetail> {
                 Text(
                   addedDate ?? "Connecting to VPN...",
                   style: TextStyle(
+                    fontFamily: 'MyFont',
                     fontSize: 12,
                     color: Colors.grey[400],
                   ),

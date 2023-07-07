@@ -80,6 +80,7 @@ class GalleryDetailRouteState extends State<GalleryDetailRoute> {
         title: const Text(
           'Fellowship Gallery',
           style: TextStyle(
+            fontFamily: 'MyBoldFont',
             color: Colors.white,
           ),
         ),

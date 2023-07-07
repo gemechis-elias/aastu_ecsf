@@ -89,6 +89,8 @@ class TeamCardRouteState extends State<TeamCardRoute> {
         title: Text(
           'Fellowship Teams'.toUpperCase(),
           style: const TextStyle(
+            fontFamily: 'MyBoldFont',
+            fontSize: 18,
             color: Colors.white,
           ),
         ),
@@ -145,6 +147,8 @@ class MotionCardDetails extends StatelessWidget {
                                 children: [
                                   Text(obj.name,
                                       style: MyText.display1(context)!.copyWith(
+                                          fontFamily: 'MyBoldFont',
+                                          fontSize: 16,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white)),
                                   Container(height: 5),
@@ -184,13 +188,14 @@ class MotionCardDetails extends StatelessWidget {
           body: SingleChildScrollView(
             child: Container(
               color: const Color(0xff212121),
-              padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 25),
+              padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(obj.des,
-                      textAlign: TextAlign.justify,
                       style: MyText.medium(context).copyWith(
+                        fontFamily: 'MyFont',
+                        fontSize: 16,
                         color: const Color(0xff808080),
                       ))
                 ],

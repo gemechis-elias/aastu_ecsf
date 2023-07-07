@@ -283,7 +283,7 @@ class ChatListRouteState extends State<ChatListRoute> {
                 onPressed: _handleStart,
                 child: const Text(
                   "Start Chat",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(fontFamily: 'MyFont', color: Colors.white),
                 ),
               ),
             ),

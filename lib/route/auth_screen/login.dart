@@ -81,7 +81,8 @@ class LoginRouteState extends State<LoginRoute> {
                   ),
                   child: const Text(
                     "Forgot Password?",
-                    style: TextStyle(color: Color(0xff808080)),
+                    style: TextStyle(
+                        fontFamily: 'MyFont', color: Color(0xff808080)),
                   ),
                   onPressed: () {
                     Navigator.push(
@@ -106,7 +107,7 @@ class LoginRouteState extends State<LoginRoute> {
                 ),
                 child: const Text(
                   "Login",
-                  style: TextStyle(color: Colors.black),
+                  style: TextStyle(fontFamily: 'MyFont', color: Colors.black),
                 ),
                 onPressed: () async {
                   // signIn
@@ -133,7 +134,10 @@ class LoginRouteState extends State<LoginRoute> {
 
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('No user found for that email.'),
+                          content: Text('No user found for that email.',
+                              style: TextStyle(
+                                fontFamily: 'MyFont',
+                              )),
                           backgroundColor: Colors.red,
                         ),
                       );
@@ -142,7 +146,10 @@ class LoginRouteState extends State<LoginRoute> {
 
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('Email or Password is incorrect.'),
+                          content: Text('Email or Password is incorrect.',
+                              style: TextStyle(
+                                fontFamily: 'MyFont',
+                              )),
                           backgroundColor: Colors.red,
                         ),
                       );
@@ -158,7 +165,8 @@ class LoginRouteState extends State<LoginRoute> {
                     TextButton.styleFrom(foregroundColor: Colors.transparent),
                 child: const Text(
                   "New user? Sign Up",
-                  style: TextStyle(color: Color(0xff808080)),
+                  style:
+                      TextStyle(fontFamily: 'MyFont', color: Color(0xff808080)),
                 ),
                 onPressed: () {
                   Navigator.push(

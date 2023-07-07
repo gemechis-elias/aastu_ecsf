@@ -93,6 +93,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final responsiveWidth = screenWidth * 0.9;
+    final responsiveHeight = screenHeight * 0.267;
+
     String id, title, imagePath, date, devoLink, views;
     return Scaffold(
       backgroundColor: AppTheme.bodyBackground(context),
@@ -128,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: TextStyle(
                         fontFamily: 'MyBoldFont',
                         color: AppTheme.normalText(context),
-                        fontSize: 15,
+                        fontSize: MediaQuery.of(context).size.width * 0.047,
                         fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -141,8 +146,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         IconButton(
                           iconSize: 58,
-                          icon:
-                              Image.asset('assets/images/team.png', width: 78),
+                          icon: Image.asset(
+                            'assets/images/team.png',
+                            width: MediaQuery.of(context).size.width * 0.20,
+                          ),
                           onPressed: () {
                             developer.log("Team Clicked");
                             Navigator.push(
@@ -166,8 +173,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         IconButton(
                           iconSize: 58,
-                          icon:
-                              Image.asset('assets/images/gift.png', width: 78),
+                          icon: Image.asset(
+                            'assets/images/gift.png',
+                            width: MediaQuery.of(context).size.width * 0.20,
+                          ),
                           color: AppTheme.normalText(context),
                           onPressed: () {
                             developer.log("Gift Clicked");
@@ -194,8 +203,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         IconButton(
                           iconSize: 58,
-                          icon: Image.asset('assets/images/programs.png',
-                              width: 78),
+                          icon: Image.asset(
+                            'assets/images/programs.png',
+                            width: MediaQuery.of(context).size.width * 0.20,
+                          ),
                           onPressed: () {
                             // show dialog program ShowProgram()
                             // showDialog(
@@ -204,7 +215,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             //       return ShowProgram();
                             //     });
                             developer.log("Wallpaper Clicked");
-
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -227,8 +237,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         IconButton(
                           iconSize: 58,
-                          icon: Image.asset('assets/images/events.png',
-                              width: 78),
+                          icon: Image.asset(
+                            'assets/images/events.png',
+                            width: MediaQuery.of(context).size.width * 0.20,
+                          ),
                           onPressed: () {
                             // do something
                             Navigator.push(
@@ -263,7 +275,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: TextStyle(
                               fontFamily: 'MyBoldFont',
                               color: AppTheme.normalText(context),
-                              fontSize: 15,
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.047,
                               fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -281,192 +294,217 @@ class _HomeScreenState extends State<HomeScreen> {
                 Container(
                   height: 10,
                 ),
-                SizedBox(
-                  height: 205,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: devotions.length,
-                    separatorBuilder: (BuildContext context, int index) =>
-                        const Divider(
-                      height: 2,
-                      thickness: 1,
-                      color: Color.fromARGB(188, 189, 189, 189),
-                    ),
-                    itemBuilder: (BuildContext context, int index) {
-                      Map<dynamic, dynamic> devotion = devotions[index];
-                      id = devotions[index]['id'];
-                      title = devotion['title'];
-                      imagePath = devotion['image'];
-                      date = devotion['addedDate'];
-                      devoLink = devotion['content'];
-                      views = "1k+ Views"; // defualt value
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Flexible(
+                      child: SizedBox(
+                        height: responsiveHeight,
+                        child: ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: devotions.length,
+                          separatorBuilder: (BuildContext context, int index) =>
+                              const Divider(
+                            height: 2,
+                            thickness: 1,
+                            color: Color.fromARGB(188, 189, 189, 189),
+                          ),
+                          itemBuilder: (BuildContext context, int index) {
+                            Map<dynamic, dynamic> devotion = devotions[index];
+                            id = devotions[index]['id'];
+                            title = devotion['title'];
+                            imagePath = devotion['image'];
+                            date = devotion['addedDate'];
+                            devoLink = devotion['content'];
+                            views = "1k+ Views"; // defualt value
 
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: GestureDetector(
-                          onTap: () {
-                            // passing id and link to Devotion Detail Page
-                            Navigator.push<dynamic>(
-                              context,
-                              MaterialPageRoute<dynamic>(
-                                  builder: (BuildContext context) =>
-                                      DevotionDetail(idd: id, link: devoLink)),
-                            );
-                            //openDevotions(devoLink);
-                            // WebViewPage(url: devoLink);
-                          },
-                          child: Card(
-                            elevation: 2,
-                            color: const Color(0xff212121),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(2),
-                            ),
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                ClipRRect(
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(15),
-                                    topRight: Radius.circular(15),
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
+                              child: GestureDetector(
+                                onTap: () {
+                                  // passing id and link to Devotion Detail Page
+                                  Navigator.push<dynamic>(
+                                    context,
+                                    MaterialPageRoute<dynamic>(
+                                        builder: (BuildContext context) =>
+                                            DevotionDetail(
+                                                idd: id, link: devoLink)),
+                                  );
+                                  //openDevotions(devoLink);
+                                  // WebViewPage(url: devoLink);
+                                },
+                                child: Card(
+                                  elevation: 2,
+                                  color: const Color(0xff212121),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(2),
                                   ),
-                                  child: CachedNetworkImage(
-                                    imageUrl: imagePath,
-                                    placeholder: (context, url) => const Center(
-                                      child: SizedBox(
-                                        width: 24, // Adjust the size as needed
-                                        height: 24, // Adjust the size as needed
-                                        child: CircularProgressIndicator(
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                    errorWidget: (context, url, error) =>
-                                        const Icon(Icons.error),
-                                    width: 150,
-                                    height: 90,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  clipBehavior: Clip.antiAliasWithSaveLayer,
                                   child: Column(
-                                    mainAxisSize: MainAxisSize.min,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      SizedBox(
-                                        width: 130,
-                                        child: Text(
-                                          title,
-                                          style: TextStyle(
-                                            fontFamily: 'MyFont',
-                                            color: AppTheme.normalText(context),
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
+                                      ClipRRect(
+                                        borderRadius: const BorderRadius.only(
+                                          topLeft: Radius.circular(15),
+                                          topRight: Radius.circular(15),
+                                        ),
+                                        child: CachedNetworkImage(
+                                          imageUrl: imagePath,
+                                          placeholder: (context, url) =>
+                                              const Center(
+                                            child: SizedBox(
+                                              width:
+                                                  24, // Adjust the size as needed
+                                              height:
+                                                  24, // Adjust the size as needed
+                                              child: CircularProgressIndicator(
+                                                color: Colors.white,
+                                              ),
+                                            ),
                                           ),
-                                          textAlign: TextAlign.left,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
+                                          errorWidget: (context, url, error) =>
+                                              const Icon(Icons.error),
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.43,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.26,
+                                          fit: BoxFit.cover,
                                         ),
                                       ),
-                                      Container(height: 3),
-                                      Text(
-                                        date,
-                                        style: TextStyle(
-                                          fontFamily: 'MyLightFont',
-                                          color:
-                                              AppTheme.iconBackground(context),
-                                          fontSize: 12,
-                                        ),
-                                        textAlign: TextAlign.left,
-                                      ),
-                                      Container(height: 10),
-                                      Text(
-                                        views,
-                                        style: TextStyle(
-                                          color:
-                                              AppTheme.iconBackground(context),
-                                          fontSize: 10,
-                                        ),
-                                        textAlign: TextAlign.left,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Icon(
-                                                Icons.star,
-                                                size: 11,
-                                                color: AppTheme
-                                                    .activeIconBackground(
-                                                        context),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            SizedBox(
+                                              width: 130,
+                                              child: Text(
+                                                title,
+                                                style: TextStyle(
+                                                  fontFamily: 'MyFont',
+                                                  color: AppTheme.normalText(
+                                                      context),
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.036,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                                textAlign: TextAlign.left,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
                                               ),
-                                              Icon(
-                                                Icons.star,
-                                                size: 11,
-                                                color: AppTheme
-                                                    .activeIconBackground(
-                                                        context),
+                                            ),
+                                            Container(height: 3),
+                                            Text(
+                                              date,
+                                              style: TextStyle(
+                                                fontFamily: 'MyLightFont',
+                                                color: AppTheme.iconBackground(
+                                                    context),
+                                                fontSize: 12,
                                               ),
-                                              Icon(
-                                                Icons.star,
-                                                size: 11,
-                                                color: AppTheme
-                                                    .activeIconBackground(
-                                                        context),
+                                              textAlign: TextAlign.left,
+                                            ),
+                                            Container(height: 5),
+                                            Text(
+                                              views,
+                                              style: TextStyle(
+                                                fontFamily: 'MyLightFont',
+                                                color: AppTheme.iconBackground(
+                                                    context),
+                                                fontSize: 10,
                                               ),
-                                              Icon(
-                                                Icons.star,
-                                                size: 11,
-                                                color: AppTheme
-                                                    .activeIcon2Background(
-                                                        context),
-                                              ),
-                                              Icon(
-                                                Icons.star,
-                                                size: 11,
-                                                color: AppTheme
-                                                    .activeIcon2Background(
-                                                        context),
-                                              ),
-                                            ],
-                                          ),
-                                          Container(
-                                            width: 20,
-                                          ),
-                                          for (int i = 0; i < 3; i++)
-                                            Container(
-                                              margin:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 0),
-                                              child: Align(
-                                                  widthFactor: 0.65,
-                                                  child: CircleAvatar(
-                                                    radius: 12,
-                                                    backgroundColor:
-                                                        const Color(0xff212121),
-                                                    child: CircleAvatar(
-                                                      radius: 10,
-                                                      backgroundImage:
-                                                          AssetImage(
-                                                              getRandomImage()),
+                                              textAlign: TextAlign.left,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.star,
+                                                      size: 11,
+                                                      color: AppTheme
+                                                          .activeIconBackground(
+                                                              context),
                                                     ),
-                                                  )),
+                                                    Icon(
+                                                      Icons.star,
+                                                      size: 11,
+                                                      color: AppTheme
+                                                          .activeIconBackground(
+                                                              context),
+                                                    ),
+                                                    Icon(
+                                                      Icons.star,
+                                                      size: 11,
+                                                      color: AppTheme
+                                                          .activeIconBackground(
+                                                              context),
+                                                    ),
+                                                    Icon(
+                                                      Icons.star,
+                                                      size: 11,
+                                                      color: AppTheme
+                                                          .activeIcon2Background(
+                                                              context),
+                                                    ),
+                                                    Icon(
+                                                      Icons.star,
+                                                      size: 11,
+                                                      color: AppTheme
+                                                          .activeIcon2Background(
+                                                              context),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Container(
+                                                  width: 20,
+                                                ),
+                                                for (int i = 0; i < 3; i++)
+                                                  Container(
+                                                    margin: const EdgeInsets
+                                                        .symmetric(vertical: 0),
+                                                    child: Align(
+                                                        widthFactor: 0.65,
+                                                        child: CircleAvatar(
+                                                          radius: 12,
+                                                          backgroundColor:
+                                                              const Color(
+                                                                  0xff212121),
+                                                          child: CircleAvatar(
+                                                            radius: 9,
+                                                            backgroundImage:
+                                                                AssetImage(
+                                                                    getRandomImage()),
+                                                          ),
+                                                        )),
+                                                  )
+                                              ],
                                             )
-                                        ],
-                                      )
+                                          ],
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),
-                              ],
-                            ),
-                          ),
+                              ),
+                            );
+                          },
                         ),
-                      );
-                    },
-                  ),
-                ),
+                      ),
+                    ),
+                  ],
+                )
               ],
             ),
           );
@@ -487,8 +525,8 @@ class _HomeScreenState extends State<HomeScreen> {
               children: <Widget>[
                 Image.asset(
                   'assets/images/logo.png',
-                  width: 120,
-                  height: 60,
+                  width: MediaQuery.of(context).size.width * 0.35,
+                  height: MediaQuery.of(context).size.height * 0.076,
                 ),
               ],
             ),

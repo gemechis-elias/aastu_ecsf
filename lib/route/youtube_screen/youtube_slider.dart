@@ -139,7 +139,7 @@ class SliderImageHeaderAutoRouteState
               margin: const EdgeInsets.all(0),
               child: Container(
                 color: AppTheme.bodyBackground(context),
-                height: 195,
+                height: MediaQuery.of(context).size.height * 0.250,
                 child: Stack(
                   children: <Widget>[
                     PageView(

@@ -72,7 +72,10 @@ class EventsRouteState extends State<EventsRoute> {
               centerTitle: false,
               pinned: true,
               title: const Text("Fellowship Events",
-                  style: TextStyle(color: MyColors.grey_10, fontSize: 18)),
+                  style: TextStyle(
+                      fontFamily: 'MyBoldFont',
+                      color: MyColors.grey_10,
+                      fontSize: 18)),
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back, color: MyColors.grey_10),
                 onPressed: () {

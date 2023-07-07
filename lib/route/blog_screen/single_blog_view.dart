@@ -74,13 +74,14 @@ class BlogDetailRouteState extends State<BlogDetail> {
                 children: <Widget>[
                   Text(
                     "Read Blogs",
-                    style: MyText.medium(context).copyWith(color: Colors.white),
+                    style: MyText.medium(context)
+                        .copyWith(fontFamily: 'MyFont', color: Colors.white),
                   ),
                   Container(height: 2),
                   Text(
                     addedDate ?? "Connecting to VPN...",
-                    style: MyText.caption(context)!
-                        .copyWith(color: MyColors.grey_10),
+                    style: MyText.caption(context)!.copyWith(
+                        fontFamily: 'MyFont', color: MyColors.grey_10),
                   ),
                 ],
               )
@@ -98,7 +99,12 @@ class BlogDetailRouteState extends State<BlogDetail> {
               itemBuilder: (context) => [
                 const PopupMenuItem(
                   value: "Save",
-                  child: Text("Save"),
+                  child: Text(
+                    "Save",
+                    style: TextStyle(
+                      fontFamily: 'MyFont',
+                    ),
+                  ),
                 ),
               ],
             )

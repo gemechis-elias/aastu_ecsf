@@ -62,8 +62,8 @@ class ItemTile extends StatelessWidget {
                     Row(
                       children: <Widget>[
                         Text(object.date,
-                            style: MyText.body1(context)!
-                                .copyWith(color: MyColors.grey_10)),
+                            style: MyText.body1(context)!.copyWith(
+                                fontFamily: 'MyFont', color: MyColors.grey_10)),
                         const Spacer(),
                         Container(
                           padding: const EdgeInsets.symmetric(
@@ -73,15 +73,18 @@ class ItemTile extends StatelessWidget {
                               borderRadius: BorderRadius.circular(2)),
                           child: Text(object.category,
                               textAlign: TextAlign.start,
-                              style: MyText.body1(context)!
-                                  .copyWith(color: MyColors.grey_10)),
+                              style: MyText.body1(context)!.copyWith(
+                                  fontFamily: 'MyFont',
+                                  color: MyColors.grey_10)),
                         ),
                       ],
                     ),
                     Container(height: 10),
                     Text(object.title,
                         style: MyText.medium(context).copyWith(
-                            color: Colors.white, fontWeight: FontWeight.w500)),
+                            color: Colors.white,
+                            fontFamily: 'MyFont',
+                            fontWeight: FontWeight.w500)),
                     Container(height: 10),
                   ],
                 )),

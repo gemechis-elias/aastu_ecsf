@@ -17,6 +17,7 @@ class GalleryCardsInclude {
               Container(width: 3),
               Text("TEAMS",
                   style: MyText.medium(context).copyWith(
+                      fontFamily: 'MyBoldFont',
                       color: const Color.fromARGB(255, 255, 255, 255))),
             ]),
             Container(height: 10),
@@ -59,11 +60,13 @@ class GalleryCardsInclude {
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
-                                            fontSize: 18,
+                                            fontFamily: 'MyBoldFont',
+                                            fontSize: 17,
                                             fontWeight: FontWeight.w500,
                                             color: Color(0xff808080))),
                                     Text("Charity Team",
                                         style: TextStyle(
+                                            fontFamily: 'MyFont',
                                             fontSize: 14,
                                             color: Color(0xff808080))),
                                   ],
@@ -116,11 +119,13 @@ class GalleryCardsInclude {
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
-                                            fontSize: 18,
+                                            fontFamily: 'MyBoldFont',
+                                            fontSize: 17,
                                             fontWeight: FontWeight.w500,
                                             color: Color(0xff808080))),
                                     Text("Literature Team",
                                         style: TextStyle(
+                                            fontFamily: 'MyFont',
                                             fontSize: 14,
                                             color: Color(0xff808080))),
                                   ],
@@ -177,11 +182,13 @@ class GalleryCardsInclude {
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
-                                            fontSize: 18,
+                                            fontFamily: 'MyBoldFont',
+                                            fontSize: 17,
                                             fontWeight: FontWeight.w500,
                                             color: Color(0xff808080))),
                                     Text("Spreading the gospel",
                                         style: TextStyle(
+                                            fontFamily: 'MyFont',
                                             fontSize: 14,
                                             color: Color(0xff808080))),
                                   ],
@@ -234,11 +241,13 @@ class GalleryCardsInclude {
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
-                                            fontSize: 18,
+                                            fontFamily: 'MyBoldFont',
+                                            fontSize: 17,
                                             fontWeight: FontWeight.w500,
                                             color: Color(0xff808080))),
                                     Text("Fellowship Leaders",
                                         style: TextStyle(
+                                            fontFamily: 'MyFont',
                                             fontSize: 14,
                                             color: Color(0xff808080))),
                                   ],
@@ -260,6 +269,7 @@ class GalleryCardsInclude {
               Container(width: 3),
               Text("BY YEAR",
                   style: MyText.medium(context).copyWith(
+                      fontFamily: 'MyBoldFont',
                       color: const Color.fromARGB(255, 255, 255, 255))),
             ]),
             Container(height: 10),
@@ -297,6 +307,7 @@ class GalleryCardsInclude {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
+                                      fontFamily: 'MyFont',
                                       fontSize: 18,
                                       fontWeight: FontWeight.w500,
                                       color: Color(0xff808080)))),
@@ -339,6 +350,7 @@ class GalleryCardsInclude {
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                       fontSize: 18,
+                                      fontFamily: 'MyFont',
                                       fontWeight: FontWeight.w500,
                                       color: Color(0xff808080)))),
                         ],
@@ -379,6 +391,7 @@ class GalleryCardsInclude {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
+                                      fontFamily: 'MyFont',
                                       fontSize: 18,
                                       fontWeight: FontWeight.w500,
                                       color: Color(0xff808080)))),
@@ -424,6 +437,7 @@ class GalleryCardsInclude {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
+                                      fontFamily: 'MyFont',
                                       fontSize: 18,
                                       fontWeight: FontWeight.w500,
                                       color: Color(0xff808080)))),
@@ -465,6 +479,7 @@ class GalleryCardsInclude {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
+                                      fontFamily: 'MyFont',
                                       fontSize: 18,
                                       fontWeight: FontWeight.w500,
                                       color: Color(0xff808080)))),
@@ -506,6 +521,7 @@ class GalleryCardsInclude {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
+                                      fontFamily: 'MyFont',
                                       fontSize: 18,
                                       fontWeight: FontWeight.w500,
                                       color: Color(0xff808080)))),

@@ -92,6 +92,7 @@ class GridSectionedRouteState extends State<GalleryFiltered> {
         title: const Text(
           'Fellowship Gallery',
           style: TextStyle(
+            fontFamily: 'MyBoldFont',
             color: Colors.white,
           ),
         ),
