@@ -8,7 +8,6 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class AboutCompanyCardRoute extends StatefulWidget {
   const AboutCompanyCardRoute({super.key});
-
   @override
   AboutUsRouteState createState() => AboutUsRouteState();
 }
@@ -170,6 +169,19 @@ class AboutUsRouteState extends State<AboutCompanyCardRoute> {
                             ],
                           ),
                           Container(height: 15),
+                          GestureDetector(
+                            onTap: () {
+                              _launchUrl(
+                                  "https://telegra.ph/CONTRIBUTORS-AASTU-ECSF-MOBILE-APP-07-07");
+                            },
+                            child: const Text(
+                              'Contributors',
+                              style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                color: Colors.blue,
+                              ),
+                            ),
+                          ),
                           Container(height: 10),
                         ],
                       ),
