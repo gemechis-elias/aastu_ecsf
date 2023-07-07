@@ -23,7 +23,7 @@ We welcome and appreciate contributions from the open-source community. If you w
 
 To run the AASTU CSF Mobile App locally, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/your-username/AASTU-CSF-Mobile-App.git`
+1. Clone the repository: `git clone https://github.com/gemechis-elias/aastu_ecsf.git`
 2. Install the necessary dependencies: `flutter pub get`
 3. Launch the app on a simulator or device: `flutter` or `F5`
 
