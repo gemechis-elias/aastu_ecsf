@@ -94,8 +94,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
-    final responsiveWidth = screenWidth * 0.9;
     final responsiveHeight = screenHeight * 0.267;
 
     String id, title, imagePath, date, devoLink, views;
