@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:developer';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
@@ -15,6 +16,7 @@ class DevotionDetail extends StatefulWidget {
 class _DevotionDetailState extends State<DevotionDetail> {
   String? addedDate;
   String? title;
+  String? devo_link;
 
   double _progress = 0;
   late InAppWebViewController webViewController;
@@ -38,9 +40,10 @@ class _DevotionDetailState extends State<DevotionDetail> {
         setState(() {
           addedDate = value['addedDate'];
           title = value['title'];
+          devo_link = value['content'];
         });
       } else {
-        print("Error: Invalid devotion data");
+        log("Error: Invalid devotion data");
       }
     });
   }
@@ -102,9 +105,7 @@ class _DevotionDetailState extends State<DevotionDetail> {
         ],
       ),
       body: InAppWebView(
-        initialUrlRequest: URLRequest(
-            url: Uri.parse(
-                "https://telegra.ph/Weekly-Story---Section-B--C-Small-Group-04-11")),
+        initialUrlRequest: URLRequest(url: Uri.parse(widget.link)),
         initialOptions: InAppWebViewGroupOptions(
           crossPlatform: InAppWebViewOptions(
             useShouldOverrideUrlLoading: true,
@@ -112,26 +113,110 @@ class _DevotionDetailState extends State<DevotionDetail> {
         ),
         onWebViewCreated: (controller) {
           webViewController = controller;
+          webViewController.evaluateJavascript(source: '''
+  var style = document.createElement('style');
+  style.type = 'text/css';
+  style.innerHTML = `
+    /* Background */
+    body {
+      background-color: #202020;
+    }
+
+    /* Main text color */
+    .tl_article .tl_article_content, .tl_article .tl_article_content .ql-editor * {
+      color: #f3f4f8;
+    }
+
+    .tl_article h1, .tl_article h2, .tl_article .tl_article_content, .tl_article .tl_article_content {
+      color: #79828B;
+    }
+
+    /* The color of the side of the text */
+    .tl_article.tl_article_edit.title_focused [data-label]:after {
+      color: #f3f4f8;
+    }
+
+    /* The publish and edit button */
+    .tl_article_edit .publish_button, .tl_article_saving .publish_button, .tl_article .share_button, .tl_article_editable .edit_button {
+      color: white;
+      background-color: #404040;
+    }
+  `;
+  document.getElementsByTagName('head')[0].appendChild(style);
+''');
         },
         onLoadStart: (controller, url) {
           // Enable dark mode
           webViewController.evaluateJavascript(source: '''
   var style = document.createElement('style');
   style.type = 'text/css';
-  style.innerHTML = 'body { background-color:#1f1f1f; color: #ffffff; }'+
-                     'label,th,p,a,td,tr,li,ul,span,table,h1,h2,h3,h4,h5,h6,h7,div,small {'+
-                     '  color: #FFFFFF;'+
-                     '}';
+  style.innerHTML = `
+    /* Background */
+    body {
+      background-color: #202020;
+    }
+
+    /* Main text color */
+    .tl_article .tl_article_content, .tl_article .tl_article_content .ql-editor * {
+      color: #f3f4f8;
+    }
+
+    .tl_article h1, .tl_article h2, .tl_article .tl_article_content, .tl_article .tl_article_content {
+      color: #79828B;
+    }
+
+    /* The color of the side of the text */
+    .tl_article.tl_article_edit.title_focused [data-label]:after {
+      color: #f3f4f8;
+    }
+
+    /* The publish and edit button */
+    .tl_article_edit .publish_button, .tl_article_saving .publish_button, .tl_article .share_button, .tl_article_editable .edit_button {
+      color: white;
+      background-color: #404040;
+    }
+  `;
   document.getElementsByTagName('head')[0].appendChild(style);
 ''');
         },
         onLoadError: (controller, url, code, message) {
-          print('Error: $message');
+          log('Error: $message');
         },
         onProgressChanged: (controller, progress) {
           setState(() {
             _progress = progress / 100;
           });
+          webViewController.evaluateJavascript(source: '''
+  var style = document.createElement('style');
+  style.type = 'text/css';
+  style.innerHTML = `
+    /* Background */
+    body {
+      background-color: #202020;
+    }
+
+    /* Main text color */
+    .tl_article .tl_article_content, .tl_article .tl_article_content .ql-editor * {
+      color: #f3f4f8;
+    }
+
+    .tl_article h1, .tl_article h2, .tl_article .tl_article_content, .tl_article .tl_article_content {
+      color: #79828B;
+    }
+
+    /* The color of the side of the text */
+    .tl_article.tl_article_edit.title_focused [data-label]:after {
+      color: #f3f4f8;
+    }
+
+    /* The publish and edit button */
+    .tl_article_edit .publish_button, .tl_article_saving .publish_button, .tl_article .share_button, .tl_article_editable .edit_button {
+      color: white;
+      background-color: #404040;
+    }
+  `;
+  document.getElementsByTagName('head')[0].appendChild(style);
+''');
         },
       ),
     );

@@ -53,6 +53,8 @@ dependencies:
   flutter_inappwebview: ^5.7.2+3
   transparent_image: ^2.0.1
   image_gallery_saver: ^2.0.3 
+  image_picker: ^1.0.0
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

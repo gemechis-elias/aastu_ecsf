@@ -2,6 +2,8 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:aastu_ecsf/route/auth_screen/login.dart';
+import 'package:aastu_ecsf/route/user/change_profile.dart';
+import 'package:aastu_ecsf/route/user/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -111,6 +113,7 @@ class _MyAppState extends State<MyApp> {
               },
             );
           },
+          '/ProfileRoute': (context) => const UserProfileRoute(),
         });
   }
 }

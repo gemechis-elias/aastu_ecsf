@@ -305,116 +305,113 @@ class AboutUsRouteState extends State<AboutCompanyCardRoute> {
                                         color: Colors.white70)),
                                 Container(height: 5),
                                 // list of horixontal icon
-                                SizedBox(
-                                  width: double
-                                      .infinity, // Optional: Adjust the height as needed
-                                  // Optional: Set the background color of the parent widget
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 35, vertical: 5),
-                                    child: Align(
-                                      alignment: Alignment.center,
-                                      child: Row(
-                                        children: <Widget>[
-                                          ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                              foregroundColor: Colors.white,
-                                              backgroundColor: Colors
-                                                  .transparent, // Set the text color to white
-                                              elevation:
-                                                  0, // Remove the button's elevation
-                                              padding: EdgeInsets
-                                                  .zero, // Remove the button's padding
-                                              tapTargetSize: MaterialTapTargetSize
-                                                  .shrinkWrap, // Reduce the button's tap target size
-                                              side: BorderSide
-                                                  .none, // Remove the button's border
-                                            ),
-                                            onPressed: () {
-                                              // Handle facebook button pressed
-                                              _launchUrl(
-                                                  "https://www.facebook.com/ecsf.aastu");
-                                            },
-                                            child: const Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Icon(
-                                                  FontAwesomeIcons.facebook,
-                                                  color: Colors.white,
-                                                  size: 30.0,
-                                                ),
-                                                SizedBox(width: 1),
-                                              ],
-                                            ),
+                                Center(
+                                  child: SizedBox(
+                                    width: double
+                                        .infinity, // Optional: Adjust the height as needed
+                                    // Optional: Set the background color of the parent widget
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            foregroundColor: Colors.white,
+                                            backgroundColor: Colors
+                                                .transparent, // Set the text color to white
+                                            elevation:
+                                                0, // Remove the button's elevation
+                                            padding: EdgeInsets
+                                                .zero, // Remove the button's padding
+                                            tapTargetSize: MaterialTapTargetSize
+                                                .shrinkWrap, // Reduce the button's tap target size
+                                            side: BorderSide
+                                                .none, // Remove the button's border
                                           ),
-                                          Container(height: 5),
-                                          ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                              foregroundColor: Colors.white,
-                                              backgroundColor: Colors
-                                                  .transparent, // Set the text color to white
-                                              elevation:
-                                                  0, // Remove the button's elevation
-                                              padding: EdgeInsets
-                                                  .zero, // Remove the button's padding
-                                              tapTargetSize: MaterialTapTargetSize
-                                                  .shrinkWrap, // Reduce the button's tap target size
-                                              side: BorderSide
-                                                  .none, // Remove the button's border
-                                            ),
-                                            onPressed: () {
-                                              // Handle telegram button pressed
-                                              _launchUrl(
-                                                  "https://t.me/aastuecsf");
-                                            },
-                                            child: const Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Icon(
-                                                  FontAwesomeIcons.telegram,
-                                                  color: Colors.white,
-                                                  size: 30.0,
-                                                ),
-                                                SizedBox(width: 1),
-                                              ],
-                                            ),
+                                          onPressed: () {
+                                            // Handle facebook button pressed
+                                            _launchUrl(
+                                                "https://www.facebook.com/ecsf.aastu");
+                                          },
+                                          child: const Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                FontAwesomeIcons.facebook,
+                                                color: Colors.white,
+                                                size: 30.0,
+                                              ),
+                                              SizedBox(width: 1),
+                                            ],
                                           ),
-                                          ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                              foregroundColor: Colors.white,
-                                              backgroundColor: Colors
-                                                  .transparent, // Set the text color to white
-                                              elevation:
-                                                  0, // Remove the button's elevation
-                                              padding: EdgeInsets
-                                                  .zero, // Remove the button's padding
-                                              tapTargetSize: MaterialTapTargetSize
-                                                  .shrinkWrap, // Reduce the button's tap target size
-                                              side: BorderSide
-                                                  .none, // Remove the button's border
-                                            ),
-                                            onPressed: () {
-                                              // Handle Instagram button pressed
-                                              _launchUrl(
-                                                  "https://instagram.com/aastuecsf?igshid=MmU2YjMzNjRlOQ==");
-                                            },
-                                            child: const Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Icon(
-                                                  FontAwesomeIcons.instagram,
-                                                  color: Colors.white,
-                                                  size: 30.0,
-                                                ),
-                                                SizedBox(width: 3),
-                                              ],
-                                            ),
+                                        ),
+                                        Container(height: 5),
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            foregroundColor: Colors.white,
+                                            backgroundColor: Colors
+                                                .transparent, // Set the text color to white
+                                            elevation:
+                                                0, // Remove the button's elevation
+                                            padding: EdgeInsets
+                                                .zero, // Remove the button's padding
+                                            tapTargetSize: MaterialTapTargetSize
+                                                .shrinkWrap, // Reduce the button's tap target size
+                                            side: BorderSide
+                                                .none, // Remove the button's border
                                           ),
-                                        ],
-                                      ),
+                                          onPressed: () {
+                                            // Handle telegram button pressed
+                                            _launchUrl(
+                                                "https://t.me/aastuecsf");
+                                          },
+                                          child: const Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                FontAwesomeIcons.telegram,
+                                                color: Colors.white,
+                                                size: 30.0,
+                                              ),
+                                              SizedBox(width: 1),
+                                            ],
+                                          ),
+                                        ),
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            foregroundColor: Colors.white,
+                                            backgroundColor: Colors
+                                                .transparent, // Set the text color to white
+                                            elevation:
+                                                0, // Remove the button's elevation
+                                            padding: EdgeInsets
+                                                .zero, // Remove the button's padding
+                                            tapTargetSize: MaterialTapTargetSize
+                                                .shrinkWrap, // Reduce the button's tap target size
+                                            side: BorderSide
+                                                .none, // Remove the button's border
+                                          ),
+                                          onPressed: () {
+                                            // Handle Instagram button pressed
+                                            _launchUrl(
+                                                "https://instagram.com/aastuecsf?igshid=MmU2YjMzNjRlOQ==");
+                                          },
+                                          child: const Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                FontAwesomeIcons.instagram,
+                                                color: Colors.white,
+                                                size: 30.0,
+                                              ),
+                                              SizedBox(width: 3),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
@@ -426,6 +423,51 @@ class AboutUsRouteState extends State<AboutCompanyCardRoute> {
                     ),
                   ),
                   Container(height: 15),
+                  // display app version and build number
+
+                  Center(
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Version: 1.0.1  ",
+                                style: MyText.subhead(context)!.copyWith(
+                                  fontSize: 13,
+                                  fontFamily: 'MyFont',
+                                  color:
+                                      const Color.fromARGB(179, 185, 185, 185),
+                                ),
+                              ),
+                              const Icon(
+                                Icons.copyright,
+                                size: 13,
+                                color: Color.fromARGB(179, 185, 185, 185),
+                              ),
+                              Text(
+                                " ${DateTime.now().year}",
+                                style: MyText.subhead(context)!.copyWith(
+                                  fontSize: 13,
+                                  fontFamily: 'MyFont',
+                                  color:
+                                      const Color.fromARGB(179, 185, 185, 185),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Container(height: 5),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  Container(height: 10),
                 ],
               ),
             ],

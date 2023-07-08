@@ -18,12 +18,11 @@ class TeamCardRouteState extends State<TeamCardRoute> {
   bool slow = true;
   static Random random = Random();
   void onItemClick(int index, TeamModel obj) {
+    //  pageBuilder: (_, __, ___) => MotionCardDetails(index, obj)
     Navigator.push(
-        _scaffoldCtx,
-        PageRouteBuilder(
-            transitionDuration: Duration(milliseconds: slow ? 500 : 1000),
-            pageBuilder: (_, __, ___) => MotionCardDetails(index, obj)));
-    slow = !slow;
+      context,
+      MaterialPageRoute(builder: (context) => MotionCardDetails(index, obj)),
+    );
   }
 
   @override

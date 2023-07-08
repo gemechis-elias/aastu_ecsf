@@ -1,10 +1,13 @@
 import 'dart:developer';
 import 'package:aastu_ecsf/route/auth_screen/login.dart';
+import 'package:aastu_ecsf/route/user/change_profile.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:aastu_ecsf/widget/my_text.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 
 class UserProfileRoute extends StatefulWidget {
   const UserProfileRoute({super.key});
@@ -58,15 +61,73 @@ class UserProfileRouteState extends State<UserProfileRoute> {
     }
   }
 
-  Future<void> updateProfileImage(String imageUrl) async {
-    final ref = FirebaseDatabase.instance.ref();
-    final userId = FirebaseAuth.instance.currentUser!.uid;
+  Future<void> updateProfileImage() async {
+    final picker = ImagePicker();
+    try {
+      final pickedImage = await picker.pickImage(source: ImageSource.gallery);
 
-    await ref.child('users/$userId').update({'photoUrl': imageUrl});
+      if (pickedImage != null) {
+        final imageUrl = pickedImage.path;
+        final ref = FirebaseDatabase.instance.ref();
+        final userId = FirebaseAuth.instance.currentUser!.uid;
 
-    setState(() {
-      photoUrl = imageUrl;
-    });
+        await ref.child('users/$userId').update({'photoUrl': imageUrl});
+
+        setState(() {
+          photoUrl = imageUrl;
+        });
+        // successfully updated alert
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          elevation: 0,
+          content: Card(
+            color: const Color(0xff212121),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+            clipBehavior: Clip.antiAliasWithSaveLayer,
+            elevation: 1,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              child: Row(
+                children: [
+                  const SizedBox(width: 5, height: 0),
+                  Expanded(
+                      child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text("Profile Updated",
+                          style: MyText.subhead(context)!.copyWith(
+                              color: const Color.fromARGB(255, 255, 147, 24))),
+                      Text("Your profile has been updated",
+                          style: MyText.caption(context)!.copyWith(
+                              color: const Color.fromARGB(255, 255, 249, 249))),
+                    ],
+                  )),
+                  Container(
+                      color: const Color.fromARGB(255, 116, 116, 116),
+                      height: 35,
+                      width: 1,
+                      margin: const EdgeInsets.symmetric(horizontal: 5)),
+                  SnackBarAction(
+                    label: "UNDO",
+                    textColor: const Color.fromARGB(255, 211, 211, 211),
+                    onPressed: () {},
+                  )
+                ],
+              ),
+            ),
+          ),
+          backgroundColor: Colors.transparent,
+          duration: const Duration(seconds: 1),
+        ));
+      } else {
+        log('No image selected.');
+      }
+    } catch (e) {
+      log('Error: $e');
+    }
   }
 
   @override
@@ -106,7 +167,11 @@ class UserProfileRouteState extends State<UserProfileRoute> {
               actions: <Widget>[
                 IconButton(
                   icon: const Icon(Icons.edit),
-                  onPressed: () {},
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (_) => const ChangeProfileDialog());
+                  },
                 ),
                 PopupMenuButton<String>(
                   onSelected: (String value) {
@@ -134,23 +199,39 @@ class UserProfileRouteState extends State<UserProfileRoute> {
                 preferredSize: const Size.fromHeight(50),
                 child: Container(
                   transform: Matrix4.translationValues(0, 50, 0),
-                  child: ClipOval(
-                    child: SizedBox(
-                      width: 96,
-                      height: 96,
-                      child: photoUrl != "assets/images/user.png"
-                          ? CachedNetworkImage(
-                              imageUrl: photoUrl,
-                              placeholder: (context, url) => const Center(
-                                child: SizedBox(
-                                  width: 24, // Adjust the size as needed
-                                  height: 24, // Adjust the size as needed
-                                  child: CircularProgressIndicator(),
-                                ),
-                              ),
-                            )
-                          : Image.asset(photoUrl),
-                    ),
+                  child: Stack(
+                    children: <Widget>[
+                      ClipOval(
+                        child: SizedBox(
+                          width: 96,
+                          height: 96,
+                          child: photoUrl != "assets/images/user.png"
+                              ? CachedNetworkImage(
+                                  imageUrl: photoUrl,
+                                  placeholder: (context, url) => const Center(
+                                    child: SizedBox(
+                                      width: 24, // Adjust the size as needed
+                                      height: 24, // Adjust the size as needed
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                  ),
+                                )
+                              : Image.asset(photoUrl),
+                        ),
+                      ),
+                      Positioned(
+                        top: 0,
+                        right: 0,
+                        child: IconButton(
+                          onPressed: () {
+                            // Handle edit icon click
+                            updateProfileImage();
+                          },
+                          icon: const Icon(FontAwesomeIcons.camera,
+                              color: Colors.white, size: 18),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -186,6 +267,7 @@ class UserProfileRouteState extends State<UserProfileRoute> {
                           Text(team,
                               style: MyText.title(context)!.copyWith(
                                   fontFamily: 'MyBoldFont',
+                                  fontSize: 16,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold)),
                           Container(height: 5),
@@ -204,6 +286,7 @@ class UserProfileRouteState extends State<UserProfileRoute> {
                               style: MyText.title(context)!.copyWith(
                                   fontFamily: 'MyBoldFont',
                                   color: Colors.white,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.bold)),
                           Container(height: 5),
                           Text("Department",
@@ -221,6 +304,7 @@ class UserProfileRouteState extends State<UserProfileRoute> {
                               style: MyText.title(context)!.copyWith(
                                   color: Colors.white,
                                   fontFamily: 'MyBoldFont',
+                                  fontSize: 16,
                                   fontWeight: FontWeight.bold)),
                           Container(height: 5),
                           Text("Batch",

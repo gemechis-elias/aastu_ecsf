@@ -47,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
               'id': key,
               'addedDate': devotionData['addedDate'],
               'author': devotionData['author'],
-              'content': devotionData['content'],
+              'link': devotionData['content'],
               'image': devotionData['image'],
               'title': devotionData['title'],
             };
@@ -301,37 +301,42 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: ListView.separated(
                           scrollDirection: Axis.horizontal,
                           itemCount: devotions.length,
-                          separatorBuilder: (BuildContext context, int index) =>
-                              const Divider(
+                          separatorBuilder:
+                              (BuildContext context, int separatorIndex) =>
+                                  const Divider(
                             height: 2,
                             thickness: 1,
                             color: Color.fromARGB(188, 189, 189, 189),
                           ),
-                          itemBuilder: (BuildContext context, int index) {
-                            Map<dynamic, dynamic> devotion = devotions[index];
-                            id = devotions[index]['id'];
-                            title = devotion['title'];
-                            imagePath = devotion['image'];
-                            date = devotion['addedDate'];
-                            devoLink = devotion['content'];
-                            views = "1k+ Views"; // defualt value
+                          itemBuilder: (BuildContext context, int itemIndex) {
+                            Map<dynamic, dynamic> devotion =
+                                devotions[itemIndex];
+                            String id = devotion['id'];
+                            String title = devotion['title'];
+                            String imagePath = devotion['image'];
+                            String date = devotion['addedDate'];
+                            String devoLink = devotion['link'];
+                            String views = "1k+ Views"; // default value
+
+                            void navigateToDevotionDetail() {
+                              developer.log(devoLink);
+                              developer.log(id);
+
+                              // passing id and link to Devotion Detail Page
+                              Navigator.push<dynamic>(
+                                context,
+                                MaterialPageRoute<dynamic>(
+                                  builder: (BuildContext context) =>
+                                      DevotionDetail(idd: id, link: devoLink),
+                                ),
+                              );
+                            }
 
                             return Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 5),
                               child: GestureDetector(
-                                onTap: () {
-                                  // passing id and link to Devotion Detail Page
-                                  Navigator.push<dynamic>(
-                                    context,
-                                    MaterialPageRoute<dynamic>(
-                                        builder: (BuildContext context) =>
-                                            DevotionDetail(
-                                                idd: id, link: devoLink)),
-                                  );
-                                  //openDevotions(devoLink);
-                                  // WebViewPage(url: devoLink);
-                                },
+                                onTap: navigateToDevotionDetail,
                                 child: Card(
                                   elevation: 2,
                                   color: const Color(0xff212121),

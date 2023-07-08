@@ -102,12 +102,6 @@ class ListNewsLightRouteState extends State<ListNewsLightRoute> {
                 ),
               ),
             ),
-            actions: <Widget>[
-              IconButton(
-                icon: const Icon(Icons.post_add, color: Color(0xff808080)),
-                onPressed: () {},
-              ),
-            ],
           ),
           BlogListAdapter(items, onItemClick).getView(),
         ],
