@@ -1,4 +1,3 @@
-// Copyright (c) 2023 Written by Gemechis Elias
 import 'dart:async';
 import 'dart:developer';
 import 'package:aastu_ecsf/route/auth_screen/login.dart';

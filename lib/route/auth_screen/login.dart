@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:aastu_ecsf/data/img.dart';
 
 class LoginRoute extends StatefulWidget {
-  const LoginRoute({super.key});
+  const LoginRoute({Key? key}) : super(key: key);
 
   @override
   LoginRouteState createState() => LoginRouteState();

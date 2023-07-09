@@ -76,6 +76,7 @@ class ItemTile extends StatelessWidget {
                         Text(object.name,
                             style: MyText.subhead(context)!.copyWith(
                                 fontFamily: 'MyBoldFont',
+                                fontSize: 15,
                                 fontWeight: FontWeight.bold,
                                 color:
                                     const Color.fromARGB(255, 204, 204, 204))),

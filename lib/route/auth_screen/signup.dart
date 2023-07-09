@@ -1,6 +1,7 @@
 // Copyright (c) 2023 Gemechis Elias
 // This source code is licensed under the MIT license found in the LICENSE file in the root directory of this source tree.
 import 'dart:developer';
+import 'package:aastu_ecsf/route/auth_screen/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:aastu_ecsf/route/home_screen/bottom_nav.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -183,6 +184,12 @@ class SignUpRouteState extends State<SignUpRoute> {
                 ),
                 onPressed: () {
                   // Handle the login button pressed
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LoginRoute(),
+                    ),
+                  );
                 },
               ),
             ),

@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:aastu_ecsf/model/message.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class ChatTelegramAdapter {
   List items = <Message>[];
@@ -45,7 +47,6 @@ class ChatTelegramAdapter {
       );
     }
 
-// Define a function that returns a list of text spans for the given text
     List<TextSpan> getStyledTextSpans(String text) {
       final List<TextSpan> textSpans = [];
 
@@ -57,25 +58,60 @@ class ChatTelegramAdapter {
         if (hashtagRegex.hasMatch(word)) {
           // If the word matches the hashtag pattern, add a blue colored text span
           textSpans.add(getStyledText(
-              word,
-              const TextStyle(
-                  fontSize: 16, color: Color.fromARGB(255, 11, 58, 97))));
+            word,
+            const TextStyle(
+              fontFamily: "MyFont",
+              fontSize: 15,
+              color: Color.fromARGB(255, 11, 58, 97),
+            ),
+          ));
         } else if (usernameRegex.hasMatch(word)) {
-          // If the word matches the username pattern, add a blue colored text span
-          textSpans.add(getStyledText(
-              word,
-              const TextStyle(
-                  fontSize: 16, color: Color.fromARGB(255, 14, 58, 94))));
+          // If the word matches the username pattern, wrap it with GestureDetector to handle tap events
+          textSpans.add(
+            TextSpan(
+              text: word,
+              style: const TextStyle(
+                fontFamily: "MyFont",
+                fontSize: 15,
+                color: Color.fromARGB(255, 25, 94, 150),
+              ),
+              recognizer: TapGestureRecognizer()
+                ..onTap = () {
+                  // _openUrlOrUsername("https://t.me/aastuecsfcounselingBot");
+                },
+            ),
+          );
         } else if (Uri.parse(word).isAbsolute) {
-          // If the word is a valid URL, add a blue colored text span
-          textSpans.add(getStyledText(
-              word,
-              const TextStyle(
-                  fontSize: 16, color: Color.fromARGB(255, 16, 63, 102))));
+          // If the word is a valid URL, wrap it with GestureDetector to handle tap events
+          textSpans.add(
+            TextSpan(
+              text: word,
+              style: const TextStyle(
+                fontFamily: "MyFont",
+                fontSize: 15,
+                color: Color.fromARGB(255, 16, 63, 102),
+              ),
+              recognizer: TapGestureRecognizer()
+                ..onTap = () {
+                  // Handle tap on URL
+                  // Open the URL in a web view or Chrome tab
+                  // You can modify this logic as per your requirements
+                  _openUrlOrUsername(word);
+                },
+            ),
+          );
         } else {
           // Otherwise, add the text without any styling
-          textSpans.add(getStyledText(
-              word, const TextStyle(fontSize: 16, color: Colors.black)));
+          textSpans.add(
+            getStyledText(
+              word,
+              const TextStyle(
+                fontFamily: "MyFont",
+                fontSize: 16,
+                color: Colors.black,
+              ),
+            ),
+          );
         }
         // Add a space after each word
         textSpans.add(getStyledText(' ', const TextStyle(color: Colors.black)));
@@ -136,4 +172,15 @@ class ChatTelegramAdapter {
   }
 
   int getItemCount() => items.length;
+  Future<void> _openUrlOrUsername(String text) async {
+    final Uri url = Uri.parse(text);
+    final ChromeSafariBrowser browser = ChromeSafariBrowser();
+    await browser.open(
+      url: url,
+      options: ChromeSafariBrowserClassOptions(
+        android: AndroidChromeCustomTabsOptions(),
+        ios: IOSSafariOptions(),
+      ),
+    );
+  }
 }

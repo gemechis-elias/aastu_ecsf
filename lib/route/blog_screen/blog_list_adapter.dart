@@ -82,12 +82,16 @@ class ItemTile extends StatelessWidget {
               ],
             ),
             Container(height: 10),
-            Text(object.title,
-                style: MyText.medium(context).copyWith(
-                    fontFamily: 'MyFont',
-                    fontSize: 16,
-                    color: const Color.fromARGB(255, 255, 255, 255),
-                    fontWeight: FontWeight.w500)),
+            Text(
+              object.title,
+              style: MyText.medium(context).copyWith(
+                  fontFamily: 'MyFont',
+                  fontSize: 16,
+                  color: const Color.fromARGB(255, 255, 255, 255),
+                  fontWeight: FontWeight.w500),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
             Container(height: 10),
             const Divider(height: 0),
           ],

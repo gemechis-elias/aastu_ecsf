@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'package:aastu_ecsf/app_theme.dart';
-import 'package:aastu_ecsf/route/chat_screen/chat_list.dart';
-import 'package:aastu_ecsf/route/chat_screen/chat_page.dart';
+import 'package:aastu_ecsf/route/chat_screen/chat_home.dart';
 import 'package:aastu_ecsf/route/gallery/gallery_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,6 +8,7 @@ import 'package:aastu_ecsf/route/home_screen/home_screen.dart';
 import 'package:aastu_ecsf/route/about_screen/about_us.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../blog_screen/blog_list.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class BottomNavigationBadgeRoute extends StatefulWidget {
   const BottomNavigationBadgeRoute({super.key});
@@ -26,19 +26,20 @@ class MyBehavior extends ScrollBehavior {
 }
 
 class BottomNavigationBadgeState extends State<BottomNavigationBadgeRoute> {
-  final List<Widget> _pages = [
-    const HomeScreen(),
-    const ListNewsLightRoute(),
-    GalleryRoute(),
-    const ChatRoutes(),
-    const AboutCompanyCardRoute(),
-  ];
   List<String> listOfIcons = [
     "assets/icons/tb_all.png",
     "assets/icons/msg_selectall.png",
     "assets/icons/member_media.png",
     "assets/icons/bm_chats.png",
     "assets/icons/contacts_all.png",
+  ];
+
+  List<IconData> listIcons = [
+    FontAwesomeIcons.home,
+    FontAwesomeIcons.newspaper,
+    FontAwesomeIcons.images,
+    FontAwesomeIcons.comments,
+    FontAwesomeIcons.infoCircle,
   ];
 
   List<String> listOfStrings = [
@@ -70,7 +71,6 @@ class BottomNavigationBadgeState extends State<BottomNavigationBadgeRoute> {
   @override
   Widget build(BuildContext context) {
     double displayWidth = MediaQuery.of(context).size.width;
-    Widget chatPage = _hasStartedChat ? const ChatListRoute() : _pages[3];
 
     return ScrollConfiguration(
       behavior: MyBehavior(),
@@ -82,7 +82,7 @@ class BottomNavigationBadgeState extends State<BottomNavigationBadgeRoute> {
             const HomeScreen(),
             const ListNewsLightRoute(),
             GalleryRoute(),
-            chatPage,
+            const ChatListRoute(),
             const AboutCompanyCardRoute(),
           ],
         ),
@@ -170,6 +170,13 @@ class BottomNavigationBadgeState extends State<BottomNavigationBadgeRoute> {
                                   ? displayWidth * .03
                                   : 1,
                             ),
+                            // Icon(
+                            //   listIcons[index],
+                            //   size: displayWidth * .060,
+                            //   color: index == currentIndex
+                            //       ? AppTheme.activeIconBackground(context)
+                            //       : AppTheme.iconBackground(context),
+                            // ),
                             ImageIcon(
                               AssetImage(listOfIcons[index]),
                               size: displayWidth * .060,

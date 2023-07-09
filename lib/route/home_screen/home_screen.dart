@@ -10,6 +10,7 @@ import 'package:aastu_ecsf/route/features/support_fellowship.dart';
 import 'package:aastu_ecsf/route/features/team.dart';
 import 'package:aastu_ecsf/route/features/wallpapers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -21,6 +22,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String photoUrl = "assets/images/user.png"; // Initialize with null
+  String name = '';
   final DatabaseReference databaseReference =
       FirebaseDatabase.instance.ref().child('blogs'); // devotions blogs
   List<Map<dynamic, dynamic>> devotions = [];
@@ -28,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     loadDevotions();
+    fetchData();
   }
 
   void loadDevotions() {
@@ -516,7 +520,27 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  Future<void> fetchData() async {
+    final userId = FirebaseAuth.instance.currentUser!.uid;
+    final ref = FirebaseDatabase.instance.ref();
+    final snapshot = await ref.child('users/$userId').get();
+    final Map<dynamic, dynamic>? data =
+        snapshot.value as Map<dynamic, dynamic>?;
+
+    if (snapshot.exists) {
+      setState(() {
+        name = data!['name'] ?? '';
+        photoUrl = data['photoUrl'] ?? ''; // Update the photoUrl from the data
+      });
+      developer.log("User Info${snapshot.value}");
+      developer.log("User ID: $userId");
+    } else {
+      developer.log('No data available.');
+    }
+  }
+
   Widget getAppBarUI() {
+    developer.log(photoUrl);
     return Padding(
       padding: const EdgeInsets.only(top: 0, left: 18, right: 18),
       child: Row(
@@ -546,7 +570,20 @@ class _HomeScreenState extends State<HomeScreen> {
             child: SizedBox(
               width: 37,
               height: 37,
-              child: Image.asset('assets/images/user.png'),
+              child: photoUrl != "assets/images/user.png" && photoUrl != ''
+                  ? ClipOval(
+                      child: CachedNetworkImage(
+                        imageUrl: photoUrl,
+                        placeholder: (context, url) => const Center(
+                          child: SizedBox(
+                            width: 24, // Adjust the size as needed
+                            height: 24, // Adjust the size as needed
+                            child: CircularProgressIndicator(),
+                          ),
+                        ),
+                      ),
+                    )
+                  : Image.asset("assets/images/user.png"),
             ),
           ),
         ],

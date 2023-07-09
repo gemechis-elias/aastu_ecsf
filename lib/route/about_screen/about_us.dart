@@ -22,6 +22,7 @@ class AboutUsRouteState extends State<AboutCompanyCardRoute> {
         //   brightness: Brightness.dark,
         backgroundColor: const Color(0xff121212),
         centerTitle: false,
+        automaticallyImplyLeading: false,
         title: ShaderMask(
           shaderCallback: (bounds) => const LinearGradient(
             colors: [Color(0xffd1a552), Color.fromARGB(255, 209, 150, 82)],

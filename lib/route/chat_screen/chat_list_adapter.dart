@@ -52,8 +52,10 @@ class ItemTile extends StatelessWidget {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 18),
         child: Text(object.name!,
-            style: MyText.subhead(context)!
-                .copyWith(color: Colors.grey, fontWeight: FontWeight.w500)),
+            style: MyText.subhead(context)!.copyWith(
+                fontFamily: "MyFont",
+                color: Colors.grey,
+                fontWeight: FontWeight.w500)),
       );
     } else {
       // for people vew
@@ -82,6 +84,7 @@ class ItemTile extends StatelessWidget {
                     Text(
                       object.name!,
                       style: MyText.medium(context).copyWith(
+                          fontFamily: "MyFont",
                           color: Colors.grey[800],
                           fontWeight: FontWeight.normal),
                     ),
@@ -89,8 +92,8 @@ class ItemTile extends StatelessWidget {
                     Text(
                       MyStrings.middle_lorem_ipsum,
                       maxLines: 2,
-                      style:
-                          MyText.subhead(context)!.copyWith(color: Colors.grey),
+                      style: MyText.subhead(context)!
+                          .copyWith(fontFamily: "MyFont", color: Colors.grey),
                     ),
                     Container(height: 15),
                     Divider(color: Colors.grey[300], height: 0),

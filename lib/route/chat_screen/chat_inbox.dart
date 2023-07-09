@@ -3,74 +3,116 @@ import 'package:aastu_ecsf/data/img.dart';
 import 'package:aastu_ecsf/data/my_colors.dart';
 import 'package:aastu_ecsf/widget/circle_image.dart';
 import 'package:aastu_ecsf/widget/my_text.dart';
+import 'package:aastu_ecsf/widget/my_toast.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:aastu_ecsf/route/chat_screen/chat_telegram_adapter.dart';
+import 'package:aastu_ecsf/route/chat_screen/chat_message_adapter.dart';
 import 'package:aastu_ecsf/model/message.dart';
 import 'package:aastu_ecsf/utils/tools.dart';
 
-class ChatTelegramRoute extends StatefulWidget {
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+class ChatInboxRoute extends StatefulWidget {
   final String user_id, receiver_id;
-  const ChatTelegramRoute(
-      {super.key, required this.user_id, required this.receiver_id});
+  const ChatInboxRoute({
+    Key? key,
+    required this.user_id,
+    required this.receiver_id,
+  }) : super(key: key);
 
   @override
-  ChatTelegramRouteState createState() => ChatTelegramRouteState();
+  ChatInboxRouteState createState() => ChatInboxRouteState();
 }
 
-class ChatTelegramRouteState extends State<ChatTelegramRoute> {
+class ChatInboxRouteState extends State<ChatInboxRoute> {
   late DatabaseReference _userMessagesRef;
   late DatabaseReference _receiverMessagesRef;
   late StreamSubscription<DatabaseEvent> _userMessagesSubscription;
   late StreamSubscription<DatabaseEvent> _receiverMessagesSubscription;
 
+  bool isKeyboardVisible = false;
   bool showSend = false;
   final TextEditingController inputController = TextEditingController();
   List<Message> items = [];
   late ChatTelegramAdapter adapter;
 
+  Future<List<Message>> fetchUserMessages() async {
+    DataSnapshot dataSnapshot = await _userMessagesRef.get();
+    List<Message> userMessages = [];
+    if (dataSnapshot.value != null) {
+      Map<dynamic, dynamic> userMessagesData =
+          dataSnapshot.value as Map<dynamic, dynamic>;
+      userMessagesData.forEach((key, value) {
+        var messageData = value as Map<dynamic, dynamic>?;
+
+        if (messageData != null) {
+          Message message = Message(
+            messageData['id'],
+            messageData['content'],
+            messageData['date'],
+            messageData['sender'],
+            messageData['receiver'],
+          );
+
+          if (message.sender == widget.user_id &&
+              message.receiver == widget.receiver_id) {
+            userMessages.add(message);
+          }
+        }
+      });
+    }
+    return userMessages;
+  }
+
+  Future<List<Message>> fetchReceiverMessages() async {
+    DataSnapshot dataSnapshot = await _receiverMessagesRef.get();
+    List<Message> receiverMessages = [];
+    if (dataSnapshot.value != null) {
+      Map<dynamic, dynamic> receiverMessagesData =
+          dataSnapshot.value as Map<dynamic, dynamic>;
+      receiverMessagesData.forEach((key, value) {
+        var messageData = value as Map<dynamic, dynamic>?;
+
+        if (messageData != null) {
+          Message message = Message(
+            messageData['id'],
+            messageData['content'],
+            messageData['date'],
+            messageData['sender'],
+            messageData['receiver'],
+          );
+
+          if (message.sender == widget.receiver_id &&
+              message.receiver == widget.user_id) {
+            receiverMessages.add(message);
+          }
+        }
+      });
+    }
+    return receiverMessages;
+  }
+
   @override
   void initState() {
     super.initState();
-    items.add(Message.time(
-        "ID",
-        "This System is developed for you to share your burden with us & for us to be one step closer to you in what you need. If you have anything to share to us, so that we could #listen and #counsel you, we would be more than happy to be there for you and remind you the love that GOD has for you.",
-        items.length % 5 == 0,
-        Tools.getFormattedTimeEvent(DateTime.now().millisecondsSinceEpoch),
-        widget.receiver_id,
-        widget.user_id));
     _userMessagesRef = FirebaseDatabase.instance.ref().child('chats');
     _receiverMessagesRef = FirebaseDatabase.instance.ref().child('chats');
 
-    // Start listening for new messages from the user
     _userMessagesSubscription = _userMessagesRef.onChildAdded.listen((event) {
-      var messageData = event.snapshot.value as Map<dynamic, dynamic>?;
-
-      if (messageData != null) {
-        Message message = Message(
-          messageData['id'],
-          messageData['content'],
-          messageData['date'],
-          messageData['sender'],
-          messageData['receiver'],
-        );
-
-        setState(() {
-          items.add(message);
-        });
-      }
+      // Handle new user message
+      setState(() {
+        // Update items list
+        // ...
+      });
     });
 
-    // Start listening for new messages from the receiver
     _receiverMessagesSubscription =
         _receiverMessagesRef.onChildAdded.listen((event) {
-      var messageData = event.snapshot.value as Map<dynamic, dynamic>?;
-
-      if (messageData != null) {
-        setState(() {
-          // items.add(message);
-        });
-      }
+      // Handle new receiver message
+      setState(() {
+        // Update items list
+        // ...
+      });
     });
   }
 
@@ -83,114 +125,175 @@ class ChatTelegramRouteState extends State<ChatTelegramRoute> {
 
   @override
   Widget build(BuildContext context) {
-    adapter = ChatTelegramAdapter(context, items, onItemClick);
+    // ignore: non_constant_identifier_names
+    Future<List<Message>> AllFetchedMEssages() async {
+      List<Message> userMessages = await fetchUserMessages();
+      List<Message> receiverMessages = await fetchReceiverMessages();
 
-    return Scaffold(
-      backgroundColor: const Color(0xff1f1f1f),
-      appBar: AppBar(
-        backgroundColor: const Color(0xff121212),
-        title: Row(
-          children: <Widget>[
-            CircleImage(
-              imageProvider: AssetImage(Img.get('logo.jpg')),
-              size: 40,
+      // Combine user and receiver messages into a single list
+      List<Message> allMessages = [...userMessages, ...receiverMessages];
+      allMessages.sort((a, b) => a.date.compareTo(b.date));
+
+      return allMessages;
+    }
+
+    return FutureBuilder<List<Message>>(
+      future: AllFetchedMEssages(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.waiting) {
+          return const SizedBox(
+            width: 24, // Adjust the size as needed
+            height: 24, // Adjust the size as needed
+            child: CircularProgressIndicator(
+              color: Colors.white,
             ),
-            Container(width: 15),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "Counseling Bot",
-                  style: MyText.medium(context).copyWith(color: Colors.white),
-                ),
-                Container(height: 2),
-                Text(
-                  "Online",
-                  style: MyText.caption(context)!
-                      .copyWith(color: MyColors.grey_10),
-                ),
-              ],
-            )
-          ],
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        actions: <Widget>[
-          PopupMenuButton<String>(
-            onSelected: (String value) {},
-            itemBuilder: (context) => [
-              const PopupMenuItem(
-                value: "Settings",
-                child: Text("Settings"),
-              ),
-            ],
-          )
-        ],
-      ),
-      body: SizedBox(
-        width: double.infinity,
-        height: double.infinity,
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            Expanded(
-              child: adapter.getView(),
-            ),
-            Container(
-              color: const Color.fromARGB(255, 48, 48, 48),
-              alignment: Alignment.centerLeft,
-              child: Row(
+          );
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          List<Message> userMessages = snapshot.data!;
+          List<Message> receiverMessages = snapshot.data!;
+
+          // Combine user and receiver messages into a single list
+          List<Message> allMessages = [...userMessages, ...receiverMessages];
+          allMessages.sort((a, b) => a.date.compareTo(b.date));
+
+          adapter = ChatTelegramAdapter(context, allMessages, onItemClick);
+
+          return Scaffold(
+            backgroundColor: const Color(0xff1f1f1f),
+            appBar: AppBar(
+              backgroundColor: const Color(0xff121212),
+              title: Row(
                 children: <Widget>[
-                  IconButton(
-                    icon: const Icon(Icons.sentiment_satisfied,
-                        color: Color.fromARGB(255, 209, 209, 209)),
-                    onPressed: () {},
+                  CircleImage(
+                    imageProvider: AssetImage(Img.get('logo.jpg')),
+                    size: 40,
                   ),
-                  Expanded(
-                    child: TextField(
-                      controller: inputController,
-                      maxLines: 1,
-                      minLines: 1,
-                      keyboardType: TextInputType.multiline,
-                      decoration: const InputDecoration.collapsed(
-                        hintText: 'Message',
-                        hintStyle: TextStyle(
-                          color: Color.fromARGB(255, 158, 158, 158),
-                        ),
+                  Container(width: 15),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        "Counseling Bot",
+                        style: MyText.medium(context).copyWith(
+                            fontFamily: "MyFont",
+                            fontSize: 16,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
                       ),
-                      style: const TextStyle(
-                        color: Color.fromARGB(255, 235, 235,
-                            235), // Change the text color to blue
+                      Container(height: 2),
+                      Text(
+                        "bot",
+                        style: MyText.caption(context)!.copyWith(
+                            fontFamily: "MyFont",
+                            fontSize: 13,
+                            color: const Color.fromARGB(255, 177, 177, 177)),
                       ),
-                      onChanged: (term) {
-                        setState(() {
-                          showSend = (term.isNotEmpty);
-                        });
-                      },
+                    ],
+                  )
+                ],
+              ),
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              actions: <Widget>[
+                PopupMenuButton<String>(
+                  onSelected: (String value) {},
+                  itemBuilder: (context) => [
+                    const PopupMenuItem(
+                      value: "Settings",
+                      child: Text("Settings"),
                     ),
+                  ],
+                )
+              ],
+            ),
+            body: SizedBox(
+              width: double.infinity,
+              height: double.infinity,
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  Expanded(
+                    child: adapter.getView(),
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.attach_file,
-                        color: Color.fromARGB(255, 182, 182, 182)),
-                    onPressed: () {},
-                  ),
-                  IconButton(
-                    icon: Icon(showSend ? Icons.send : Icons.mic,
-                        color: Colors.blue),
-                    onPressed: () {
-                      if (showSend) sendMessage();
-                    },
+                  Container(
+                    color: const Color.fromARGB(255, 48, 48, 48),
+                    alignment: Alignment.centerLeft,
+                    child: Row(
+                      children: <Widget>[
+                        IconButton(
+                          icon: const Icon(
+                            FontAwesomeIcons.keyboard,
+                            color: Color.fromARGB(255, 209, 209, 209),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              if (isKeyboardVisible) {
+                                // Close the keyboard if it is already open
+                                FocusScope.of(context).unfocus();
+                              } else {
+                                // Open the keyboard if it is closed
+                                FocusScope.of(context)
+                                    .requestFocus(FocusNode());
+                              }
+                              isKeyboardVisible = !isKeyboardVisible;
+                            });
+                          },
+                        ),
+                        Expanded(
+                          child: TextField(
+                            controller: inputController,
+                            maxLines: 1,
+                            minLines: 1,
+                            keyboardType: TextInputType.multiline,
+                            decoration: const InputDecoration.collapsed(
+                              hintText: 'Message',
+                              hintStyle: TextStyle(
+                                fontFamily: "MyFont",
+                                color: Color.fromARGB(255, 158, 158, 158),
+                              ),
+                            ),
+                            style: const TextStyle(
+                              color: Color.fromARGB(255, 235, 235,
+                                  235), // Change the text color to blue
+                            ),
+                            onChanged: (term) {
+                              setState(() {
+                                showSend = (term.isNotEmpty);
+                              });
+                            },
+                          ),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.attach_file,
+                              color: Color.fromARGB(255, 182, 182, 182)),
+                          onPressed: () {
+                            MyToast.show(
+                                "File Attachment not supported for now",
+                                context);
+                          },
+                        ),
+                        IconButton(
+                          icon: Icon(showSend ? Icons.send : Icons.send,
+                              color: showSend ? Colors.blue : MyColors.grey_60),
+                          onPressed: () {
+                            if (showSend) sendMessage();
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
-          ],
-        ),
-      ),
+          );
+        }
+      },
     );
   }
 
@@ -229,45 +332,7 @@ class ChatTelegramRouteState extends State<ChatTelegramRoute> {
         .set(false);
 
     setState(() {
-      // items.add(newMessage);
+      items.add(newMessage);
     });
-
-    generateReply(message);
-  }
-
-  void generateReply(String message) {
-    // Generate a reply message based on the received message
-    // String replyMessage = "Thank you for your message: $message";
-
-    // String messageId = _receiverMessagesRef.push().key!;
-
-    // Message reply = Message(
-    //   messageId,
-    //   replyMessage,
-    //   Tools.getFormattedTimeEvent(DateTime.now().millisecondsSinceEpoch),
-    //   widget.receiver_id,
-    //   widget.user_id,
-    // );
-
-    // // Store the reply message in the "chats" node
-    // _receiverMessagesRef.child(messageId).set(reply.toJson());
-
-    // // Add the reply message ID to the "ChatList" node for both sender and receiver
-    // FirebaseDatabase.instance
-    //     .ref()
-    //     .child('ChatList')
-    //     .child(widget.receiver_id)
-    //     .child(messageId)
-    //     .set(true);
-    // FirebaseDatabase.instance
-    //     .ref()
-    //     .child('ChatList')
-    //     .child(widget.user_id)
-    //     .child(messageId)
-    //     .set(true);
-
-    // setState(() {
-    //   // items.add(reply);
-    // });
   }
 }

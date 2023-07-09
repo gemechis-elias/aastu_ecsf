@@ -33,7 +33,7 @@ class TeamCardRouteState extends State<TeamCardRoute> {
       "ch4.jpg",
       "prayers.jpg",
       "outreach.jpg",
-      "couseling.jpg",
+      "counseling.jpg",
       "natanims.jpg",
       "media.jpg"
     ];

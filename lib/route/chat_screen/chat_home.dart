@@ -1,7 +1,8 @@
+import 'dart:async';
 import 'dart:developer';
-import 'package:aastu_ecsf/route/chat_screen/admin_chats.dart';
 import 'package:aastu_ecsf/route/chat_screen/chat_inbox.dart';
 import 'package:aastu_ecsf/widget/my_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:aastu_ecsf/model/people.dart';
 import 'package:aastu_ecsf/widget/my_toast.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:aastu_ecsf/model/chatItems.dart';
 
 class ChatListRoute extends StatefulWidget {
   const ChatListRoute({super.key});
@@ -18,7 +20,11 @@ class ChatListRoute extends StatefulWidget {
 }
 
 class ChatListRouteState extends State<ChatListRoute> {
+  late DatabaseReference _userMessagesRef;
+  late StreamSubscription<DatabaseEvent> _userMessagesSubscription;
+  List<ChatItem> chatItems = [];
   String receiverId = '';
+
   final DatabaseReference databaseReference =
       FirebaseDatabase.instance.ref().child('counsel');
 
@@ -32,7 +38,24 @@ class ChatListRouteState extends State<ChatListRoute> {
   @override
   void initState() {
     super.initState();
-    _loadHasStartedChat(); // load the saved value on app start
+    _loadHasStartedChat();
+
+    log("Chat List Page, Loading...");
+    _userMessagesRef = FirebaseDatabase.instance.ref().child('ChatList');
+
+    _userMessagesSubscription = _userMessagesRef.onValue.listen((event) {
+      if (event.snapshot.value != null) {
+        Map<dynamic, dynamic> chatListData =
+            event.snapshot.value as Map<dynamic, dynamic>;
+
+        List<String> chatIds = chatListData.keys.cast<String>().toList();
+        log("Chat List Page, Chat IDs: $chatIds");
+        // Clear the chatItems list before fetching and updating chat details
+        chatItems.clear();
+        // Fetch chat details from the "users" database and update the chatItems list
+        fetchChatDetails(chatIds);
+      }
+    });
   }
 
   void _loadHasStartedChat() async {
@@ -50,6 +73,47 @@ class ChatListRouteState extends State<ChatListRoute> {
     setState(() {
       _hasStartedChat = true;
     });
+  }
+
+  void clearHistory() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('hasStartedChat', false);
+    setState(() {
+      _hasStartedChat = false;
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _userMessagesSubscription.cancel();
+  }
+
+  void fetchChatDetails(List<String> chatIds) {
+    // Fetch chat details for each chat ID
+    for (String chatId in chatIds) {
+      FirebaseDatabase.instance
+          .ref()
+          .child('users')
+          .child(chatId)
+          .onValue
+          .listen((event) {
+        if (event.snapshot.value != null) {
+          Map<dynamic, dynamic> userData =
+              event.snapshot.value as Map<dynamic, dynamic>;
+
+          String userName = userData['name'];
+          String photoUrl = userData['photoUrl'];
+          String email = "Start a conversation";
+
+          setState(() {
+            if (chatId != FirebaseAuth.instance.currentUser!.uid) {
+              chatItems.add(ChatItem(chatId, userName, email, photoUrl));
+            }
+          });
+        }
+      });
+    }
   }
 
   void _showProtectionDialog() {
@@ -143,6 +207,7 @@ class ChatListRouteState extends State<ChatListRoute> {
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
+          automaticallyImplyLeading: false,
           //  brightness: Brightness.dark,
           backgroundColor: const Color(0xff121212),
           centerTitle: false,
@@ -172,9 +237,7 @@ class ChatListRouteState extends State<ChatListRoute> {
           color: const Color(0xff1f1f1f),
           child: _hasStartedChat
               ? receiverId == FirebaseAuth.instance.currentUser!.uid
-                  ? ChatListPage(
-                      userId: FirebaseAuth.instance.currentUser!.uid,
-                    )
+                  ? adminView()
                   : chatListView()
               : DefualtView(),
         ));
@@ -182,6 +245,7 @@ class ChatListRouteState extends State<ChatListRoute> {
 
   // ignore: non_constant_identifier_names
   Widget DefualtView() {
+    log("DEFAULT VIEW");
     return Align(
       alignment: Alignment.center,
       child: Container(
@@ -294,6 +358,7 @@ class ChatListRouteState extends State<ChatListRoute> {
   }
 
   Widget chatListView() {
+    log("DISPLAYING CHAT LIST NORAMAL USEER");
     return InkWell(
       onTap: () {
         final userId = FirebaseAuth.instance.currentUser!.uid;
@@ -302,8 +367,8 @@ class ChatListRouteState extends State<ChatListRoute> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ChatTelegramRoute(
-              user_id: userId!,
+            builder: (context) => ChatInboxRoute(
+              user_id: userId,
               receiver_id: receiverId,
             ),
           ),
@@ -317,11 +382,11 @@ class ChatListRouteState extends State<ChatListRoute> {
           children: <Widget>[
             Container(width: 18),
             const SizedBox(
+                width: 50,
+                height: 50,
                 child: CircleAvatar(
                   backgroundImage: AssetImage("assets/images/logo.jpg"),
-                ),
-                width: 50,
-                height: 50),
+                )),
             Container(width: 18),
             Expanded(
               child: Column(
@@ -345,6 +410,65 @@ class ChatListRouteState extends State<ChatListRoute> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget adminView() {
+    log("CURRENT USER IS ADMIN");
+    return ListView.builder(
+      itemCount: chatItems.length,
+      itemBuilder: (context, index) {
+        ChatItem chatItem = chatItems[index];
+        return ListTile(
+          leading: SizedBox(
+            width: 40,
+            height: 40,
+            child: chatItem.photoUrl != "assets/images/user.png" &&
+                    chatItem.photoUrl != ''
+                ? ClipOval(
+                    child: CachedNetworkImage(
+                      imageUrl: chatItem.photoUrl,
+                      placeholder: (context, url) => const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
+                  )
+                : Image.asset("assets/images/user.png"),
+          ),
+          title: Text(
+            chatItem.userName,
+            style: MyText.medium(context).copyWith(
+                fontFamily: "MyFont",
+                fontSize: 16,
+                color: Colors.grey[300],
+                fontWeight: FontWeight.normal),
+          ),
+          subtitle: Text(
+            chatItem.email,
+            style: MyText.medium(context).copyWith(
+                fontFamily: "MyFont",
+                fontSize: 15,
+                color: const Color.fromARGB(255, 194, 194, 194),
+                fontWeight: FontWeight.normal),
+          ),
+          onTap: () {
+            openChat(FirebaseAuth.instance.currentUser!.uid, chatItem.userId);
+          },
+        );
+      },
+    );
+  }
+
+  void openChat(String userId, String receiverId) {
+    // Open the chat page and pass the user ID and receiver ID
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ChatInboxRoute(
+          user_id: userId,
+          receiver_id: receiverId,
         ),
       ),
     );

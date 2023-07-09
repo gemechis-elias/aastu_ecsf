@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 import 'package:aastu_ecsf/route/auth_screen/login.dart';
 import 'package:aastu_ecsf/route/user/change_profile.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -8,6 +9,8 @@ import 'package:aastu_ecsf/widget/my_text.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class UserProfileRoute extends StatefulWidget {
   const UserProfileRoute({super.key});
@@ -33,6 +36,12 @@ class UserProfileRouteState extends State<UserProfileRoute> {
     fetchData();
   }
 
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
   Future<void> fetchData() async {
     log("ProfileRouteState: fetchData() called");
     final userId = FirebaseAuth.instance.currentUser!.uid;
@@ -46,6 +55,7 @@ class UserProfileRouteState extends State<UserProfileRoute> {
       setState(() {
         name = data!['name'] ?? '';
         bio = data['bio'] ?? '';
+        photoUrl = data['photoUrl'] ?? '';
         role = data['role'] ?? '';
         department = data['department'] ?? '';
         batch = data['batch'] ?? '';
@@ -64,70 +74,124 @@ class UserProfileRouteState extends State<UserProfileRoute> {
   Future<void> updateProfileImage() async {
     final picker = ImagePicker();
     try {
-      final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+      final pickedImage = await picker.pickImage(
+        source: ImageSource.gallery,
+      );
 
       if (pickedImage != null) {
-        final imageUrl = pickedImage.path;
-        final ref = FirebaseDatabase.instance.ref();
-        final userId = FirebaseAuth.instance.currentUser!.uid;
-
-        await ref.child('users/$userId').update({'photoUrl': imageUrl});
-
-        setState(() {
-          photoUrl = imageUrl;
-        });
-        // successfully updated alert
-        // ignore: use_build_context_synchronously
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          elevation: 0,
-          content: Card(
-            color: const Color(0xff212121),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
+        final croppedImage = await ImageCropper().cropImage(
+          sourcePath: pickedImage.path,
+          aspectRatioPresets: [
+            CropAspectRatioPreset.square,
+            CropAspectRatioPreset.ratio3x2,
+            CropAspectRatioPreset.original,
+            CropAspectRatioPreset.ratio4x3,
+            CropAspectRatioPreset.ratio16x9
+          ],
+          uiSettings: [
+            AndroidUiSettings(
+                toolbarTitle: 'Cropper',
+                toolbarColor: Color(0xffd1a552),
+                toolbarWidgetColor: const Color(0xff212121),
+                initAspectRatio: CropAspectRatioPreset.original,
+                lockAspectRatio: false),
+            IOSUiSettings(
+              title: 'Cropper',
             ),
-            clipBehavior: Clip.antiAliasWithSaveLayer,
-            elevation: 1,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              child: Row(
-                children: [
-                  const SizedBox(width: 5, height: 0),
-                  Expanded(
-                      child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text("Profile Updated",
-                          style: MyText.subhead(context)!.copyWith(
-                              color: const Color.fromARGB(255, 255, 147, 24))),
-                      Text("Your profile has been updated",
-                          style: MyText.caption(context)!.copyWith(
-                              color: const Color.fromARGB(255, 255, 249, 249))),
-                    ],
-                  )),
-                  Container(
-                      color: const Color.fromARGB(255, 116, 116, 116),
-                      height: 35,
-                      width: 1,
-                      margin: const EdgeInsets.symmetric(horizontal: 5)),
-                  SnackBarAction(
-                    label: "UNDO",
-                    textColor: const Color.fromARGB(255, 211, 211, 211),
-                    onPressed: () {},
-                  )
-                ],
+            // ignore: use_build_context_synchronously
+            WebUiSettings(
+              context: context,
+            ),
+          ],
+        );
+
+        if (croppedImage != null) {
+          final storageRef = firebase_storage.FirebaseStorage.instance
+              .ref()
+              .child('profile_images')
+              .child('${DateTime.now().millisecondsSinceEpoch}.jpg');
+
+          final uploadTask = storageRef.putFile(File(croppedImage.path));
+          final snapshot = await uploadTask.whenComplete(() => null);
+          final downloadUrl = await snapshot.ref.getDownloadURL();
+
+          final userId = FirebaseAuth.instance.currentUser!.uid;
+          final ref = FirebaseDatabase.instance.ref();
+
+          await ref.child('users/$userId').update({'photoUrl': downloadUrl});
+
+          setState(() {
+            photoUrl = downloadUrl;
+          });
+          // successfully updated alert
+          // ignore: use_build_context_synchronously
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            elevation: 0,
+            content: Card(
+              color: const Color(0xff212121),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              elevation: 1,
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                child: Row(
+                  children: [
+                    const SizedBox(width: 5, height: 0),
+                    Expanded(
+                        child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text("Profile Updated",
+                            style: MyText.subhead(context)!.copyWith(
+                                color:
+                                    const Color.fromARGB(255, 255, 147, 24))),
+                        Text("Your profile has been updated",
+                            style: MyText.caption(context)!.copyWith(
+                                color:
+                                    const Color.fromARGB(255, 255, 249, 249))),
+                      ],
+                    )),
+                    Container(
+                        color: const Color.fromARGB(255, 116, 116, 116),
+                        height: 35,
+                        width: 1,
+                        margin: const EdgeInsets.symmetric(horizontal: 5)),
+                    SnackBarAction(
+                      label: "UNDO",
+                      textColor: const Color.fromARGB(255, 211, 211, 211),
+                      onPressed: () {},
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-          backgroundColor: Colors.transparent,
-          duration: const Duration(seconds: 1),
-        ));
+            backgroundColor: Colors.transparent,
+            duration: const Duration(seconds: 1),
+          ));
+        } else {
+          log('Image cropping canceled.');
+        }
       } else {
         log('No image selected.');
       }
     } catch (e) {
       log('Error: $e');
     }
+  }
+
+  Future<void> _signOut(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    // ignore: use_build_context_synchronously
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const LoginRoute(),
+      ),
+    );
   }
 
   @override
@@ -173,27 +237,19 @@ class UserProfileRouteState extends State<UserProfileRoute> {
                         builder: (_) => const ChangeProfileDialog());
                   },
                 ),
-                PopupMenuButton<String>(
-                  onSelected: (String value) {
-                    try {
-                      FirebaseAuth.instance.signOut();
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LoginRoute(),
-                        ),
-                      );
-                    } catch (e) {
-                      log('Error signing out: $e');
-                    }
-                  },
-                  itemBuilder: (context) => [
-                    const PopupMenuItem(
-                      value: "Logout",
-                      child: Text("Logout"),
-                    ),
-                  ],
-                )
+                Builder(
+                  builder: (context) => PopupMenuButton<String>(
+                    onSelected: (String value) {
+                      _signOut(context);
+                    },
+                    itemBuilder: (context) => [
+                      const PopupMenuItem(
+                        value: "Logout",
+                        child: Text("Logout"),
+                      ),
+                    ],
+                  ),
+                ),
               ],
               bottom: PreferredSize(
                 preferredSize: const Size.fromHeight(50),
@@ -205,7 +261,8 @@ class UserProfileRouteState extends State<UserProfileRoute> {
                         child: SizedBox(
                           width: 96,
                           height: 96,
-                          child: photoUrl != "assets/images/user.png"
+                          child: photoUrl != "assets/images/user.png" &&
+                                  photoUrl != ''
                               ? CachedNetworkImage(
                                   imageUrl: photoUrl,
                                   placeholder: (context, url) => const Center(
@@ -216,7 +273,7 @@ class UserProfileRouteState extends State<UserProfileRoute> {
                                     ),
                                   ),
                                 )
-                              : Image.asset(photoUrl),
+                              : Image.asset("assets/images/user.png"),
                         ),
                       ),
                       Positioned(
@@ -282,17 +339,24 @@ class UserProfileRouteState extends State<UserProfileRoute> {
                       flex: 1,
                       child: Column(
                         children: <Widget>[
-                          Text(department,
-                              style: MyText.title(context)!.copyWith(
-                                  fontFamily: 'MyBoldFont',
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold)),
+                          Text(
+                            department,
+                            style: MyText.title(context)!.copyWith(
+                                fontFamily: 'MyBoldFont',
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                           Container(height: 5),
-                          Text("Department",
-                              style: MyText.subhead(context)!.copyWith(
-                                  fontFamily: 'MyFont',
-                                  color: Colors.grey[600]))
+                          Text(
+                            "Department",
+                            style: MyText.subhead(context)!.copyWith(
+                                fontFamily: 'MyFont', color: Colors.grey[600]),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          )
                         ],
                       ),
                     ),
@@ -300,12 +364,16 @@ class UserProfileRouteState extends State<UserProfileRoute> {
                       flex: 1,
                       child: Column(
                         children: <Widget>[
-                          Text(batch,
-                              style: MyText.title(context)!.copyWith(
-                                  color: Colors.white,
-                                  fontFamily: 'MyBoldFont',
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold)),
+                          Text(
+                            batch,
+                            style: MyText.title(context)!.copyWith(
+                                color: Colors.white,
+                                fontFamily: 'MyBoldFont',
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                           Container(height: 5),
                           Text("Batch",
                               style: MyText.subhead(context)!.copyWith(
