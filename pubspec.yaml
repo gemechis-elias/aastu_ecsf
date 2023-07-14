@@ -56,6 +56,12 @@ dependencies:
   image_gallery_saver: ^2.0.3 
   image_picker: ^1.0.0
   image_cropper: ^5.0.0
+  # Dagim's Changes
+  ionicons: ^0.2.2
+  just_audio: ^0.9.34
+  # assets_audio_player: 3.0.3+7
+  
+
   
 dev_dependencies:
   flutter_test:

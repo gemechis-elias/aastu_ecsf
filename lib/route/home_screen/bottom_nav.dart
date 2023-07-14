@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:aastu_ecsf/app_theme.dart';
 import 'package:aastu_ecsf/route/chat_screen/chat_home.dart';
 import 'package:aastu_ecsf/route/gallery/gallery_screen.dart';
+import 'package:aastu_ecsf/route/music_screen/music_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:aastu_ecsf/route/home_screen/home_screen.dart';
@@ -31,6 +32,7 @@ class BottomNavigationBadgeState extends State<BottomNavigationBadgeRoute> {
     "assets/icons/msg_selectall.png",
     "assets/icons/member_media.png",
     "assets/icons/bm_chats.png",
+    "assets/icons/musicnote.png",
     "assets/icons/contacts_all.png",
   ];
 
@@ -39,6 +41,7 @@ class BottomNavigationBadgeState extends State<BottomNavigationBadgeRoute> {
     FontAwesomeIcons.newspaper,
     FontAwesomeIcons.images,
     FontAwesomeIcons.comments,
+    FontAwesomeIcons.music,
     FontAwesomeIcons.infoCircle,
   ];
 
@@ -47,6 +50,7 @@ class BottomNavigationBadgeState extends State<BottomNavigationBadgeRoute> {
     'Blogs',
     'Gallery',
     'Chat',
+    'Music',
     'About',
   ];
 
@@ -83,6 +87,7 @@ class BottomNavigationBadgeState extends State<BottomNavigationBadgeRoute> {
             const ListNewsLightRoute(),
             GalleryRoute(),
             const ChatListRoute(),
+            const MusicPlayer(),
             const AboutCompanyCardRoute(),
           ],
         ),
@@ -90,7 +95,7 @@ class BottomNavigationBadgeState extends State<BottomNavigationBadgeRoute> {
           margin: EdgeInsets.all(displayWidth * .01),
           height: displayWidth * .135,
           child: ListView.builder(
-            itemCount: 5,
+            itemCount: 6,
             scrollDirection: Axis.horizontal,
             padding: EdgeInsets.symmetric(horizontal: displayWidth * .01),
             itemBuilder: (context, index) => InkWell(
