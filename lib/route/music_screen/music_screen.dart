@@ -259,6 +259,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
     return Scaffold(
       backgroundColor: Colors.grey[900]!,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Row(
           children: [
             currentPlayingSong["albumArt"] != ""
