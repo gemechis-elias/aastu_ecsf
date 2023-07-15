@@ -5,13 +5,17 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:aastu_ecsf/data/my_colors.dart';
 import 'package:aastu_ecsf/model/section_image.dart';
 import 'package:aastu_ecsf/widget/my_text.dart';
+import 'package:skeletons/skeletons.dart';
 
 class GridSectionedAdapter {
   List<SectionImage> items = <SectionImage>[];
   List<ItemTile> itemsTile = <ItemTile>[];
 
   GridSectionedAdapter(this.items, onItemClick) {
+    // Sort the items list in reverse order
+
     for (var i = 0; i < items.length; i++) {
+      items.sort((a, b) => b.title.compareTo(a.title));
       itemsTile.add(ItemTile(index: i, object: items[i], onClick: onItemClick));
     }
   }
@@ -22,7 +26,7 @@ class GridSectionedAdapter {
       crossAxisCount: 3,
       itemCount: items.length,
       itemBuilder: (BuildContext context, int index) => itemsTile[index],
-      staggeredTileBuilder: (int index) => new StaggeredTile.count(
+      staggeredTileBuilder: (int index) => StaggeredTile.count(
           items[index].section ? 3 : 1, items[index].section ? 0.4 : 1),
       mainAxisSpacing: 4.0,
       crossAxisSpacing: 4.0,
@@ -80,16 +84,26 @@ class ItemTile extends StatelessWidget {
                   );
                 },
                 child: CachedNetworkImage(
-                  imageUrl: this.object.image,
+                  imageUrl: object.image,
                   height: double.infinity,
                   width: double.infinity,
                   fit: BoxFit.cover,
-                  placeholder: (context, url) => const Center(
-                    child: SizedBox(
-                      width: 24, // Adjust the size as needed
-                      height: 24, // Adjust the size as needed
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
+                  placeholder: (context, url) => SkeletonItem(
+                    child: Container(
+                      height: double.infinity,
+                      width: double.infinity,
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Color(0xFF222222),
+                            Color(0xFF242424),
+                            Color(0xFF2B2B2B),
+                            Color(0xFF242424),
+                            Color(0xFF222222),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -114,36 +128,13 @@ class FullScreenImage extends StatefulWidget {
       : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _FullScreenImageState createState() => _FullScreenImageState();
 }
 
 class _FullScreenImageState extends State<FullScreenImage> {
   int _currentIndex = 0;
   bool _isFavorited = false;
-
-  void _toggleFavorite() {
-    setState(() {
-      _isFavorited = !_isFavorited;
-    });
-  }
-
-  // Future<void> _downloadImage() async {
-  //   try {
-  //     var response = await http.get(Uri.parse(widget.images[_currentIndex].image));
-  //     var filePath = await ImagePickerSaver.saveFile(fileData: response.bodyBytes);
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(
-  //         content: Text('Image saved to gallery.'),
-  //       ),
-  //     );
-  //   } catch (e) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(
-  //         content: Text('Error saving image.'),
-  //       ),
-  //     );
-  //   }
-  // }
 
   @override
   void initState() {
@@ -171,63 +162,36 @@ class _FullScreenImageState extends State<FullScreenImage> {
           ),
         ),
       ),
-      body: Stack(
-        children: [
-          PageView.builder(
-            itemCount: widget.images.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Center(
-                child: CachedNetworkImage(
-                  imageUrl: widget.images[index].image,
-                  fit: BoxFit.contain,
-                  placeholder: (context, url) =>
-                      const CircularProgressIndicator(
-                    color: Colors.white,
+      body: InteractiveViewer(
+        minScale: 0.5,
+        maxScale: 2.0,
+        child: Stack(
+          children: [
+            PageView.builder(
+              itemCount: widget.images.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Center(
+                  child: CachedNetworkImage(
+                    imageUrl: widget.images[index].image,
+                    fit: BoxFit.contain,
+                    placeholder: (context, url) =>
+                        const CircularProgressIndicator(
+                      color: Colors.white,
+                    ),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
                   ),
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
-                ),
-              );
-            },
-            onPageChanged: (int index) {
-              setState(() {
-                _currentIndex = index;
-              });
-            },
-            controller: PageController(initialPage: _currentIndex),
-          ),
-          // Positioned(
-          //   top: 0,
-          //   right: 0,
-          //   child: IconButton(
-          //     icon: Icon(
-          //       _isFavorited ? Icons.favorite : Icons.favorite_border,
-          //       color: Colors.red,
-          //     ),
-          //     onPressed: _toggleFavorite,
-          //   ),
-          // ),
-          // Positioned(
-          //   bottom: 0,
-          //   right: 0,
-          //   child: GestureDetector(
-          //     onHorizontalDragEnd: (details) {
-          //       if (details.primaryVelocity! > 0) {
-          //         setState(() {
-          //           _currentIndex = (_currentIndex - 1) % widget.images.length;
-          //         });
-          //       } else if (details.primaryVelocity! < 0) {
-          //         setState(() {
-          //           _currentIndex = (_currentIndex + 1) % widget.images.length;
-          //         });
-          //       }
-          //     },
-          //     child: IconButton(
-          //       icon: Icon(Icons.download),
-          //       onPressed: () {},
-          //     ),
-          //   ),
-          // ),
-        ],
+                );
+              },
+              onPageChanged: (int index) {
+                setState(() {
+                  _currentIndex = index;
+                });
+              },
+              controller: PageController(initialPage: _currentIndex),
+            ),
+          ],
+        ),
       ),
     );
   }

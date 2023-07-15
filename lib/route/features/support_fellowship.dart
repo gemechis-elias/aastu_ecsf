@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:aastu_ecsf/data/img.dart';
 import 'package:aastu_ecsf/data/my_colors.dart';
 import 'package:aastu_ecsf/widget/my_text.dart';
+import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SupportFellowshipRoute extends StatefulWidget {
   const SupportFellowshipRoute({super.key});
@@ -16,24 +18,19 @@ class SupportFellowshipRouteState extends State<SupportFellowshipRoute> {
     return Scaffold(
       backgroundColor: const Color(0xff1f1f1f),
       appBar: AppBar(
-          elevation: 0,
-          // brightness: Brightness.dark,
-          backgroundColor: const Color(0xff121212),
-          title: const Text("SUPPORT FELLOWSHIP",
-              style: TextStyle(fontFamily: 'MyBoldFont', fontSize: 18)),
-          centerTitle: true,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.search),
-              onPressed: () {},
-            ),
-          ]),
+        elevation: 0,
+        // brightness: Brightness.dark,
+        backgroundColor: const Color(0xff121212),
+        title: const Text("SUPPORT FELLOWSHIP",
+            style: TextStyle(fontFamily: 'MyBoldFont', fontSize: 17)),
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -135,17 +132,48 @@ class SupportFellowshipRouteState extends State<SupportFellowshipRoute> {
                                         fontFamily: 'MyBoldFont',
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold)),
-                                Container(height: 40),
+                                Container(height: 30),
                                 Text("Account Number",
                                     style: MyText.body1(context)!.copyWith(
                                         fontFamily: 'MyFont',
                                         color: Colors.white)),
-                                Container(height: 5),
-                                Text("1000510257492",
-                                    style: MyText.subhead(context)!.copyWith(
+                                Row(
+                                  children: [
+                                    Text(
+                                      "1000510257492",
+                                      style: MyText.subhead(context)!.copyWith(
                                         fontFamily: 'MyFont',
                                         color: const Color.fromARGB(
-                                            255, 167, 167, 167))),
+                                            255, 167, 167, 167),
+                                      ),
+                                    ),
+                                    IconButton(
+                                      icon: const Icon(
+                                        Icons.copy,
+                                        color:
+                                            Color.fromARGB(255, 167, 167, 167),
+                                        size: 20.0,
+                                      ),
+                                      onPressed: () {
+                                        Clipboard.setData(const ClipboardData(
+                                            text: "1000510257492"));
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            backgroundColor: Color(0xff212121),
+                                            content: Text(
+                                              'Text copied to clipboard',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontFamily: 'MyFont',
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
                                 Container(height: 20),
                                 Text("Account Name",
                                     style: MyText.body1(context)!.copyWith(
@@ -201,18 +229,49 @@ class SupportFellowshipRouteState extends State<SupportFellowshipRoute> {
                                         fontFamily: 'MyFont',
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold)),
-                                Container(height: 40),
+                                Container(height: 30),
                                 Text("Account Number",
                                     style: MyText.body1(context)!.copyWith(
                                       fontFamily: 'MyFont',
                                       color: Colors.white,
                                     )),
-                                Container(height: 5),
-                                Text("1011553107702",
-                                    style: MyText.subhead(context)!.copyWith(
+                                Row(
+                                  children: [
+                                    Text(
+                                      "1011553107702",
+                                      style: MyText.subhead(context)!.copyWith(
                                         fontFamily: 'MyFont',
                                         color: const Color.fromARGB(
-                                            255, 167, 167, 167))),
+                                            255, 167, 167, 167),
+                                      ),
+                                    ),
+                                    IconButton(
+                                      icon: const Icon(
+                                        Icons.copy,
+                                        color:
+                                            Color.fromARGB(255, 167, 167, 167),
+                                        size: 20.0,
+                                      ),
+                                      onPressed: () {
+                                        Clipboard.setData(const ClipboardData(
+                                            text: "1011553107702"));
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            backgroundColor: Color(0xff212121),
+                                            content: Text(
+                                              'Text copied to clipboard',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontFamily: 'MyFont',
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
                                 Container(height: 20),
                                 Text("Account Name",
                                     style: MyText.body1(context)!.copyWith(
@@ -271,18 +330,49 @@ class SupportFellowshipRouteState extends State<SupportFellowshipRoute> {
                                         fontFamily: 'MyFont',
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold)),
-                                Container(height: 40),
+                                Container(height: 30),
                                 Text("Account Number",
                                     style: MyText.body1(context)!.copyWith(
                                       fontFamily: 'MyFont',
                                       color: Colors.white,
                                     )),
-                                Container(height: 5),
-                                Text("85737511",
-                                    style: MyText.subhead(context)!.copyWith(
+                                Row(
+                                  children: [
+                                    Text(
+                                      "85737511",
+                                      style: MyText.subhead(context)!.copyWith(
                                         fontFamily: 'MyFont',
                                         color: const Color.fromARGB(
-                                            255, 167, 167, 167))),
+                                            255, 167, 167, 167),
+                                      ),
+                                    ),
+                                    IconButton(
+                                      icon: const Icon(
+                                        Icons.copy,
+                                        color:
+                                            Color.fromARGB(255, 167, 167, 167),
+                                        size: 20.0,
+                                      ),
+                                      onPressed: () {
+                                        Clipboard.setData(const ClipboardData(
+                                            text: "85737511"));
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            backgroundColor: Color(0xff212121),
+                                            content: Text(
+                                              'Text copied to clipboard',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontFamily: 'MyFont',
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
                                 Container(height: 20),
                                 Text("Account Name",
                                     style: MyText.body1(context)!.copyWith(
@@ -341,18 +431,49 @@ class SupportFellowshipRouteState extends State<SupportFellowshipRoute> {
                                         fontFamily: 'MyFont',
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold)),
-                                Container(height: 40),
+                                Container(height: 30),
                                 Text("Account Number",
                                     style: MyText.body1(context)!.copyWith(
                                       fontFamily: 'MyFont',
                                       color: Colors.white,
                                     )),
-                                Container(height: 5),
-                                Text("01320659484500",
-                                    style: MyText.subhead(context)!.copyWith(
+                                Row(
+                                  children: [
+                                    Text(
+                                      "01320659484500",
+                                      style: MyText.subhead(context)!.copyWith(
                                         fontFamily: 'MyFont',
                                         color: const Color.fromARGB(
-                                            255, 167, 167, 167))),
+                                            255, 167, 167, 167),
+                                      ),
+                                    ),
+                                    IconButton(
+                                      icon: const Icon(
+                                        Icons.copy,
+                                        color:
+                                            Color.fromARGB(255, 167, 167, 167),
+                                        size: 20.0,
+                                      ),
+                                      onPressed: () {
+                                        Clipboard.setData(const ClipboardData(
+                                            text: "01320659484500"));
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            backgroundColor: Color(0xff212121),
+                                            content: Text(
+                                              'Text copied to clipboard',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontFamily: 'MyFont',
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
                                 Container(height: 20),
                                 Text("Account Name",
                                     style: MyText.body1(context)!.copyWith(
@@ -411,18 +532,49 @@ class SupportFellowshipRouteState extends State<SupportFellowshipRoute> {
                                         fontFamily: 'MyFont',
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold)),
-                                Container(height: 40),
+                                Container(height: 30),
                                 Text("Account Number",
                                     style: MyText.body1(context)!.copyWith(
                                       fontFamily: 'MyFont',
                                       color: Colors.white,
                                     )),
-                                Container(height: 5),
-                                Text("5400293784011",
-                                    style: MyText.subhead(context)!.copyWith(
+                                Row(
+                                  children: [
+                                    Text(
+                                      "5400293784011",
+                                      style: MyText.subhead(context)!.copyWith(
                                         fontFamily: 'MyFont',
                                         color: const Color.fromARGB(
-                                            255, 167, 167, 167))),
+                                            255, 167, 167, 167),
+                                      ),
+                                    ),
+                                    IconButton(
+                                      icon: const Icon(
+                                        Icons.copy,
+                                        color:
+                                            Color.fromARGB(255, 167, 167, 167),
+                                        size: 20.0,
+                                      ),
+                                      onPressed: () {
+                                        Clipboard.setData(const ClipboardData(
+                                            text: "5400293784011"));
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            backgroundColor: Color(0xff212121),
+                                            content: Text(
+                                              'Text copied to clipboard',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontFamily: 'MyFont',
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
                                 Container(height: 20),
                                 Text("Account Name",
                                     style: MyText.body1(context)!.copyWith(

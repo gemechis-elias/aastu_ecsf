@@ -56,6 +56,11 @@ dependencies:
   image_gallery_saver: ^2.0.3 
   image_picker: ^1.0.0
   image_cropper: ^5.0.0
+  # Get Started Page
+  flutter_svg: ^2.0.7
+  google_fonts: ^5.1.0
+  smooth_page_indicator: ^1.1.0
+  skeletons: ^0.0.3
   # Dagim's Changes
   ionicons: ^0.2.2
   just_audio: ^0.9.34
@@ -77,6 +82,7 @@ flutter:
     - assets/team/
     - assets/icons/
     - assets/people/
+    - assets/svg/
   fonts:
     - family: MyFont
       fonts:

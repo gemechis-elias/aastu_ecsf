@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:aastu_ecsf/data/my_colors.dart';
 import 'package:aastu_ecsf/widget/my_text.dart';
 import 'package:aastu_ecsf/model/blog_model.dart';
+import 'package:skeletons/skeletons.dart';
 
 class BlogListAdapter {
   List items = <Blog>[];
@@ -56,12 +57,22 @@ class ItemTile extends StatelessWidget {
                 clipBehavior: Clip.antiAliasWithSaveLayer,
                 child: CachedNetworkImage(
                   imageUrl: object.image,
-                  placeholder: (context, url) => const Center(
-                    child: SizedBox(
-                      width: 24, // Adjust the size as needed
-                      height: 24, // Adjust the size as needed
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
+                  placeholder: (context, url) => SkeletonItem(
+                    child: Container(
+                      height: double.infinity,
+                      width: double.infinity,
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Color(0xFF222222),
+                            Color(0xFF242424),
+                            Color(0xFF2B2B2B),
+                            Color(0xFF242424),
+                            Color(0xFF222222),
+                          ],
+                        ),
                       ),
                     ),
                   ),

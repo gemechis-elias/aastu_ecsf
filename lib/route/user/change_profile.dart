@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'package:aastu_ecsf/route/home_screen/home_screen.dart';
 import 'package:aastu_ecsf/widget/my_toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +34,12 @@ class ChangeProfileDialogState extends State<ChangeProfileDialog> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    fetchData();
+  }
+
+  @override
+  void initState() {
+    super.initState();
     fetchData();
   }
 
@@ -110,6 +117,9 @@ class ChangeProfileDialogState extends State<ChangeProfileDialog> {
                         ),
                       ),
                       onTap: () {
+                        // close dialog and update profile
+                        Navigator.of(context).pop();
+
                         // Get the updated values from the text controllers
                         String updatedName = nameController.text.isNotEmpty
                             ? nameController.text
@@ -194,15 +204,11 @@ class ChangeProfileDialogState extends State<ChangeProfileDialog> {
                             backgroundColor: Colors.transparent,
                             duration: const Duration(seconds: 1),
                           ));
-                          Timer(const Duration(seconds: 3), () {
-                            Navigator.of(context)
-                                .pushReplacementNamed('/ProfileRoute');
-                          });
+                          Timer(const Duration(seconds: 3), () {});
                         }).catchError((error) {
                           // Update failed
                           log('Update failed: $error');
-                          MyToast.show(
-                              "Failed to update profile: $error", context);
+                          MyToast.show("updating wait...", context);
                         });
                       },
                     ),

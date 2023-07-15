@@ -51,8 +51,9 @@ class MusicContainer extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
             style: const TextStyle(
-              fontSize: 15.0,
-            ),
+                fontSize: 14.0,
+                fontFamily: 'MyFont',
+                fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 2.0),
           Text(
@@ -60,7 +61,8 @@ class MusicContainer extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
             style: const TextStyle(
-              fontSize: 14.0,
+              fontSize: 13.2,
+              fontFamily: 'MyFont',
               color: Colors.grey,
             ),
           ),

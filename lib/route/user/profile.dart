@@ -13,14 +13,14 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class UserProfileRoute extends StatefulWidget {
-  const UserProfileRoute({super.key});
+  const UserProfileRoute({Key? key}) : super(key: key);
 
   @override
   UserProfileRouteState createState() => UserProfileRouteState();
 }
 
 class UserProfileRouteState extends State<UserProfileRoute> {
-  String photoUrl = "assets/images/user.png"; // Initialize with null
+  String photoUrl = "assets/images/user.png";
   String name = '';
   String bio = '';
   String role = '';
@@ -29,7 +29,6 @@ class UserProfileRouteState extends State<UserProfileRoute> {
   String team = '';
   String email = '';
   String joinedDate = '';
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -43,10 +42,8 @@ class UserProfileRouteState extends State<UserProfileRoute> {
   }
 
   Future<void> fetchData() async {
-    log("ProfileRouteState: fetchData() called");
     final userId = FirebaseAuth.instance.currentUser!.uid;
     final ref = FirebaseDatabase.instance.ref();
-    log("User ID: $userId");
     final snapshot = await ref.child('users/$userId').get();
     final Map<dynamic, dynamic>? data =
         snapshot.value as Map<dynamic, dynamic>?;
@@ -61,14 +58,15 @@ class UserProfileRouteState extends State<UserProfileRoute> {
         batch = data['batch'] ?? '';
         team = data['team'] ?? '';
         email = data['email'] ?? '';
-        joinedDate =
-            data['joinedDate'] ?? ''; // Update the photoUrl from the data
+        joinedDate = data['joinedDate'] ?? '';
       });
-      log("User Info${snapshot.value}");
-      log("User ID: $userId");
     } else {
       log('No data available.');
     }
+  }
+
+  Future<void> refreshData() async {
+    await fetchData();
   }
 
   Future<void> updateProfileImage() async {
@@ -184,210 +182,212 @@ class UserProfileRouteState extends State<UserProfileRoute> {
   }
 
   Future<void> _signOut(BuildContext context) async {
-    await FirebaseAuth.instance.signOut();
-    // ignore: use_build_context_synchronously
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const LoginRoute(),
-      ),
-    );
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      await FirebaseAuth.instance.signOut();
+    }
+
+    exit(0);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xff1F1F1F),
-      body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            SliverAppBar(
-              expandedHeight: 200.0,
-              // brightness: Brightness.dark,
-              floating: false,
-              pinned: true,
-              flexibleSpace: FlexibleSpaceBar(
-                background: Container(
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                        colors: [
-                          Color(0xFFCA7754),
-                          Color(0xFFE23936),
-                        ],
-                        begin: FractionalOffset(0.0, 0.0),
-                        end: FractionalOffset(1.0, 0.0),
-                        stops: [0.0, 1.0],
-                        tileMode: TileMode.clamp),
+      body: RefreshIndicator(
+        onRefresh: refreshData,
+        child: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              SliverAppBar(
+                expandedHeight: 200.0,
+                // brightness: Brightness.dark,
+                floating: false,
+                pinned: true,
+                flexibleSpace: FlexibleSpaceBar(
+                  background: Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                          colors: [
+                            Color(0xFFCA7754),
+                            Color(0xFFE23936),
+                          ],
+                          begin: FractionalOffset(0.0, 0.0),
+                          end: FractionalOffset(1.0, 0.0),
+                          stops: [0.0, 1.0],
+                          tileMode: TileMode.clamp),
+                    ),
                   ),
                 ),
-              ),
 
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-              actions: <Widget>[
-                IconButton(
-                  icon: const Icon(Icons.edit),
+                leading: IconButton(
+                  icon: const Icon(Icons.arrow_back),
                   onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (_) => const ChangeProfileDialog());
+                    Navigator.pop(context);
                   },
                 ),
-                Builder(
-                  builder: (context) => PopupMenuButton<String>(
-                    onSelected: (String value) {
-                      _signOut(context);
+                actions: <Widget>[
+                  IconButton(
+                    icon: const Icon(Icons.edit),
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (_) => const ChangeProfileDialog());
                     },
-                    itemBuilder: (context) => [
-                      const PopupMenuItem(
-                        value: "Logout",
-                        child: Text("Logout"),
-                      ),
-                    ],
                   ),
-                ),
-              ],
-              bottom: PreferredSize(
-                preferredSize: const Size.fromHeight(50),
-                child: Container(
-                  transform: Matrix4.translationValues(0, 50, 0),
-                  child: Stack(
-                    children: <Widget>[
-                      ClipOval(
-                        child: SizedBox(
-                          width: 96,
-                          height: 96,
-                          child: photoUrl != "assets/images/user.png" &&
-                                  photoUrl != ''
-                              ? CachedNetworkImage(
-                                  imageUrl: photoUrl,
-                                  placeholder: (context, url) => const Center(
-                                    child: SizedBox(
-                                      width: 24, // Adjust the size as needed
-                                      height: 24, // Adjust the size as needed
-                                      child: CircularProgressIndicator(),
+                  Builder(
+                    builder: (context) => PopupMenuButton<String>(
+                      onSelected: (String value) {
+                        _signOut(context);
+                      },
+                      itemBuilder: (context) => [
+                        const PopupMenuItem(
+                          value: "Logout",
+                          child: Text("Logout"),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+                bottom: PreferredSize(
+                  preferredSize: const Size.fromHeight(50),
+                  child: Container(
+                    transform: Matrix4.translationValues(0, 50, 0),
+                    child: Stack(
+                      children: <Widget>[
+                        ClipOval(
+                          child: SizedBox(
+                            width: 96,
+                            height: 96,
+                            child: photoUrl != "assets/images/user.png" &&
+                                    photoUrl != ''
+                                ? CachedNetworkImage(
+                                    imageUrl: photoUrl,
+                                    placeholder: (context, url) => const Center(
+                                      child: SizedBox(
+                                        width: 24, // Adjust the size as needed
+                                        height: 24, // Adjust the size as needed
+                                        child: CircularProgressIndicator(),
+                                      ),
                                     ),
-                                  ),
-                                )
-                              : Image.asset("assets/images/user.png"),
+                                  )
+                                : Image.asset("assets/images/user.png"),
+                          ),
                         ),
-                      ),
-                      Positioned(
-                        top: 0,
-                        right: 0,
-                        child: IconButton(
-                          onPressed: () {
-                            // Handle edit icon click
-                            updateProfileImage();
-                          },
-                          icon: const Icon(FontAwesomeIcons.camera,
-                              color: Colors.white, size: 18),
+                        Positioned(
+                          top: 0,
+                          right: 0,
+                          child: IconButton(
+                            onPressed: () {
+                              // Handle edit icon click
+                              updateProfileImage();
+                            },
+                            icon: const Icon(FontAwesomeIcons.camera,
+                                color: Colors.white, size: 18),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ];
-        },
-        body: SingleChildScrollView(
-          child: Container(
-            color: const Color(0xff1F1F1F),
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              children: <Widget>[
-                Container(height: 70),
-                Text(name,
-                    style: MyText.headline(context)!.copyWith(
-                        fontFamily: 'MyFont',
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold)),
-                Container(height: 15),
-                Text(bio,
-                    textAlign: TextAlign.center,
-                    style: MyText.subhead(context)!
-                        .copyWith(fontFamily: 'MyFont', color: Colors.white)),
-                Container(height: 25),
-                Container(height: 35),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Expanded(
-                      flex: 1,
-                      child: Column(
-                        children: <Widget>[
-                          Text(team,
+            ];
+          },
+          body: SingleChildScrollView(
+            child: Container(
+              color: const Color(0xff1F1F1F),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                children: <Widget>[
+                  Container(height: 70),
+                  Text(name,
+                      style: MyText.headline(context)!.copyWith(
+                          fontFamily: 'MyFont',
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold)),
+                  Container(height: 15),
+                  Text(bio,
+                      textAlign: TextAlign.center,
+                      style: MyText.subhead(context)!
+                          .copyWith(fontFamily: 'MyFont', color: Colors.white)),
+                  Container(height: 25),
+                  Container(height: 35),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Expanded(
+                        flex: 1,
+                        child: Column(
+                          children: <Widget>[
+                            Text(team,
+                                style: MyText.title(context)!.copyWith(
+                                    fontFamily: 'MyBoldFont',
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold)),
+                            Container(height: 5),
+                            Text("Team",
+                                style: MyText.subhead(context)!.copyWith(
+                                    fontFamily: 'MyFont',
+                                    color: Colors.grey[600]))
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Column(
+                          children: <Widget>[
+                            Text(
+                              department,
                               style: MyText.title(context)!.copyWith(
                                   fontFamily: 'MyBoldFont',
-                                  fontSize: 16,
                                   color: Colors.white,
-                                  fontWeight: FontWeight.bold)),
-                          Container(height: 5),
-                          Text("Team",
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Container(height: 5),
+                            Text(
+                              "Department",
                               style: MyText.subhead(context)!.copyWith(
                                   fontFamily: 'MyFont',
-                                  color: Colors.grey[600]))
-                        ],
+                                  color: Colors.grey[600]),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Column(
-                        children: <Widget>[
-                          Text(
-                            department,
-                            style: MyText.title(context)!.copyWith(
-                                fontFamily: 'MyBoldFont',
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          Container(height: 5),
-                          Text(
-                            "Department",
-                            style: MyText.subhead(context)!.copyWith(
-                                fontFamily: 'MyFont', color: Colors.grey[600]),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          )
-                        ],
+                      Expanded(
+                        flex: 1,
+                        child: Column(
+                          children: <Widget>[
+                            Text(
+                              batch,
+                              style: MyText.title(context)!.copyWith(
+                                  color: Colors.white,
+                                  fontFamily: 'MyBoldFont',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Container(height: 5),
+                            Text("Batch",
+                                style: MyText.subhead(context)!.copyWith(
+                                    fontFamily: 'MyFont',
+                                    color: Colors.grey[600]))
+                          ],
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Column(
-                        children: <Widget>[
-                          Text(
-                            batch,
-                            style: MyText.title(context)!.copyWith(
-                                color: Colors.white,
-                                fontFamily: 'MyBoldFont',
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          Container(height: 5),
-                          Text("Batch",
-                              style: MyText.subhead(context)!.copyWith(
-                                  fontFamily: 'MyFont',
-                                  color: Colors.grey[600]))
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                Container(height: 35),
-                const Divider(height: 50),
-                Container(height: 35),
-              ],
+                    ],
+                  ),
+                  Container(height: 35),
+                  const Divider(height: 50),
+                  Container(height: 35),
+                ],
+              ),
             ),
           ),
         ),

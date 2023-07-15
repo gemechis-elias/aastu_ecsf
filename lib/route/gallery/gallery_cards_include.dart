@@ -124,6 +124,7 @@ class GalleryCardsInclude {
                                             fontWeight: FontWeight.w500,
                                             color: Color(0xff808080))),
                                     Text("Literature Team",
+                                        maxLines: 1,
                                         style: TextStyle(
                                             fontFamily: 'MyFont',
                                             fontSize: 14,
@@ -186,7 +187,8 @@ class GalleryCardsInclude {
                                             fontSize: 17,
                                             fontWeight: FontWeight.w500,
                                             color: Color(0xff808080))),
-                                    Text("Spreading the gospel",
+                                    Text("Spreading gospel",
+                                        maxLines: 1,
                                         style: TextStyle(
                                             fontFamily: 'MyFont',
                                             fontSize: 14,

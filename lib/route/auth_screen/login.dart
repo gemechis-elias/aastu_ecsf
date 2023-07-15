@@ -17,6 +17,8 @@ class LoginRouteState extends State<LoginRoute> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,13 +107,14 @@ class LoginRouteState extends State<LoginRoute> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),
-                child: const Text(
-                  "Login",
-                  style: TextStyle(fontFamily: 'MyFont', color: Colors.black),
-                ),
                 onPressed: () async {
                   // signIn
                   try {
+                    // Set a flag to indicate that the login process is in progress
+                    setState(() {
+                      _isLoading = true;
+                    });
+
                     final credential =
                         await FirebaseAuth.instance.signInWithEmailAndPassword(
                       email: _emailController.text,
@@ -134,10 +137,12 @@ class LoginRouteState extends State<LoginRoute> {
 
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('No user found for that email.',
-                              style: TextStyle(
-                                fontFamily: 'MyFont',
-                              )),
+                          content: Text(
+                            'No user found for that email.',
+                            style: TextStyle(
+                              fontFamily: 'MyFont',
+                            ),
+                          ),
                           backgroundColor: Colors.red,
                         ),
                       );
@@ -146,16 +151,32 @@ class LoginRouteState extends State<LoginRoute> {
 
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('Email or Password is incorrect.',
-                              style: TextStyle(
-                                fontFamily: 'MyFont',
-                              )),
+                          content: Text(
+                            'Email or Password is incorrect.',
+                            style: TextStyle(
+                              fontFamily: 'MyFont',
+                            ),
+                          ),
                           backgroundColor: Colors.red,
                         ),
                       );
                     }
+                  } finally {
+                    // Reset the flag once the login process is completed (whether successful or not)
+                    setState(() {
+                      _isLoading = false;
+                    });
                   }
                 },
+                child: _isLoading
+                    ? const CircularProgressIndicator(
+                        color: Colors.black,
+                      ) // Show a CircularProgressIndicator if login is in progress
+                    : const Text(
+                        "Login",
+                        style: TextStyle(
+                            fontFamily: 'MyFont', color: Colors.black),
+                      ),
               ),
             ),
             SizedBox(

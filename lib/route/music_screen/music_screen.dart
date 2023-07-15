@@ -103,7 +103,8 @@ class _MusicPlayerState extends State<MusicPlayer> {
                     Text(
                       albumData["title"],
                       style: TextStyle(
-                        fontSize: 20.0,
+                        fontSize: 18.0,
+                        fontFamily: 'MyBoldFont',
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -111,6 +112,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
                       albumData["artist"],
                       style: TextStyle(
                         fontSize: 15.0,
+                        fontFamily: 'MyFont',
                         color: Colors.grey,
                         fontWeight: FontWeight.bold,
                       ),
@@ -144,6 +146,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
                                     .toString()
                                     .substring(0, eachSong.length - 4),
                                 style: TextStyle(
+                                  fontFamily: 'MyFont',
                                   fontSize: 16.0,
                                   color: currentPlayingSong["title"] ==
                                           eachSong
@@ -291,21 +294,50 @@ class _MusicPlayerState extends State<MusicPlayer> {
                       ),
                     ),
                   )
-                : Icon(
-                    Icons.music_note,
+                : ShaderMask(
+                    shaderCallback: (Rect bounds) {
+                      return LinearGradient(
+                        colors: const [
+                          Color(0xffd1a552),
+                          Color.fromARGB(255, 209, 150, 82),
+                        ],
+                      ).createShader(bounds);
+                    },
+                    child: Icon(
+                      Icons.music_note,
+                      color: Colors.white,
+                    ),
                   ),
             SizedBox(width: 10.0),
             Expanded(
               // width: 300.0,
               // color: Colors.red,
-              child: Text(
-                currentPlayingSong["title"].toString(),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 17.0,
+              child: ShaderMask(
+                shaderCallback: (bounds) => const LinearGradient(
+                  colors: [
+                    Color(0xffd1a552),
+                    Color.fromARGB(255, 209, 150, 82)
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ).createShader(bounds),
+                child: Text(
+                  currentPlayingSong["title"].toString(),
+                  style: TextStyle(
+                    fontFamily: 'MyBoldFont',
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
+              // Text(
+              //     currentPlayingSong["title"].toString(),
+              //     maxLines: 1,
+              //     overflow: TextOverflow.ellipsis,
+              //     style: TextStyle(
+              //       fontSize: 17.0,
+              //     ),
+              //   ),
             ),
           ],
         ),
@@ -441,7 +473,8 @@ class _MusicPlayerState extends State<MusicPlayer> {
                         "Top Picks",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 20.0,
+                          fontSize: 18.0,
+                          fontFamily: 'MyBoldFont',
                         ),
                       ),
                       SizedBox(height: 10.0),
@@ -478,11 +511,12 @@ class _MusicPlayerState extends State<MusicPlayer> {
                         "Albums",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 20.0,
+                          fontSize: 18.0,
+                          fontFamily: 'MyBoldFont',
                         ),
                       ),
                       SizedBox(height: 10.0),
-                      Container(
+                      SizedBox(
                         height: 225.0,
                         child: ListView(
                           scrollDirection: Axis.horizontal,
@@ -510,11 +544,12 @@ class _MusicPlayerState extends State<MusicPlayer> {
                         "New Songs",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 20.0,
+                          fontSize: 18.0,
+                          fontFamily: 'MyBoldFont',
                         ),
                       ),
                       SizedBox(height: 10.0),
-                      Container(
+                      SizedBox(
                         height: 225.0,
                         child: ListView(
                           scrollDirection: Axis.horizontal,
@@ -547,11 +582,12 @@ class _MusicPlayerState extends State<MusicPlayer> {
                         "Singles",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 20.0,
+                          fontSize: 18.0,
+                          fontFamily: 'MyBoldFont',
                         ),
                       ),
                       SizedBox(height: 10.0),
-                      Container(
+                      SizedBox(
                         height: 225.0,
                         child: ListView(
                           scrollDirection: Axis.horizontal,

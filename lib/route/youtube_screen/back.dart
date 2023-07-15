@@ -140,7 +140,7 @@ class SliderImageHeaderAutoRouteState
               margin: const EdgeInsets.all(0),
               child: Container(
                 color: AppTheme.bodyBackground(context),
-                height: MediaQuery.of(context).size.height * 0.33,
+                height: MediaQuery.of(context).size.height * 0.250,
                 child: Stack(
                   children: <Widget>[
                     PageView(
@@ -151,7 +151,6 @@ class SliderImageHeaderAutoRouteState
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: Container(
-                        height: MediaQuery.of(context).size.height * 0.23,
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             begin: Alignment.topCenter,
@@ -160,9 +159,9 @@ class SliderImageHeaderAutoRouteState
                               AppTheme.gridentBackground(context)
                                   .withOpacity(0.0),
                               AppTheme.gridentBackground(context)
-                                  .withOpacity(0.5),
+                                  .withOpacity(0.3),
                               AppTheme.gridentBackground(context)
-                                  .withOpacity(0.95),
+                                  .withOpacity(0.5),
                               AppTheme.gridentBackground(context)
                                   .withOpacity(1.0),
                             ],
@@ -170,103 +169,109 @@ class SliderImageHeaderAutoRouteState
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(
-                          10, MediaQuery.of(context).size.height * 0.24, 0, 0),
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    videoObject['title'] ?? '',
-                                    style: TextStyle(
-                                      color: AppTheme.normalText(context),
-                                      fontSize: 13,
-                                      fontFamily: 'MyBoldFont',
-                                    ),
-                                  ),
-                                  Text(
-                                    videoObject['description'] ?? '',
-                                    style: TextStyle(
-                                      color: AppTheme.iconBackground(context),
-                                      fontSize: 13,
-                                      fontFamily: 'MyBoldFont',
-                                    ),
-                                  ),
-                                  Text(
-                                    videoObject['addedDate'] ?? '',
-                                    style: TextStyle(
-                                      color: AppTheme.iconBackground(context),
-                                      fontSize: 12,
-                                      fontFamily: 'MyFont',
-                                      fontWeight: FontWeight.w200,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Ink(
-                              decoration: ShapeDecoration(
-                                color: Colors.white.withOpacity(0.1),
-                                shape: const CircleBorder(),
-                              ),
-                              child: GestureDetector(
-                                onTap: () {
-                                  log("Playe clicked");
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          YoutubePlayerDemoApp(
-                                        ids: getYouTubeVideoId(
-                                            videoObject['link']),
-                                      ),
-                                    ),
-                                  );
-                                },
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(0, 10, 6, 0),
-                                  child: ShaderMask(
-                                    shaderCallback: (Rect bounds) {
-                                      return LinearGradient(
-                                        colors: [
-                                          AppTheme.activeIconBackground(
-                                              context),
-                                          AppTheme.activeIcon2Background(
-                                              context),
-                                        ],
-                                        begin: Alignment.topLeft,
-                                        end: Alignment.bottomRight,
-                                      ).createShader(bounds);
-                                    },
-                                    child: const Icon(
-                                      Icons.play_circle_filled_outlined,
-                                      size: 53,
-                                      color: Colors.white,
-                                    ),
-                                  ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Transform.translate(
+                        offset: const Offset(0, 67),
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(15, 0, 5, 0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment
+                                .end, // Align the column to the bottom
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Text(
+                                videoObject['title'] ?? '',
+                                style: TextStyle(
+                                  color: AppTheme.normalText(context),
+                                  fontSize: 13,
+                                  fontFamily: 'MyBoldFont',
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Center(
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(
-                            MediaQuery.of(context).size.width * 0.4,
-                            MediaQuery.of(context).size.height * 0.26,
-                            0,
-                            0),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: buildDots(context),
+                              Text(
+                                videoObject['description'] ?? '',
+                                style: TextStyle(
+                                  color: AppTheme.iconBackground(context),
+                                  fontSize: 13,
+                                  fontFamily: 'MyBoldFont',
+                                ),
+                              ),
+                              Transform.translate(
+                                offset: const Offset(0, -20),
+                                child: Row(
+                                  children: <Widget>[
+                                    Container(width: 1),
+                                    Text(
+                                      videoObject['addedDate'] ?? '',
+                                      style: TextStyle(
+                                        color: AppTheme.iconBackground(context),
+                                        fontSize: 12,
+                                        fontFamily: 'MyFont',
+                                        fontWeight: FontWeight.w200,
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                    Row(
+                                      children: <Widget>[
+                                        buildDots(context),
+                                        Container(
+                                            alignment: Alignment.center,
+                                            width: 80),
+                                        Ink(
+                                          decoration: ShapeDecoration(
+                                            color:
+                                                Colors.white.withOpacity(0.1),
+                                            shape: CircleBorder(),
+                                          ),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      YoutubePlayerDemoApp(
+                                                    ids: getYouTubeVideoId(
+                                                        videoObject['link']),
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: ShaderMask(
+                                                shaderCallback: (Rect bounds) {
+                                                  return LinearGradient(
+                                                    colors: [
+                                                      AppTheme
+                                                          .activeIconBackground(
+                                                              context),
+                                                      AppTheme
+                                                          .activeIcon2Background(
+                                                              context),
+                                                    ],
+                                                    begin: Alignment.topLeft,
+                                                    end: Alignment.bottomRight,
+                                                  ).createShader(bounds);
+                                                },
+                                                child: const Icon(
+                                                  Icons
+                                                      .play_circle_filled_outlined,
+                                                  size: 53,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -338,6 +343,7 @@ class SliderImageHeaderAutoRouteState
       dots.add(w);
     }
     widget = Row(
+      mainAxisSize: MainAxisSize.min,
       children: dots,
     );
     return widget;

@@ -29,9 +29,8 @@ class MyBehavior extends ScrollBehavior {
 class BottomNavigationBadgeState extends State<BottomNavigationBadgeRoute> {
   List<String> listOfIcons = [
     "assets/icons/tb_all.png",
-    "assets/icons/msg_selectall.png",
+    "assets/icons/tb_15.png",
     "assets/icons/member_media.png",
-    "assets/icons/bm_chats.png",
     "assets/icons/musicnote.png",
     "assets/icons/contacts_all.png",
   ];
@@ -40,7 +39,6 @@ class BottomNavigationBadgeState extends State<BottomNavigationBadgeRoute> {
     FontAwesomeIcons.home,
     FontAwesomeIcons.newspaper,
     FontAwesomeIcons.images,
-    FontAwesomeIcons.comments,
     FontAwesomeIcons.music,
     FontAwesomeIcons.infoCircle,
   ];
@@ -49,7 +47,6 @@ class BottomNavigationBadgeState extends State<BottomNavigationBadgeRoute> {
     'Home',
     'Blogs',
     'Gallery',
-    'Chat',
     'Music',
     'About',
   ];
@@ -79,14 +76,13 @@ class BottomNavigationBadgeState extends State<BottomNavigationBadgeRoute> {
     return ScrollConfiguration(
       behavior: MyBehavior(),
       child: Scaffold(
-        backgroundColor: AppTheme.body2Background(context),
+        backgroundColor: const Color(0xff121212),
         body: IndexedStack(
           index: currentIndex.toInt(),
           children: [
             const HomeScreen(),
             const ListNewsLightRoute(),
             GalleryRoute(),
-            const ChatListRoute(),
             const MusicPlayer(),
             const AboutCompanyCardRoute(),
           ],
@@ -95,7 +91,7 @@ class BottomNavigationBadgeState extends State<BottomNavigationBadgeRoute> {
           margin: EdgeInsets.all(displayWidth * .01),
           height: displayWidth * .135,
           child: ListView.builder(
-            itemCount: 6,
+            itemCount: 5,
             scrollDirection: Axis.horizontal,
             padding: EdgeInsets.symmetric(horizontal: displayWidth * .01),
             itemBuilder: (context, index) => InkWell(
@@ -123,8 +119,8 @@ class BottomNavigationBadgeState extends State<BottomNavigationBadgeRoute> {
                       width: index == currentIndex ? displayWidth * .28 : 0,
                       decoration: BoxDecoration(
                         color: index == currentIndex
-                            ? AppTheme.activeIconBackground(context)
-                                .withOpacity(.2)
+                            ? Color.fromARGB(255, 204, 178, 128)
+                                .withOpacity(0.17)
                             : Colors.transparent,
                         borderRadius: BorderRadius.circular(50),
                       ),

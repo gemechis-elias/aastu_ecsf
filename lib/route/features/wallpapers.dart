@@ -68,6 +68,7 @@ class WallpaperBasicRouteState extends State<WallpaperBasicRoute> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xff1f1f1f),
       appBar: AppBar(
         backgroundColor: const Color(0xff121212),
         leading: IconButton(
@@ -79,7 +80,7 @@ class WallpaperBasicRouteState extends State<WallpaperBasicRoute> {
         title: const Text(
           'Wallpapers',
           style: TextStyle(
-            fontFamily: 'MyFont',
+            fontFamily: 'MyBoldFont',
             color: Colors.white,
           ),
         ),
@@ -124,8 +125,14 @@ class _WallpaperFullScreenRouteState extends State<WallpaperFullScreenRoute> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor:
+            Colors.transparent, // Replace with your desired status bar color
+      ),
+    );
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: const Color(0xff1f1f1f),
       body: GestureDetector(
         onTap: () {
           //Navigator.pop(context);
@@ -190,7 +197,7 @@ class _WallpaperFullScreenRouteState extends State<WallpaperFullScreenRoute> {
         .get(imgPath, options: Options(responseType: ResponseType.bytes));
     final result =
         await ImageGallerySaver.saveImage(Uint8List.fromList(response.data));
-    print(result);
+    log(result);
     // Show a toast or any other notification to indicate that the image is saved
     showNotification("Wallpaper is saved to Gallery");
     Navigator.pop(context);

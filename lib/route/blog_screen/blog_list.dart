@@ -3,7 +3,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:aastu_ecsf/route/blog_screen/blog_list_adapter.dart';
 import 'package:aastu_ecsf/model/blog_model.dart';
-
 import 'dart:developer';
 
 class ListNewsLightRoute extends StatefulWidget {
@@ -51,6 +50,8 @@ class ListNewsLightRouteState extends State<ListNewsLightRoute> {
             }).toList();
             setState(() {
               this.items = loadedBlogs;
+              // sort items by date
+              this.items.sort((a, b) => b.id.compareTo(a.id));
               log("Received Blog: " + loadedBlogs.toString());
             });
           }
@@ -85,6 +86,8 @@ class ListNewsLightRouteState extends State<ListNewsLightRoute> {
         slivers: <Widget>[
           SliverAppBar(
             pinned: true,
+            // hide arror
+            automaticallyImplyLeading: false,
             backgroundColor: const Color(0xff121212),
             centerTitle: false,
             title: ShaderMask(

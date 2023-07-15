@@ -21,7 +21,7 @@ class SignUpRouteState extends State<SignUpRoute> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _ConfirmPasswordController =
       TextEditingController();
-
+  bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,11 +117,12 @@ class SignUpRouteState extends State<SignUpRoute> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),
-                child: const Text(
-                  "Sign Up",
-                  style: TextStyle(fontFamily: 'MyFont', color: Colors.black),
-                ),
                 onPressed: () async {
+                  // Set a flag to indicate that the sign up process is in progress
+                  setState(() {
+                    _isLoading = true;
+                  });
+
                   try {
                     final UserCredential userCredential = await FirebaseAuth
                         .instance
@@ -147,6 +148,7 @@ class SignUpRouteState extends State<SignUpRoute> {
                       "team": "",
                       "joinedDate": DateTime.now().toString().substring(0, 11),
                     });
+
                     // ignore: use_build_context_synchronously
                     final state = context.findAncestorStateOfType<State>();
                     if (state != null && state.mounted) {
@@ -161,15 +163,62 @@ class SignUpRouteState extends State<SignUpRoute> {
                   } on FirebaseAuthException catch (e) {
                     if (e.code == 'weak-password') {
                       log('The password provided is too weak.');
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            'The password provided is too weak.',
+                            style: TextStyle(
+                              fontFamily: 'MyFont',
+                            ),
+                          ),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
                     } else if (e.code == 'email-already-in-use') {
                       log('The account already exists for that email.');
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            'The account already exists',
+                            style: TextStyle(
+                              fontFamily: 'MyFont',
+                            ),
+                          ),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
                     } else {
                       log('Error: ${e.code}');
                     }
                   } catch (e) {
                     log('Error: $e');
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'Error: $e',
+                          style: const TextStyle(
+                            fontFamily: 'MyFont',
+                          ),
+                        ),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  } finally {
+                    // Reset the flag once the sign up process is completed (whether successful or not)
+                    setState(() {
+                      _isLoading = false;
+                    });
                   }
                 },
+                child: _isLoading
+                    ? const CircularProgressIndicator(
+                        color: Colors.black,
+                      ) // Show a CircularProgressIndicator if sign up is in progress
+                    : const Text(
+                        "Sign Up",
+                        style: TextStyle(
+                            fontFamily: 'MyFont', color: Colors.black),
+                      ),
               ),
             ),
             SizedBox(

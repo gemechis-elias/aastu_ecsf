@@ -207,7 +207,6 @@ class ChatListRouteState extends State<ChatListRoute> {
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
-          automaticallyImplyLeading: false,
           //  brightness: Brightness.dark,
           backgroundColor: const Color(0xff121212),
           centerTitle: false,

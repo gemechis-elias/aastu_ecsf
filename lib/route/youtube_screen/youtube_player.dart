@@ -53,6 +53,8 @@ class YoutubePlayerDemoAppState extends State<YoutubePlayerDemoApp> {
           });
           setState(() {
             this.videos = videos;
+            // sort reverse
+            this.videos.sort((a, b) => b['id'].compareTo(a['id']));
 
             log("Videos loaded!");
 

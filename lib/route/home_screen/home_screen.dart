@@ -2,8 +2,9 @@
 import 'dart:developer' as developer;
 import 'dart:math';
 import 'package:aastu_ecsf/app_theme.dart';
+import 'package:aastu_ecsf/data/my_colors.dart';
 import 'package:aastu_ecsf/route/blog_screen/single_devotion_view.dart';
-import 'package:aastu_ecsf/route/features/events.dart';
+import 'package:aastu_ecsf/route/chat_screen/chat_home.dart';
 import 'package:aastu_ecsf/route/user/profile.dart';
 import 'package:aastu_ecsf/route/youtube_screen/youtube_slider.dart';
 import 'package:aastu_ecsf/route/features/support_fellowship.dart';
@@ -13,7 +14,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:skeletons/skeletons.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,6 +25,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final userId = FirebaseAuth.instance.currentUser!.uid;
   String photoUrl = "assets/images/user.png"; // Initialize with null
   String name = '';
   final DatabaseReference databaseReference =
@@ -32,6 +36,13 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     loadDevotions();
     fetchData();
+  }
+
+  @override
+  void dispose() {
+    // Restore system UI overlays when the widget is disposed
+    SystemChrome.restoreSystemUIOverlays();
+    super.dispose();
   }
 
   void loadDevotions() {
@@ -59,6 +70,10 @@ class _HomeScreenState extends State<HomeScreen> {
           });
           setState(() {
             this.devotions = devotions;
+            // sort in reverse order
+            this
+                .devotions
+                .sort((a, b) => b['addedDate'].compareTo(a['addedDate']));
             developer.log("Devotions loaded successfully! ");
           });
         } else {
@@ -97,10 +112,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: AppTheme.navBackground(
+            context), // Replace with your desired status bar color
+      ),
+    );
     final screenHeight = MediaQuery.of(context).size.height;
     final responsiveHeight = screenHeight * 0.267;
-
-    String id, title, imagePath, date, devoLink, views;
     return Scaffold(
       backgroundColor: AppTheme.bodyBackground(context),
       body: LayoutBuilder(
@@ -118,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
 
                 const SliderImageHeaderAutoRoute(),
-                Container(height: 50),
+
                 const Divider(
                   height: 2,
                   thickness: 1,
@@ -161,12 +180,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             );
                           },
                         ),
-                        Text(
+                        const Text(
                           'Teams',
                           style: TextStyle(
                             fontFamily: 'MyLightFont',
-                            color: AppTheme.normalText(context),
-                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: Color.fromARGB(255, 168, 167, 167),
+                            fontSize: 12.1,
                           ),
                         ),
                       ],
@@ -191,12 +211,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             );
                           },
                         ),
-                        Text(
+                        const Text(
                           'Gifts',
                           style: TextStyle(
                             fontFamily: 'MyLightFont',
-                            color: AppTheme.normalText(context),
-                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: Color.fromARGB(255, 168, 167, 167),
+                            fontSize: 12.1,
                           ),
                         ),
                       ],
@@ -225,12 +246,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             );
                           },
                         ),
-                        Text(
+                        const Text(
                           'Wallpapers',
                           style: TextStyle(
                             fontFamily: 'MyLightFont',
-                            color: AppTheme.normalText(context),
-                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: Color.fromARGB(255, 168, 167, 167),
+                            fontSize: 12.1,
                           ),
                         ),
                       ],
@@ -240,28 +262,56 @@ class _HomeScreenState extends State<HomeScreen> {
                         IconButton(
                           iconSize: 58,
                           icon: Image.asset(
-                            'assets/images/events.png',
-                            width: MediaQuery.of(context).size.width * 0.20,
+                            'assets/images/counseling_icon.png',
+                            width: MediaQuery.of(context).size.width * 0.22,
                           ),
                           onPressed: () {
                             // do something
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const EventsRoute()),
+                                  builder: (context) => const ChatListRoute()),
                             );
                           },
                         ),
-                        Text(
-                          'Events',
+                        const Text(
+                          'Counseling',
                           style: TextStyle(
                             fontFamily: 'MyLightFont',
-                            color: AppTheme.normalText(context),
-                            fontSize: 13,
+                            fontWeight: FontWeight.w700,
+                            color: Color.fromARGB(255, 168, 167, 167),
+                            fontSize: 12.1,
                           ),
                         ),
                       ],
                     ),
+                    // Column(
+                    //   children: [
+                    //     IconButton(
+                    //       iconSize: 58,
+                    //       icon: Image.asset(
+                    //         'assets/images/events.png',
+                    //         width: MediaQuery.of(context).size.width * 0.20,
+                    //       ),
+                    //       onPressed: () {
+                    //         // do something
+                    //         Navigator.push(
+                    //           context,
+                    //           MaterialPageRoute(
+                    //               builder: (context) => const EventsRoute()),
+                    //         );
+                    //       },
+                    //     ),
+                    //     Text(
+                    //       'Events',
+                    //       style: TextStyle(
+                    //         fontFamily: 'MyLightFont',
+                    //         color: AppTheme.normalText(context),
+                    //         fontSize: 13,
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
                   ],
                 ),
                 // Devotions List
@@ -281,11 +331,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                   MediaQuery.of(context).size.width * 0.047,
                               fontWeight: FontWeight.bold),
                         ),
-                      ),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        size: 16,
-                        color: AppTheme.iconBackground(context),
                       ),
                       Container(
                         width: 15,
@@ -360,14 +405,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                         child: CachedNetworkImage(
                                           imageUrl: imagePath,
                                           placeholder: (context, url) =>
-                                              const Center(
-                                            child: SizedBox(
-                                              width:
-                                                  24, // Adjust the size as needed
-                                              height:
-                                                  24, // Adjust the size as needed
-                                              child: CircularProgressIndicator(
-                                                color: Colors.white,
+                                              SkeletonItem(
+                                            child: Container(
+                                              height: double.infinity,
+                                              width: double.infinity,
+                                              decoration: const BoxDecoration(
+                                                gradient: LinearGradient(
+                                                  begin: Alignment.topCenter,
+                                                  end: Alignment.bottomCenter,
+                                                  colors: [
+                                                    Color(0xFF222222),
+                                                    Color(0xFF242424),
+                                                    Color(0xFF2B2B2B),
+                                                    Color(0xFF242424),
+                                                    Color(0xFF222222),
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -572,15 +625,45 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 37,
               child: photoUrl != "assets/images/user.png" && photoUrl != ''
                   ? ClipOval(
-                      child: CachedNetworkImage(
-                        imageUrl: photoUrl,
-                        placeholder: (context, url) => const Center(
-                          child: SizedBox(
-                            width: 24, // Adjust the size as needed
-                            height: 24, // Adjust the size as needed
-                            child: CircularProgressIndicator(),
-                          ),
-                        ),
+                      child: StreamBuilder<DatabaseEvent>(
+                        stream: FirebaseDatabase.instance
+                            .ref()
+                            .child(
+                                'users/$userId/photoUrl') // Replace `photoUrl` with the correct database path to the image URL
+                            .onValue,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            final imageUrl =
+                                snapshot.data!.snapshot.value as String?;
+                            if (imageUrl != null) {
+                              photoUrl = imageUrl;
+                              return CachedNetworkImage(
+                                key: Key(photoUrl),
+                                imageUrl: photoUrl,
+                                placeholder: (context, url) => SkeletonItem(
+                                  child: Container(
+                                    height: double.infinity,
+                                    width: double.infinity,
+                                    decoration: const BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        colors: [
+                                          Color(0xFF222222),
+                                          Color(0xFF242424),
+                                          Color(0xFF2B2B2B),
+                                          Color(0xFF242424),
+                                          Color(0xFF222222),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
+                          }
+                          return const SizedBox(); // Return an empty widget if the image URL is not available
+                        },
                       ),
                     )
                   : Image.asset("assets/images/user.png"),

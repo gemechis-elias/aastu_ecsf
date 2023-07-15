@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:developer';
+import 'package:aastu_ecsf/get_started.dart';
 import 'package:aastu_ecsf/route/auth_screen/login.dart';
 import 'package:aastu_ecsf/route/user/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'app_theme.dart';
 import 'data/img.dart';
 import 'data/sqlite_db.dart';
@@ -13,7 +15,6 @@ import 'route/home_screen/bottom_nav.dart';
 import 'package:flutter/services.dart';
 import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -65,25 +66,15 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   ThemeData currentTheme = ThemeData.dark();
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor:
-          Brightness.light == Brightness.dark ? Colors.white : Colors.black,
-      statusBarIconBrightness: Brightness.light,
-      statusBarBrightness:
-          !kIsWeb && Platform.isAndroid ? Brightness.dark : Brightness.dark,
-      systemNavigationBarColor:
-          Brightness.light == Brightness.dark ? Colors.white : Colors.black,
-      systemNavigationBarDividerColor: Colors.transparent,
-      systemNavigationBarIconBrightness: Brightness.dark,
-    ));
-
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor:
+            Color(0xff121212), // Replace with your desired status bar color
+      ),
+    );
     log("Building MyApp widget");
 
     return MaterialApp(
@@ -112,6 +103,7 @@ class _MyAppState extends State<MyApp> {
             );
           },
           '/ProfileRoute': (context) => const UserProfileRoute(),
+          '/GetStarted': (context) => GetStarted(),
         });
   }
 }
@@ -131,8 +123,30 @@ class SplashScreenState extends State<SplashScreen> {
     return Timer(duration, navigationPage);
   }
 
+  bool isFirstRun = false;
+
+  Future<void> checkFirstRun() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //bool isFirstRun = true;
+    bool isFirstRun = prefs.getBool('isFirstRun') ?? true;
+    setState(() {
+      this.isFirstRun = isFirstRun;
+    });
+    if (isFirstRun) {
+      prefs.setBool('isFirstRun', false);
+    }
+  }
+
   void navigationPage() {
-    Navigator.of(context).pushReplacementNamed('/MenuRoute');
+    if (isFirstRun) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => GetStarted()),
+        (route) => false, // Remove all routes below GetStarted from the stack
+      );
+    } else {
+      Navigator.pushReplacementNamed(context, '/MenuRoute');
+    }
   }
 
   @override
@@ -142,7 +156,7 @@ class SplashScreenState extends State<SplashScreen> {
     dbHelper.init();
 
     log("Initializing SplashScreen widget");
-
+    checkFirstRun();
     startTime();
   }
 
